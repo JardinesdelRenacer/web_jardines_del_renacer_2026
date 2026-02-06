@@ -3,11 +3,11 @@
  * Jardines del Renacer - Plataforma Digital
  */
 
-# Jardines del Renacer 🕊️
+# Jardines del Renacer
 
 Plataforma digital profesional para servicios funerarios con sistema de gestión integral.
 
-## 🚀 Instalación
+## Instalación
 
 ### 1. Instalar Dependencias
 
@@ -42,7 +42,7 @@ npm run dev
 
 Abre [http://localhost:3000](http://localhost:3000)
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 src/
@@ -70,18 +70,18 @@ src/
 └── styles/                # CSS global
 ```
 
-## 🎨 Características Principales
+## Características Principales
 
-✅ **Efecto Glass iOS** - En navbar, cards y componentes  
-✅ **Animaciones Framer Motion** - Transiciones suaves  
-✅ **Tarjetas 3D giratorias** - Planes con flip effect  
-✅ **Recorrido 360°** - Integración Matterport  
-✅ **Sistema de Obituarios** - Completo y emocional  
-✅ **Panel Administrativo** - Gestión centralizada  
-✅ **Responsive Design** - Mobile-first  
-✅ **TypeScript estricto** - Código seguro  
+**Efecto Glass iOS** - En navbar, cards y componentes  
+**Animaciones Framer Motion** - Transiciones suaves  
+**Tarjetas 3D giratorias** - Planes con flip effect  
+**Recorrido 360°** - Integración Matterport  
+**Sistema de Obituarios** - Completo y emocional  
+**Panel Administrativo** - Gestión centralizada  
+**Responsive Design** - Mobile-first  
+**TypeScript estricto** - Código seguro  
 
-## 🔧 Próximos Pasos
+## Próximos Pasos
 
 ### Conectar Base de Datos
 
@@ -117,7 +117,7 @@ npm install next-auth
 
 Configurar en `src/app/api/auth/[...nextauth]/`
 
-## 📸 Assets Necesarios
+## Assets Necesarios
 
 Coloca en `public/`:
 
@@ -137,7 +137,7 @@ public/
     └── logos/
 ```
 
-## 🚢 Deployment
+## Deployment
 
 ### Vercel (Recomendado)
 
@@ -153,13 +153,13 @@ npm run build
 npm start
 ```
 
-## 👨‍💻 Desarrollado por
+## Desarrollado por
 
 **Juan Monsalve**  
 Plataforma Digital Jardines del Renacer  
 Versión 1.0.0 - 2026
 
-## 📝 Licencia
+## Licencia
 
 Todos los derechos reservados - Jardines del Renacer 2026
 

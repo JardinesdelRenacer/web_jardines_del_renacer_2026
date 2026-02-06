@@ -55,7 +55,7 @@ export default function ClienteDashboardPage() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                  <span className="text-2xl text-white">👤</span>
+                  <span className="text-2xl text-white"></span>
                 </div>
                 <div>
                   <h1 className="text-3xl font-display text-text mb-1">

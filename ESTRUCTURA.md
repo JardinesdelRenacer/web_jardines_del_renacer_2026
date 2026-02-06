@@ -3,9 +3,9 @@
  * Jardines del Renacer
  */
 
-# 📂 Árbol de Archivos Creados
+# Árbol de Archivos Creados
 
-## ✅ Configuración Base
+## Configuración Base
 - package.json
 - tsconfig.json
 - tailwind.config.ts
@@ -15,45 +15,45 @@
 - .gitignore
 - README.md
 
-## ✅ Configuración y Tokens
+## Configuración y Tokens
 - src/config/design-tokens.ts
 - src/config/allies.ts
 - src/config/plans.ts
 
-## ✅ Tipos TypeScript
+## Tipos TypeScript
 - src/types/plan.ts
 - src/types/obituary.ts
 - src/types/client.ts
 - src/types/common.ts
 
-## ✅ Utilidades
+## Utilidades
 - src/lib/utils.ts
 
-## ✅ Componentes UI Base
+## Componentes UI Base
 - src/components/ui/Button.tsx
 - src/components/ui/Input.tsx
 - src/components/ui/Textarea.tsx
 - src/components/ui/Container.tsx
 - src/components/ui/SectionTitle.tsx
 
-## ✅ Componentes Layout
+## Componentes Layout
 - src/components/layout/Navbar.tsx
 - src/components/layout/Footer.tsx
 
-## ✅ Componentes Cards
+## Componentes Cards
 - src/components/cards/PlanFlipCard.tsx
 - src/components/cards/ObituaryCard.tsx
 
-## ✅ Componentes Animación
+## Componentes Animación
 - src/components/animations/FadeIn.tsx
 - src/components/animations/AlliesMarquee.tsx
 - src/components/animations/StaggerContainer.tsx
 
-## ✅ Estilos
+## Estilos
 - src/styles/globals.css
 - src/app/globals.css
 
-## ✅ Páginas Públicas
+## Páginas Públicas
 - src/app/layout.tsx
 - src/app/page.tsx (Home)
 - src/app/planes/page.tsx
@@ -61,14 +61,14 @@
 - src/app/recorrido-360/page.tsx
 - src/app/contacto/page.tsx
 
-## ✅ Dashboard Admin
+## Dashboard Admin
 - src/app/dashboard/layout.tsx
 - src/app/dashboard/page.tsx
 - src/app/dashboard/obituarios/page.tsx
 
 ---
 
-# 🎯 PRÓXIMOS ARCHIVOS A CREAR
+# PRÓXIMOS ARCHIVOS A CREAR
 
 ## Páginas Faltantes
 - [ ] src/app/servicios/page.tsx
@@ -115,18 +115,18 @@
 
 ---
 
-# 🚀 ESTADO ACTUAL
+# ESTADO ACTUAL
 
-**COMPLETADO: 40+ archivos ✅**
+**COMPLETADO: 40+ archivos**
 
 La estructura base está lista con:
-- ✅ Sistema de diseño completo (Glass iOS)
-- ✅ Componentes reutilizables
-- ✅ Páginas principales
-- ✅ Panel administrativo base
-- ✅ Animaciones Framer Motion
-- ✅ TypeScript configurado
-- ✅ Tailwind configurado
+- Sistema de diseño completo (Glass iOS)
+- Componentes reutilizables
+- Páginas principales
+- Panel administrativo base
+- Animaciones Framer Motion
+- TypeScript configurado
+- Tailwind configurado
 
 **LISTO PARA:**
 1. Instalar dependencias (npm install)

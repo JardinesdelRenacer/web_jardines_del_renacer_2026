@@ -1,4 +1,4 @@
-# 🔐 Guía de Accesos - Jardines del Renacer
+# Guía de Accesos - Jardines del Renacer
 
 ## Sistema de Autenticación Dual
 
@@ -6,7 +6,7 @@ El sitio web cuenta con **DOS sistemas de login separados** para diferentes tipo
 
 ---
 
-## 👥 Portal de Clientes
+## Portal de Clientes
 
 **URL de Acceso:** `/login` o botón "Ingresar" en el Navbar
 
@@ -31,7 +31,7 @@ Una vez autenticado: `/cliente/dashboard`
 
 ---
 
-## 🔒 Portal Administrativo de Obituarios
+## Portal Administrativo de Obituarios
 
 **URL de Acceso:** `/login/admin` (acceso directo por URL)
 
@@ -39,22 +39,22 @@ Una vez autenticado: `/cliente/dashboard`
 Panel exclusivo para el administrador encargado de la gestión diaria de obituarios.
 
 ### Funcionalidades
-- ✅ **Gestión completa de obituarios**
+- **Gestión completa de obituarios**
   - Crear nuevos obituarios
   - Editar dirección de velación
   - Editar sala asignada
   - Editar horarios de velación
   
-- ✅ **Búsqueda por cédula**
+- **Búsqueda por cédula**
   - Búsqueda rápida de fallecidos por número de cédula
   
-- ✅ **Estadísticas en tiempo real**
+- **Estadísticas en tiempo real**
   - Total de obituarios registrados
   - Balance mensual de obituarios
   - Balance anual de obituarios
   - Contador de visitas a la página web
 
-- ✅ **Gestión por sedes**
+- **Gestión por sedes**
   - Sede Principal
   - Sede Norte
   - Sede Sur
@@ -72,7 +72,7 @@ Una vez autenticado: `/dashboard` (simplificado, sin pagos ni clientes)
 
 ---
 
-## 📊 Estructura de Datos del Obituario
+## Estructura de Datos del Obituario
 
 Cada obituario contiene:
 - Nombre completo del fallecido
@@ -89,7 +89,7 @@ Cada obituario contiene:
 
 ---
 
-## 🎨 Diseño
+## Diseño
 
 Ambos portales de login comparten el **mismo diseño premium** con:
 - Fondos animados con gradientes
@@ -101,7 +101,7 @@ Ambos portales de login comparten el **mismo diseño premium** con:
 
 ---
 
-## 🚀 Rutas Importantes
+## Rutas Importantes
 
 ### Públicas
 - `/` - Inicio
@@ -122,7 +122,7 @@ Ambos portales de login comparten el **mismo diseño premium** con:
 
 ---
 
-## 🛡️ Seguridad
+## Seguridad
 
 ### Desarrollo (Actual)
 - Autenticación basada en `localStorage`
@@ -139,7 +139,7 @@ Ambos portales de login comparten el **mismo diseño premium** con:
 
 ---
 
-## 📱 Contacto de Soporte
+## Contacto de Soporte
 
 Para solicitar acceso administrativo real:
 - Página de contacto: `/contacto`
@@ -148,7 +148,7 @@ Para solicitar acceso administrativo real:
 
 ---
 
-## 🔄 Versión
+## Versión
 
 **Sistema:** v1.4
 **Última actualización:** Febrero 2026
@@ -156,7 +156,7 @@ Para solicitar acceso administrativo real:
 
 ---
 
-## ⚠️ Notas Importantes
+## Notas Importantes
 
 1. El login administrativo **NO está visible en el menú**. Solo se accede con la URL directa `/login/admin`
 2. El botón "Ingresar" del Navbar siempre lleva al login de **clientes** (`/login`)

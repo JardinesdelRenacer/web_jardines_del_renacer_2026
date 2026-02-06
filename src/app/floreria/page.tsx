@@ -137,7 +137,7 @@ export default function FloreriaPage() {
     // Animación visual de confirmación
     const notification = document.createElement('div');
     notification.className = 'fixed top-24 right-6 glass border-2 border-green-500 bg-green-500/20 px-6 py-3 rounded-full z-50 animate-bounce';
-    notification.innerHTML = '✅ Agregado al carrito';
+    notification.innerHTML = 'Agregado al carrito';
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 2000);
   };

@@ -1,6 +1,6 @@
 # Integración de Google Maps - Jardines del Renacer
 
-## 📍 Guía para agregar el mapa interactivo con marcadores
+## Guía para agregar el mapa interactivo con marcadores
 
 ### Paso 1: Obtener API Key de Google Maps
 
@@ -152,7 +152,7 @@ export default function GoogleMapWithMarkers({
                 href={`tel:${ubicaciones.find(u => u.id === activeMarker)!.telefono}`}
                 className="text-sm text-blue-600 hover:underline"
               >
-                📞 {ubicaciones.find(u => u.id === activeMarker)!.telefono}
+                {ubicaciones.find(u => u.id === activeMarker)!.telefono}
               </a>
             </div>
           </InfoWindow>
@@ -264,7 +264,7 @@ async function getCoordinates(address: string) {
 }
 ```
 
-## 💰 Costos de Google Maps API
+## Costos de Google Maps API
 
 - **Primeros $200 USD/mes:** GRATIS (crédito mensual)
 - **Map Loads:** $7 por 1,000 cargas adicionales
@@ -272,7 +272,7 @@ async function getCoordinates(address: string) {
 
 Para un sitio pequeño/mediano, el crédito gratuito es suficiente.
 
-## 🔒 Seguridad
+## Seguridad
 
 **Importante:** Restringe tu API Key en Google Cloud Console:
 
@@ -281,7 +281,7 @@ Para un sitio pequeño/mediano, el crédito gratuito es suficiente.
 3. Agrega tu dominio: `tudominio.com/*`, `localhost/*`
 4. Restricciones de API → Selecciona solo las APIs que uses
 
-## ✅ Checklist de implementación
+## Checklist de implementación
 
 - [ ] Obtener API Key de Google Maps
 - [ ] Agregar API Key a `.env.local`
@@ -293,7 +293,7 @@ Para un sitio pequeño/mediano, el crédito gratuito es suficiente.
 - [ ] Configurar restricciones de seguridad
 - [ ] Agregar estilos personalizados al mapa
 
-## 📱 Características adicionales (opcional)
+## Características adicionales (opcional)
 
 - **Direcciones:** Botón "Cómo llegar" que abre Google Maps
 - **Clustering:** Agrupar marcadores cercanos cuando hay zoom out
@@ -301,4 +301,4 @@ Para un sitio pequeño/mediano, el crédito gratuito es suficiente.
 - **Street View:** Vista de calle integrada
 - **Filtros en mapa:** Mostrar/ocultar por tipo de ubicación
 
-¡Tu página de ubicaciones estará lista con mapa interactivo! 🗺️
+¡Tu página de ubicaciones estará lista con mapa interactivo!

@@ -66,32 +66,32 @@ export default function Recorrido360Page() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             {[
               {
-                icon: '🏡',
+                icon: '',
                 title: 'Desde tu hogar',
                 description: 'Explora sin necesidad de desplazarte',
               },
               {
-                icon: '⏰',
+                icon: '',
                 title: 'Disponible 24/7',
                 description: 'Visita cuando lo necesites, a cualquier hora',
               },
               {
-                icon: '👨‍👩‍👧',
+                icon: '',
                 title: 'Con tu familia',
                 description: 'Comparte la experiencia con tus seres queridos',
               },
               {
-                icon: '📐',
+                icon: '',
                 title: 'Vista completa',
                 description: 'Recorre cada sala y espacio con detalle',
               },
               {
-                icon: '💡',
+                icon: '',
                 title: 'Toma decisiones informadas',
                 description: 'Conoce antes de visitar físicamente',
               },
               {
-                icon: '🎯',
+                icon: '',
                 title: 'Interactivo',
                 description: 'Navega libremente por todas las áreas',
               },
