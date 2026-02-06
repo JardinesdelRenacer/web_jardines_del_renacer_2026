@@ -17,7 +17,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="glass fixed w-full z-50 top-0 left-0 bg-gradient-to-b from-primary/5 to-transparent">
+    <nav className="fixed w-full z-50 top-0 left-0 bg-gradient-to-b from-primary to-primary/95 backdrop-blur-md shadow-lg">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-20">
           {/* Desktop Navigation - Izquierda */}
@@ -27,7 +27,7 @@ export default function Navbar() {
               <button
                 onMouseEnter={() => setServiciosOpen(true)}
                 onMouseLeave={() => setServiciosOpen(false)}
-                className="text-text hover:text-primary transition-colors duration-300 flex items-center gap-1"
+                className="text-white hover:text-white/80 transition-colors duration-300 flex items-center gap-1"
               >
                 Servicios
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,19 +56,19 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href="/obituarios" className="text-text hover:text-primary transition-colors duration-300">
+            <Link href="/obituarios" className="text-white hover:text-white/80 transition-colors duration-300">
               Obituarios
             </Link>
             
-            <Link href="/ubicaciones" className="text-text hover:text-primary transition-colors duration-300">
+            <Link href="/ubicaciones" className="text-white hover:text-white/80 transition-colors duration-300">
               Ubicaciones
             </Link>
             
-            <Link href="/cotizar" className="text-text hover:text-primary transition-colors duration-300">
+            <Link href="/cotizar" className="text-white hover:text-white/80 transition-colors duration-300">
               Cotizar Plan
             </Link>
             
-            <Link href="/contacto" className="text-text hover:text-primary transition-colors duration-300">
+            <Link href="/contacto" className="text-white hover:text-white/80 transition-colors duration-300">
               Contacto
             </Link>
           </div>
@@ -108,7 +108,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-lg text-text hover:bg-primary/10 transition-colors"
+            className="lg:hidden p-2 rounded-lg text-white hover:bg-white/10 transition-colors"
           >
             <svg
               className="w-6 h-6"
@@ -145,12 +145,12 @@ export default function Navbar() {
           <div className="py-4 space-y-3">
             {/* Servicios Mobile */}
             <div className="space-y-2">
-              <p className="font-semibold text-text px-2">Servicios</p>
+              <p className="font-semibold text-white px-2">Servicios</p>
               {serviciosSubmenu.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block pl-6 pr-2 py-2 text-text hover:text-primary transition-colors"
+                  className="block pl-6 pr-2 py-2 text-white/90 hover:text-white transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
@@ -160,7 +160,7 @@ export default function Navbar() {
 
             <Link
               href="/obituarios"
-              className="block px-2 py-2 text-text hover:text-primary transition-colors"
+              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Obituarios
@@ -168,7 +168,7 @@ export default function Navbar() {
             
             <Link
               href="/ubicaciones"
-              className="block px-2 py-2 text-text hover:text-primary transition-colors"
+              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Ubicaciones
@@ -176,7 +176,7 @@ export default function Navbar() {
             
             <Link
               href="/cotizar"
-              className="block px-2 py-2 text-text hover:text-primary transition-colors"
+              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Cotizar Plan
@@ -184,7 +184,7 @@ export default function Navbar() {
             
             <Link
               href="/contacto"
-              className="block px-2 py-2 text-text hover:text-primary transition-colors"
+              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Contacto

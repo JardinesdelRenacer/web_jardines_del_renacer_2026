@@ -151,22 +151,14 @@ export default function Footer() {
           <div className="py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
             {/* Brand */}
             <div className="lg:col-span-1">
-              <Link href="/" className="group flex items-center space-x-3 mb-8 w-fit">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/80 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative w-14 h-14 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center shadow-2xl shadow-primary/40 group-hover:shadow-primary/60 group-hover:scale-110 transition-all duration-500 overflow-hidden">
-                    <Image
-                      src="/logo-oficial.webp"
-                      alt="Jardines del Renacer"
-                      width={56}
-                      height={56}
-                      className="object-contain p-1"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xl font-display font-bold group-hover:text-primary transition-colors duration-300">Jardines del Renacer</p>
-                  <p className="text-xs text-white/70 group-hover:text-white/90 transition-colors duration-300">Dignidad y paz eterna</p>
+              <Link href="/" className="group block mb-8 w-fit">
+                <div className="relative w-16 h-16">
+                  <Image
+                    src="/logo-oficial.webp"
+                    alt="Jardines del Renacer"
+                    fill
+                    className="object-contain group-hover:scale-110 transition-transform duration-500"
+                  />
                 </div>
               </Link>
               <p className="text-sm text-white/80 mb-8 leading-relaxed">
