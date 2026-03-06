@@ -17,6 +17,7 @@ export interface DepartamentoInfo {
   nombre: string;
   slug: string;
   count: number;
+  ciudades: string[];
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -43,9 +44,13 @@ export function getAllDepartamentos(): DepartamentoInfo[] {
   for (const sede of SEDES) {
     const slug = getDepartamentoSlug(sede.departamento);
     if (!map.has(slug)) {
-      map.set(slug, { nombre: sede.departamento, slug, count: 0 });
+      map.set(slug, { nombre: sede.departamento, slug, count: 0, ciudades: [] });
     }
-    map.get(slug)!.count++;
+    const dep = map.get(slug)!;
+    dep.count++;
+    if (!dep.ciudades.includes(sede.ciudad)) {
+      dep.ciudades.push(sede.ciudad);
+    }
   }
   return Array.from(map.values()).sort((a, b) =>
     a.nombre.localeCompare(b.nombre, 'es'),
