@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Container from '@/components/ui/Container';
 import SectionTitle from '@/components/ui/SectionTitle';
+import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import SedesExplorer from '@/components/sedes/SedesExplorer';
 import { getAllDepartamentos, SEDES } from '@/data/sedes';
 
@@ -48,7 +49,9 @@ export default function SedesPage() {
                 key={stat.label}
                 className="glass rounded-2xl px-8 py-4 text-center min-w-[140px]"
               >
-                <p className="text-3xl font-bold text-primary">{stat.value}</p>
+                <p className="text-3xl font-bold text-primary">
+                  <AnimatedCounter value={stat.value} />
+                </p>
                 <p className="text-sm text-textLight mt-1">{stat.label}</p>
               </div>
             ))}

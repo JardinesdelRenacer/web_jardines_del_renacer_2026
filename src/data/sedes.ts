@@ -63,12 +63,6 @@ export function getAllDepartamentos(): DepartamentoInfo[] {
 
 export const SEDES: Sede[] = [
   // ── RISARALDA ───────────────────────────────────────────────
-  { id: 'rs-01', nombre: 'Pereira - Maraya 1', direccion: 'Carrera 10 # 46-88', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
-  { id: 'rs-02', nombre: 'Pereira - Maraya 1', direccion: 'CRA 10 # 46-98', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
-  { id: 'rs-03', nombre: 'Pereira - Maraya 2', direccion: 'CARRERA 10 # 46-47', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
-  { id: 'rs-04', nombre: 'Pereira - Maraya 2B', direccion: 'CARRERA 10 # 46-57', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
-  { id: 'rs-05', nombre: 'Pereira - Sede de Bienestar', direccion: 'CARRERA  10 n 46-105 MARAYA', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
-  { id: 'rs-06', nombre: 'Pereira - Av 30 de Agosto', direccion: 'AVENIDA 30 DE AGOSTO 48-111', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
   { id: 'rs-07', nombre: 'Pereira - La 27', direccion: 'CALLE 27 # 6-22 CENTRO', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
   { id: 'rs-08', nombre: 'Pereira - Cuba', direccion: 'CALLE 68 BIS # 25 - 40', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Pereira' },
   { id: 'rs-09', nombre: 'Dosquebradas - La Badea', direccion: 'AVENIDA TURIN LA POPA CALLE 9 No. 5-162', administradora: '', telefono: '', departamento: 'Risaralda', ciudad: 'Dosquebradas' },
@@ -102,10 +96,7 @@ export const SEDES: Sede[] = [
   { id: 'qu-10', nombre: 'Armenia', direccion: 'CRA 13 # 23 - 55 CENTRO - CRA 13 # 23-52 Y CRA 13 # 23-49', administradora: 'PAOLA ANDREA CRUZ CAMPOS', telefono: '3105563221', departamento: 'Quindío', ciudad: 'Armenia' },
 
   // ── VALLE DEL CAUCA ──────────────────────────────────────────
-    { id: 'vc-01', nombre: 'Tuluá Comercial', direccion: 'calle 26 # 38-25', administradora: 'katheriner Santa', telefono: '3115343146', departamento: 'Valle del Cauca', ciudad: 'Tuluá' },
-    { id: 'vc-02', nombre: 'Tuluá Cartera', direccion: 'calle 26 #38-25', administradora: 'Karen Franco', telefono: '3206996037, 6023800914', departamento: 'Valle del Cauca', ciudad: 'Tuluá' },
-    { id: 'vc-03', nombre: 'Tuluá Cartera', direccion: 'calle 26 #38-25', administradora: 'Laura Sofia Ocampo', telefono: '3206996037, 6023800914', departamento: 'Valle del Cauca', ciudad: 'Tuluá' },
-    { id: 'vc-04', nombre: 'Tuluá Cafetería', direccion: 'calle 26 #38-25', administradora: 'Sandra Mosquera', telefono: '6023800914', departamento: 'Valle del Cauca', ciudad: 'Tuluá' },
+    { id: 'vc-01', nombre: 'Tuluá', direccion: 'calle 26 # 38-25', administradora: 'katheriner Santa', telefono: '3115343146', departamento: 'Valle del Cauca', ciudad: 'Tuluá' },
     { id: 'vc-05', nombre: 'Riofrío', direccion: 'calle 5 #10-28 barrio centro', administradora: 'YESSENIA JARAMILLO-NICOLLE', telefono: '6023800914', departamento: 'Valle del Cauca', ciudad: 'Riofrío' },
     { id: 'vc-06', nombre: 'Trujillo', direccion: 'Carrera 19# 20-74', administradora: 'YAMILETH CORREA', telefono: '', departamento: 'Valle del Cauca', ciudad: 'Trujillo' },
     { id: 'vc-07', nombre: 'Andalucía', direccion: 'carrera 4 # 17-02', administradora: 'DIGNORA XASTAÑO', telefono: '', departamento: 'Valle del Cauca', ciudad: 'Andalucía' },
@@ -115,16 +106,9 @@ export const SEDES: Sede[] = [
     { id: 'vc-11', nombre: 'Caicedonia', direccion: 'CARRERA 16 # 7-33', administradora: 'MILDREY MARIN', telefono: '6067329231', departamento: 'Valle del Cauca', ciudad: 'Caicedonia' },
     { id: 'vc-12', nombre: 'Bolívar', direccion: 'Calle 4 #3-22, barrio centro', administradora: 'VANESA TAPASCO MONDRAGON', telefono: '', departamento: 'Valle del Cauca', ciudad: 'Bolívar' },
     { id: 'vc-13', nombre: 'Palmira', direccion: 'Calle32#31-81', administradora: 'jessica maria dominguez', telefono: '3232216871, 6023896438', departamento: 'Valle del Cauca', ciudad: 'Palmira' },
-    { id: 'vc-14', nombre: 'Palmira', direccion: 'Calle32#31-81', administradora: 'yesica muñoz', telefono: '3232216871, 6023896438', departamento: 'Valle del Cauca', ciudad: 'Palmira' },
-    { id: 'vc-15', nombre: 'Palmira', direccion: 'Calle32#31-81', administradora: 'kelly moreno', telefono: '6023896438', departamento: 'Valle del Cauca', ciudad: 'Palmira' },
-    { id: 'vc-16', nombre: 'Palmira', direccion: 'Calle32#31-81', administradora: 'paola muelas', telefono: '3115338681, 6023896438', departamento: 'Valle del Cauca', ciudad: 'Palmira' },
-    { id: 'vc-17', nombre: 'Palmira', direccion: 'Calle32#31-81', administradora: 'James Bolivar', telefono: '3229449890', departamento: 'Valle del Cauca', ciudad: 'Palmira' },
     { id: 'vc-18', nombre: 'Florida', direccion: 'Carrera 17 # 8-54 barrio puerto nuevo', administradora: 'Leidy Marcela Gonzalez Pedroza', telefono: '6023896438', departamento: 'Valle del Cauca', ciudad: 'Florida' },
     { id: 'vc-19', nombre: 'Pradera', direccion: 'Carrera 10 9-23 Barrio San Roque', administradora: 'Alba Rivera Rivera', telefono: '6023896438', departamento: 'Valle del Cauca', ciudad: 'Pradera' },
     { id: 'vc-20', nombre: 'Cali', direccion: 'Av 3Bis Norte #24-85 Administrativo', administradora: 'Karen Lorena Arango Riascos', telefono: '3229446453', departamento: 'Valle del Cauca', ciudad: 'Cali' },
-    { id: 'vc-21', nombre: 'Cali', direccion: 'Av 3Bis Norte #24-85 Administrativo', administradora: 'Karen Lorena Arango Riascos', telefono: '3229446453', departamento: 'Valle del Cauca', ciudad: 'Cali' },
-    { id: 'vc-22', nombre: 'Cali-Comercial', direccion: 'Av 3Bis Norte #24-85 Administrativo', administradora: 'Gina paola ramos valencia', telefono: '3132490247, 6023896438', departamento: 'Valle del Cauca', ciudad: 'Cali' },
-    { id: 'vc-23', nombre: 'Cali-Coordinador Comercial', direccion: 'Av 3Bis Norte #24-85 Administrativo', administradora: 'Margarita Diaz', telefono: '', departamento: 'Valle del Cauca', ciudad: 'Cali' },
     { id: 'vc-24', nombre: 'Yumbo', direccion: 'Carrera 4#3-59   al frente  de la panadería Oro Miel', administradora: 'yuri ocampo', telefono: '', departamento: 'Valle del Cauca', ciudad: 'Yumbo' },
     { id: 'vc-25', nombre: 'Argelia', direccion: 'CALLE 4 # 7-28', administradora: 'LUZ EDILMA BOTERO', telefono: '', departamento: 'Valle del Cauca', ciudad: 'Argelia' },
     { id: 'vc-26', nombre: 'La Unión', direccion: 'CALLE 14 # 10-81', administradora: 'VALENTINA RESTREPO', telefono: '6023800913', departamento: 'Valle del Cauca', ciudad: 'La Unión' },
@@ -168,10 +152,7 @@ export const SEDES: Sede[] = [
     { id: 'to-16', nombre: 'Mariquita', direccion: 'CRA 4 # 8-39 EL CARMEN', administradora: 'Nini Jhoana Lopez', telefono: '3223813279', departamento: 'Tolima', ciudad: 'Mariquita' },
     { id: 'to-17', nombre: 'Rovira', direccion: 'CRA 3 #4-61 CENTRO', administradora: 'Maria Juanita Sanchez', telefono: '3103677915', departamento: 'Tolima', ciudad: 'Rovira' },
     { id: 'to-18', nombre: 'Honda', direccion: 'CRA 12 # 16a-01 EL CARMEN', administradora: 'rosemberg sepulveda', telefono: '3208568338', departamento: 'Tolima', ciudad: 'Honda' },
-    { id: 'to-19', nombre: 'Ibagué Comercial', direccion: 'CRA 4 B No 31 - 04 CADIZ', administradora: 'Alexandra galeano', telefono: '', departamento: 'Tolima', ciudad: 'Ibagué' },
-    { id: 'to-20', nombre: 'Ibagué Cartera', direccion: 'CRA 4 B No 31 - 04 CADIZ', administradora: 'Isabel Galindo y laura pinzon', telefono: '311 6687294', departamento: 'Tolima', ciudad: 'Ibagué' },
-    { id: 'to-21', nombre: 'Ibagué Servicios', direccion: 'CRA 4 B No 31 - 04 CADIZ', administradora: 'Daniela Romero Y Erika Ortega', telefono: '3125816778', departamento: 'Tolima', ciudad: 'Ibagué' },
-    { id: 'to-22', nombre: 'Armero Guayabal', direccion: 'Carrera 7 # 6-15 Centro', administradora: 'Edna Vivíana Robayo Torres', telefono: '3229449900', departamento: 'Tolima', ciudad: 'Armero Guayabal' },
+    { id: 'to-19', nombre: 'Ibagué', direccion: 'CRA 4 B No 31 - 04 CADIZ', administradora: 'Alexandra galeano', telefono: '', departamento: 'Tolima', ciudad: 'Ibagué' },
 
   // ── CAUCA ────────────────────────────────────────────────────
     { id: 'ca-01', nombre: 'Santander de Quilichao', direccion: 'calle 8 # 11-81 Barrio Centenario', administradora: 'gina alexandra armero', telefono: '', departamento: 'Cauca', ciudad: 'Santander de Quilichao' },
@@ -182,10 +163,6 @@ export const SEDES: Sede[] = [
     { id: 'hu-02', nombre: 'Garzon', direccion: 'calle 7 No. 12-39 barrio el Rosario enseguida de motos Auteco', administradora: 'Leidy Johanna Urbano Potosi', telefono: '3228356688', departamento: 'Huila', ciudad: 'Garzon' },
     { id: 'hu-03', nombre: 'La Plata', direccion: 'Calle 7 N° 3-09 Local 2 Centro', administradora: 'Angie Paola Urbano Martinez', telefono: '3226911894', departamento: 'Huila', ciudad: 'La Plata' },
     { id: 'hu-04', nombre: 'Neiva', direccion: 'Carrera 7 N° 14 - 42 Quirinal', administradora: 'Ana Cristina Cuellar Ospina', telefono: '3206921292', departamento: 'Huila', ciudad: 'Neiva' },
-    { id: 'hu-05', nombre: 'Neiva', direccion: 'Carrera 7 N° 14 - 42 Quirinal', administradora: 'Sandra Milena Leal Bayona', telefono: '3205362603', departamento: 'Huila', ciudad: 'Neiva' },
-    { id: 'hu-06', nombre: 'Neiva', direccion: 'Carrera 7 N° 14 - 42 Quirinal', administradora: 'Karen Yuliana Mosquera', telefono: '0', departamento: 'Huila', ciudad: 'Neiva' },
-    { id: 'hu-07', nombre: 'Neiva', direccion: 'Carrera 7 N° 14 - 42 Quirinal', administradora: 'Omar Andres Rodriguez', telefono: '3174015345', departamento: 'Huila', ciudad: 'Neiva' },
-    { id: 'hu-08', nombre: 'Neiva', direccion: 'Carrera 7 N° 14 - 42 Quirinal', administradora: 'Ester Melina Muñoz', telefono: '3205362603', departamento: 'Huila', ciudad: 'Neiva' },
     { id: 'hu-09', nombre: 'Pitalito', direccion: 'Carrera 4 N° 10-69  Centro', administradora: 'Gina Graciela Encizo Alvarez', telefono: '3116465358', departamento: 'Huila', ciudad: 'Pitalito' },
 
   // ── PUTUMAYO ─────────────────────────────────────────────────
@@ -198,11 +175,10 @@ export const SEDES: Sede[] = [
   // ── SANTANDER ─────────────────────────────────────────────────
     { id: 'sa-01', nombre: 'Bucaramaga', direccion: 'Calle 36 # 22-30', administradora: 'Sandra Noriega Grozo', telefono: '315 3948469', departamento: 'Santander', ciudad: 'Bucaramaga' },
     { id: 'sa-02', nombre: 'San Gil', direccion: 'Calle 19 n° 7-17 Barrio Cristo Resucitado', administradora: 'Kendry Dayana Delgado', telefono: '314 3292099', departamento: 'Santander', ciudad: 'San Gil' },
-    { id: 'sa-03', nombre: 'San Gil', direccion: 'Calle 19 n° 7-17 Barrio Cristo Resucitado', administradora: 'Maria Alejandra Melgarejo Rodriguez / Admin Reg Santander', telefono: '3206925164', departamento: 'Santander', ciudad: 'San Gil' },
 
   // ── CALDAS ────────────────────────────────────────────────────
-    { id: 'cal-01', nombre: 'Anserma', direccion: 'Cra 4 # 15-28 recepción y  sala de velación primer piso, segundo piso sede administrativa / Clle 17 # 3-37 solo salas de velación', administradora: 'Claudia Patricia Arroyave Montes - Coordinadora De Cartera', telefono: 'Depto Cartera 3113377054- Depto Servicios 3217537333, (606) 3419500', departamento: 'Caldas', ciudad: 'Anserma' },
-    { id: 'cal-02', nombre: 'Arauca', direccion: 'Cra 3n°6a-18/ Piso 1', administradora: 'Yenny Alejandra Valencia Castro', telefono: '', departamento: 'Caldas', ciudad: 'Arauca' },
+    { id: 'cal-01', nombre: 'Anserma', direccion: 'Cra 4 # 15-28', administradora: 'Claudia Patricia Arroyave Montes - Coordinadora De Cartera', telefono: 'Depto Servicios 3217537333, (606) 3419500', departamento: 'Caldas', ciudad: 'Anserma' },
+    { id: 'cal-02', nombre: 'Arauca', direccion: 'Cra 3n°6a-18/ Piso 1 arauca caldas colombia ', administradora: 'Valencia Castro', telefono: '', departamento: 'Caldas', ciudad: 'Arauca' },
     { id: 'cal-03', nombre: 'Belalcazar', direccion: 'Cra 3 # 7-10', administradora: 'Paula Andrea Rodriguez Garcia', telefono: '', departamento: 'Caldas', ciudad: 'Belalcazar' },
     { id: 'cal-04', nombre: 'Chinchina', direccion: 'Calle 13 # 8-35', administradora: 'Blanca Cielo Vasco Salcedo', telefono: '3215716884', departamento: 'Caldas', ciudad: 'Chinchina' },
     { id: 'cal-05', nombre: 'Manizales', direccion: 'Calle 45 # 23-41 Parque Cristo Rey', administradora: 'Dahiana Lorena Gonzalez Vargas', telefono: '3206663993', departamento: 'Caldas', ciudad: 'Manizales' },
@@ -213,9 +189,9 @@ export const SEDES: Sede[] = [
     { id: 'cal-10', nombre: 'Riosucio', direccion: 'Calle 6 # 7-21 Av El Cipres', administradora: 'Luz Adriana Patiño Palau', telefono: '3206920037', departamento: 'Caldas', ciudad: 'Riosucio' },
     { id: 'cal-11', nombre: 'Risaralda', direccion: 'Carrera 2 # 3-25 Centro', administradora: 'Luz María Villada Montoya', telefono: '3229446458', departamento: 'Caldas', ciudad: 'Risaralda' },
     { id: 'cal-12', nombre: 'Salamina', direccion: 'Calle 7 # 8 14 La Octava O El Refugio', administradora: 'Erika Lorena Garcia Carmona', telefono: '3229446455', departamento: 'Caldas', ciudad: 'Salamina' },
-    { id: 'cal-13', nombre: 'San Lorenzo', direccion: 'San Lorenzo Por Costado Iglesia (diagonal al antiguo telecom y/o a un lado del supermercado de Pachamama)', administradora: 'Yulieth Emilse Bueno Bueno', telefono: '', departamento: 'Caldas', ciudad: 'San Lorenzo' },
+    { id: 'cal-13', nombre: 'San Lorenzo', direccion: '', administradora: 'Yulieth Emilse Bueno Bueno', telefono: '', departamento: 'Caldas', ciudad: 'San Lorenzo' },
     { id: 'cal-14', nombre: 'Supia', direccion: 'Carrera 6 # 33-38 Barrio La Pista', administradora: 'Luz Marina Bueno', telefono: '', departamento: 'Caldas', ciudad: 'Supia' },
-    { id: 'cal-15', nombre: 'Viterbo', direccion: 'Calle 8 # 6-18 Antiguo D1 (enseguida de la Empresa de Aseo Municipal)', administradora: 'Jennifer Echeverry Giraldo', telefono: '3208276786', departamento: 'Caldas', ciudad: 'Viterbo' },
+    { id: 'cal-15', nombre: 'Viterbo', direccion: 'Calle 8 # 6-18', administradora: 'Jennifer Echeverry Giraldo', telefono: '3208276786', departamento: 'Caldas', ciudad: 'Viterbo' },
     { id: 'cal-16', nombre: 'La Dorada', direccion: 'CALLE 12 # 2-68 CENTRO', administradora: 'Viviana Galindo Triviño', telefono: '3164550991', departamento: 'Caldas', ciudad: 'La Dorada' },
 
   // ── ATLÁNTICO ─────────────────────────────────────────────────

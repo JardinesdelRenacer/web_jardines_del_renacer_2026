@@ -25,17 +25,21 @@ const DEPT_ACCENT: Record<string, { from: string; to: string }> = {
 // Agrega aquí el nombre de archivo cuando tengas la imagen de cada departamento
 const DEPT_IMAGES: Record<string, string> = {
   'antioquia':     'ronyr3-sunset-6006537_1920.webp',
-  'arauca':        'denisdoukhan-capybara-3979875_1280.webp',
   'atlantico':     'camiluisa4237-woman-8297321_1280.webp',
   'bogota-dc':     'banner-bogota-colombia.webp',
   'cauca':         'makalu-colombia-4915141_1280.webp',
   'cundinamarca':  '6585638b8a22c2f261065224_candelaria.webp',
   'huila':         'aleafar-tatacoa-6292128_1280.webp',
   'meta':          'denisdoukhan-capybara-3979875_1280.webp',
-  'risaralda':     'denisdoukhan-capybara-3979875_1280.webp',
-  'santander':     'denisdoukhan-capybara-3979875_1280.webp',
-  'tolima':        'denisdoukhan-capybara-3979875_1280.webp',
-  'valle-del-cauca': 'denisdoukhan-capybara-3979875_1280.webp',
+  'risaralda':     'risaralda-7F475G65XNDIPMCVQI2ITRZ6DM.webp',
+  'santander':     'andresmmartinez-barichara-4435138_1280.webp',
+  'tolima':        'zasilvape-moor-2770791_1280.webp',
+  'valle-del-cauca': 'jgbcolombia-landscape-4544765_1280.webp',
+  'boyaca':        'makalu-colombia-4884165_1280.webp',
+  'caldas':        'Pasadia-Nevado-del-Ruiz-12-scaled.webp',
+  'choco':         'quibdo-semana.webp',
+  'putumayo':      'danielacosta2d-siona-3684825_1280.webp',
+  'quindio':       'nitovic-quindio-3977049_1280.webp',
 };
 
 interface DepartamentoFlipCardProps {

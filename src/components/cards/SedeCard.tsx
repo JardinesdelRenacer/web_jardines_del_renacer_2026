@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { Sede } from '@/data/sedes';
+import { CIUDAD_IMAGES } from '@/config/ciudades';
 
 interface SedeCardProps {
   sede: Sede;
@@ -18,24 +19,28 @@ export default function SedeCard({ sede }: SedeCardProps) {
   return (
     <article className="rounded-2xl overflow-hidden glass shadow-glass-lg hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group">
 
-      {/* ── Zona superior con acento de color ─────────── */}
-      <div className="relative h-[140px] bg-gradient-to-br from-primary/20 via-primary/10 to-[#e8edf5] overflow-hidden">
+      {/* ── Zona superior con imagen de ciudad ─────────────── */}
+      <div className="relative h-[280px] bg-gradient-to-br from-primary/20 via-primary/10 to-[#e8edf5] overflow-hidden">
+        {/* Imagen de fondo de la ciudad */}
+        {CIUDAD_IMAGES[sede.ciudad] && (
+          <Image
+            src={`/images/ciudades/${CIUDAD_IMAGES[sede.ciudad]}`}
+            alt={sede.ciudad}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        )}
+        
+        {/* Overlay oscuro para legibilidad */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-black/5 to-transparent" />
+
         {/* Barra de acento */}
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-primary" />
 
-        {/* Dot pattern overlay */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, #3C60A2 1px, transparent 0)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-
         {/* Logo badge top-right */}
         <div className="absolute top-4 right-3 z-10">
-          <div className="w-10 h-10 rounded-full bg-white/70 backdrop-blur-sm flex items-center justify-center border border-primary/20 overflow-hidden">
+          <div className="w-10 h-10 rounded-full bg-primary shadow-lg flex items-center justify-center border border-white/20 overflow-hidden">
             <Image
               src="/logo-oficial.webp"
               alt="JR"
@@ -47,10 +52,12 @@ export default function SedeCard({ sede }: SedeCardProps) {
         </div>
 
         {/* City label top-left */}
-        <div className="absolute top-4 left-3 z-10">
-          <span className="text-primary/70 text-[10px] font-semibold uppercase tracking-widest">
-            {sede.ciudad}
-          </span>
+        <div className="absolute top-4 left-4 z-10">
+          <div className="bg-primary/90 backdrop-blur-sm px-4 py-2.5 rounded-full border border-primary/30 shadow-lg">
+            <span className="text-white text-sm font-bold uppercase tracking-wider drop-shadow">
+              {sede.ciudad}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -81,23 +88,20 @@ export default function SedeCard({ sede }: SedeCardProps) {
             </span>
             <span className="text-textLight text-sm">24 Horas</span>
           </div>
-
-          {/* Departamento */}
-          <div className="flex items-center gap-3">
-            <span className="shrink-0 w-7 h-7 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
-              <svg width="14" height="14" fill="none" stroke="#3C60A2" strokeWidth="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </span>
-            <span className="text-textLight text-sm">{sede.departamento}</span>
-          </div>
         </div>
 
         {/* Dirección */}
-        <p className="text-textLight text-xs leading-snug mb-5 pl-10 -mt-1">
-          {sede.direccion}
-        </p>
+        <div className="flex items-start gap-3 mb-5">
+          <span className="shrink-0 w-7 h-7 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center mt-0.5">
+            <svg width="14" height="14" fill="none" stroke="#3C60A2" strokeWidth="1.75" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </span>
+          <p className="text-textLight text-xs leading-snug flex-1">
+            {sede.direccion}
+          </p>
+        </div>
 
         {/* ── Botones de acción ────────────────────────── */}
         <div className="space-y-2">
