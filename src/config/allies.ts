@@ -1,55 +1,257 @@
 import type { CSSProperties } from 'react';
+import { CONTACT_INFO } from '@/config/contact';
+import { getAllDepartamentos } from '@/data/sedes';
 
-/**
- * Aliados del Ecosistema - Jardines del Renacer
- * Red de empresas y servicios complementarios
- */
+export interface AllyCategoryConfig {
+  slug: string;
+  label: string;
+  subcategories: string[];
+}
 
-export interface Ally {
+export interface CommercialAlly {
   id: string;
   name: string;
-  logo: string;
+  departamento: string;
+  categorySlug: string;
+  subcategory: string;
   url?: string;
-  category: 'funerario' | 'salud' | 'legal' | 'floreria' | 'transporte' | 'otros';
-  featured?: boolean;
+  logo: string;
+  address: string;
+  whatsappNumber: string;
+  whatsappTemplate: string;
+  actionLabel: string;
+  featured: boolean;
+  description?: string;
   containerStyle?: CSSProperties;
   innerStyle?: CSSProperties;
   glowStyle?: CSSProperties;
   logoStyle?: CSSProperties;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export const allies: Ally[] = [
+export const ALLY_STORAGE_KEY = 'jdr.commercial-allies.v1';
+
+const DEPARTAMENTOS = getAllDepartamentos();
+export const ALLY_DEPARTMENTS = DEPARTAMENTOS.map((departamento) => departamento.nombre);
+export const DEFAULT_ALLY_DEPARTMENT = ALLY_DEPARTMENTS[0] ?? 'Risaralda';
+
+export const ALLY_CATEGORIES: AllyCategoryConfig[] = [
   {
-    id: "renacer-mascotas",
-    name: "Renacer Mascotas",
-    logo: "/images/logos_aliados_jr/renacer_mascotas.png",
-    url: "https://www.renacermascotas.co/",
-    category: "funerario",
-    featured: true,
+    slug: 'salud',
+    label: 'Salud',
+    subcategories: [
+      'Especialistas',
+      'Salud oral',
+      'Salud visual',
+      'Esteticas',
+      'Esteticas Spa',
+      'Tienda Naturista',
+      'Psicologia',
+      'Sexologia',
+    ],
   },
   {
-    id: "parque-conmemorativo",
-    name: "Parque Conmemorativo",
-    logo: "/images/logos_aliados_jr/conmemorativo.png",
-    url: "https://www.parqueconmemorativo.com/",
-    category: "funerario",
-    featured: true,
+    slug: 'mascotas',
+    label: 'Mascotas',
+    subcategories: [
+      'Pet shop',
+      'Clinica veterinaria',
+      'Spa Mascotas',
+      'Peluqueria canina',
+      'Guarderia Mascotas',
+      'Entretenimiento Mascota',
+      'Salud y nutricion',
+      'Psicologia mascotas',
+    ],
   },
   {
-    id: "renacer-seguros",
-    name: "Renacer Seguros",
-    logo: "/images/logos_aliados_jr/renacer_seguros.png",
-    url: "https://www.renacerseguros.com/",
-    category: "salud",
-    featured: true,
+    slug: 'turismo',
+    label: 'Turismo',
+    subcategories: [
+      'Agencia de viaje Nacional e internacional',
+      'Agencia de turismo Nacional e internacional',
+      'Parques',
+      'Hoteles',
+      'Eventos',
+    ],
   },
   {
-    id: "renacer-abogados",
-    name: "Renacer Abogados",
-    logo: "/images/logos_aliados_jr/renacer_abogados.png",
-    url: "https://www.renacerabogados.com/",
-    category: "legal",
+    slug: 'deportes',
+    label: 'Deportes',
+    subcategories: [
+      'Gimnasios',
+      'Academias Pool Dance',
+      'Pilates',
+      'Direccion deportiva',
+    ],
+  },
+  {
+    slug: 'educacion',
+    label: 'Educacion',
+    subcategories: [
+      'Escuelas de Conduccion',
+      'Institutos Academicos',
+      'Colegios',
+      'Universidades',
+      'Academias de Idiomas',
+      'Academias de baile',
+    ],
+  },
+  {
+    slug: 'automotores',
+    label: 'Automotores',
+    subcategories: [
+      'Repuestos Vehiculares y Motos',
+      'Llantas y Accesorios',
+      'Tecnomecanica',
+      'Soat',
+      'Seguros',
+      'Pintura y Mas',
+      'Limpieza y pulido',
+    ],
+  },
+  {
+    slug: 'hogar',
+    label: 'Hogar',
+    subcategories: [
+      'Limpieza de hogar',
+      'Fumigacion',
+      'Ferreteria',
+      'Floristeria',
+      'Marmolerias',
+      'Plomeria y Gas',
+      'Muebles y Cocina',
+      'Colchones',
+      'Camas',
+      'Linea Blanca',
+      'Mobiliarios',
+    ],
+  },
+  {
+    slug: 'tecnologia',
+    label: 'Tecnologia',
+    subcategories: [
+      'Celulares',
+      'Tablets',
+      'Computadores',
+      'Portatiles',
+      'Accessories',
+      'Impresoras',
+    ],
+  },
+  {
+    slug: 'social-cultura',
+    label: 'Social y cultura',
+    subcategories: ['Fundaciones'],
+  },
+  {
+    slug: 'finanzas',
+    label: 'Finanzas',
+    subcategories: ['Financieras', 'Cooperativas', 'Fondos de ahorro'],
+  },
+  {
+    slug: 'gastrobares',
+    label: 'Gastrobares',
+    subcategories: [
+      'Restaurantes',
+      'Bares',
+      'Restaurante Campestre',
+      'Desayunos sorpresas',
+      'Comida rapida',
+    ],
+  },
+  {
+    slug: 'alimento',
+    label: 'Alimento',
+    subcategories: ['Lacteos', 'Carnes', 'Cafe', 'No perecederos'],
+  },
+  {
+    slug: 'tatuajes-perforaciones',
+    label: 'Tatuajes y perforaciones',
+    subcategories: ['Tatuajes y perforaciones'],
+  },
+  {
+    slug: 'productora-musical',
+    label: 'Productora musical',
+    subcategories: ['Productora musical'],
+  },
+  {
+    slug: 'papelerias',
+    label: 'Papelerias',
+    subcategories: ['Papelerias'],
+  },
+];
+
+const ISO_NOW = new Date().toISOString();
+const DEFAULT_TEMPLATE = 'Hola, quiero mas informacion de "{{nombre}}".';
+
+export const DEFAULT_COMMERCIAL_ALLIES: CommercialAlly[] = [
+  {
+    id: 'renacer-mascotas',
+    name: 'Renacer Mascotas',
+    departamento: 'Risaralda',
+    categorySlug: 'mascotas',
+    subcategory: 'Clinica veterinaria',
+    logo: '/images/logos_aliados_jr/renacer_mascotas.png',
+    url: '',
+    address: 'Cobertura nacional',
+    whatsappNumber: CONTACT_INFO.whatsappNumber,
+    whatsappTemplate: 'Hola, quiero mas informacion de "{{nombre}}" para mascotas.',
+    actionLabel: 'Mas informacion',
     featured: true,
+    description: 'Servicios para mascotas y acompanamiento especializado.',
+    createdAt: ISO_NOW,
+    updatedAt: ISO_NOW,
+  },
+  {
+    id: 'parque-conmemorativo',
+    name: 'Parque Conmemorativo',
+    departamento: 'Valle del Cauca',
+    categorySlug: 'turismo',
+    subcategory: 'Parques',
+    logo: '/images/logos_aliados_jr/conmemorativo.png',
+    url: '',
+    address: 'Parque Conmemorativo Jardines del Renacer',
+    whatsappNumber: CONTACT_INFO.whatsappNumber,
+    whatsappTemplate: 'Hola, quiero mas informacion de "{{nombre}}".',
+    actionLabel: 'Contactar aliado',
+    featured: true,
+    description: 'Espacios conmemorativos y acompanamiento familiar.',
+    createdAt: ISO_NOW,
+    updatedAt: ISO_NOW,
+  },
+  {
+    id: 'renacer-seguros',
+    name: 'Renacer Seguros',
+    departamento: 'Cundinamarca',
+    categorySlug: 'finanzas',
+    subcategory: 'Financieras',
+    logo: '/images/logos_aliados_jr/renacer_seguros.png',
+    url: '',
+    address: 'Atencion nacional en linea',
+    whatsappNumber: CONTACT_INFO.whatsappNumber,
+    whatsappTemplate: 'Hola, quiero mas informacion de "{{nombre}}" en servicios financieros.',
+    actionLabel: 'Asesoria',
+    featured: true,
+    description: 'Soluciones de proteccion y respaldo financiero.',
+    createdAt: ISO_NOW,
+    updatedAt: ISO_NOW,
+  },
+  {
+    id: 'renacer-abogados',
+    name: 'Renacer Abogados',
+    departamento: 'Caldas',
+    categorySlug: 'social-cultura',
+    subcategory: 'Fundaciones',
+    logo: '/images/logos_aliados_jr/renacer_abogados.png',
+    url: '',
+    address: 'Atencion juridica especializada',
+    whatsappNumber: CONTACT_INFO.whatsappNumber,
+    whatsappTemplate: 'Hola, quiero mas informacion de "{{nombre}}".',
+    actionLabel: 'Solicitar orientacion',
+    featured: true,
+    description: 'Orientacion legal y acompanamiento profesional.',
     containerStyle: {
       backgroundColor: '#141412',
       borderColor: '#2f2c24',
@@ -62,44 +264,106 @@ export const allies: Ally[] = [
       background:
         'radial-gradient(circle at top, rgba(214, 179, 92, 0.22), rgba(255, 255, 255, 0))',
     },
+    createdAt: ISO_NOW,
+    updatedAt: ISO_NOW,
   },
   {
-    id: "fehico",
-    name: "Fehico",
-    logo: "/images/logos_aliados_jr/fehico.png", 
-    url: "https://www.fehico.com/",
-    category: "otros",
+    id: 'vive-mas',
+    name: 'Vive Mas',
+    departamento: 'Antioquia',
+    categorySlug: 'salud',
+    subcategory: 'Especialistas',
+    logo: '/images/logos_aliados_jr/vive+.png',
+    url: '',
+    address: 'Atencion nacional',
+    whatsappNumber: CONTACT_INFO.whatsappNumber,
+    whatsappTemplate: 'Hola, necesito mas informacion de "{{nombre}}" este especialista.',
+    actionLabel: 'Pedir informacion',
     featured: true,
-  },
-  {
-    id: "apoyo-exequial",
-    name: "Apoyo Exequial",
-    logo: "/images/logos_aliados_jr/apoyo.png",
-    url: "",
-    category: "funerario",
-    featured: true,
-  },
-  {
-    id: "agricola-renacer",
-    name: "Agrícola Renacer",
-    logo: "/images/logos_aliados_jr/agricola_renacer.png",
-    url: "https://www.agricolarenacer.com/",
-    category: "otros",
-    featured: true,
-  },
-  {
-    id: "vive-mas",
-    name: "Vive Más",
-    logo: "/images/logos_aliados_jr/vive+.png",
-    url: "https://www.mivivemas.com/",
-    category: "salud",
-    featured: true,
+    description: 'Red de bienestar y servicios de salud.',
+    createdAt: ISO_NOW,
+    updatedAt: ISO_NOW,
   },
 ];
 
-export const getAllies = () => allies;
+export const allies = DEFAULT_COMMERCIAL_ALLIES;
 
-export const getFeaturedAllies = () => allies.filter(ally => ally.featured);
+export function getCategoryBySlug(slug: string) {
+  return ALLY_CATEGORIES.find((category) => category.slug === slug) ?? null;
+}
 
-export const getAlliesByCategory = (category: Ally['category']) => 
-  allies.filter(ally => ally.category === category);
+export function getCategoryLabel(slug: string) {
+  return getCategoryBySlug(slug)?.label ?? 'Aliados Comerciales';
+}
+
+export function getSubcategoriesByCategory(slug: string) {
+  return getCategoryBySlug(slug)?.subcategories ?? [];
+}
+
+export function resolveAllyDepartment(value: string | undefined) {
+  const normalized = value?.trim() ?? '';
+  if (normalized && ALLY_DEPARTMENTS.includes(normalized)) {
+    return normalized;
+  }
+  return DEFAULT_ALLY_DEPARTMENT;
+}
+
+export function getDefaultAllyTemplate(categorySlug: string, subcategory: string) {
+  if (categorySlug === 'salud' && subcategory.toLowerCase().includes('especialista')) {
+    return 'Hola, necesito mas informacion de "{{nombre}}" este especialista.';
+  }
+  const categoryLabel = getCategoryLabel(categorySlug);
+  if (!subcategory) {
+    return `Hola, quiero mas informacion de "{{nombre}}" en ${categoryLabel}.`;
+  }
+  return `Hola, quiero mas informacion de "{{nombre}}" en ${categoryLabel} - ${subcategory}.`;
+}
+
+export function sanitizeWhatsAppNumber(value: string) {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) {
+    return CONTACT_INFO.whatsappNumber;
+  }
+  if (digits.startsWith('57')) {
+    return digits;
+  }
+  if (digits.length >= 10) {
+    return `57${digits}`;
+  }
+  return digits;
+}
+
+export function resolveAllyWhatsAppMessage(ally: Pick<CommercialAlly, 'name' | 'categorySlug' | 'subcategory' | 'whatsappTemplate'>) {
+  const template = ally.whatsappTemplate?.trim()
+    ? ally.whatsappTemplate
+    : getDefaultAllyTemplate(ally.categorySlug, ally.subcategory);
+
+  return template.replace(/{{\s*nombre\s*}}/gi, ally.name);
+}
+
+export function buildAllyWhatsAppUrl(ally: Pick<CommercialAlly, 'name' | 'categorySlug' | 'subcategory' | 'whatsappTemplate' | 'whatsappNumber'>) {
+  const normalizedNumber = sanitizeWhatsAppNumber(ally.whatsappNumber);
+  const message = resolveAllyWhatsAppMessage(ally);
+  return `https://wa.me/${normalizedNumber}?text=${encodeURIComponent(message)}`;
+}
+
+export function createEmptyAlly(): CommercialAlly {
+  const defaultCategory = ALLY_CATEGORIES[0];
+  return {
+    id: '',
+    name: '',
+    departamento: DEFAULT_ALLY_DEPARTMENT,
+    categorySlug: defaultCategory.slug,
+    subcategory: defaultCategory.subcategories[0] ?? '',
+    logo: '',
+    url: '',
+    address: '',
+    whatsappNumber: CONTACT_INFO.whatsappNumber,
+    whatsappTemplate: DEFAULT_TEMPLATE,
+    actionLabel: 'Mas informacion',
+    featured: true,
+    description: '',
+    createdAt: '',
+    updatedAt: '',
+  };
+}

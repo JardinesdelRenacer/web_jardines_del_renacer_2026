@@ -35,6 +35,7 @@ export default function Footer() {
       { label: 'Parque Conmemorativo', href: '/parque-conmemorativo' },
       { label: 'Repatriaciones', href: '/repatriaciones' },
       { label: 'Florería', href: '/floreria' },
+      { label: 'Aliados Comerciales', href: '/aliados-comerciales' },
     ],
     soporte: [
       { label: 'Portal Cliente', href: '/cliente/dashboard' },

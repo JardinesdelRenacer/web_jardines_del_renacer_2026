@@ -251,6 +251,22 @@ export default function AdminLoginPage() {
                     </svg>
                     Solicitar acceso administrativo
                   </Link>
+                  <div className="mt-3">
+                    <Link
+                      href="/login/admin-aliados"
+                      className="text-sm text-primary hover:text-primary-hover transition-colors font-medium inline-flex items-center gap-1"
+                    >
+                      Ir al login de Aliados Comerciales
+                    </Link>
+                  </div>
+                  <div className="mt-2">
+                    <Link
+                      href="/login/admin-vacantes"
+                      className="text-sm text-primary hover:text-primary-hover transition-colors font-medium inline-flex items-center gap-1"
+                    >
+                      Ir al login de Vacantes
+                    </Link>
+                  </div>
                 </div>
               </form>
             </div>

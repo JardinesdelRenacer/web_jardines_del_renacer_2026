@@ -14,7 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/login/admin');
+  const isDashboard =
+    pathname?.startsWith('/dashboard') ||
+    pathname?.startsWith('/dashboard-aliados') ||
+    pathname?.startsWith('/dashboard-vacantes') ||
+    pathname?.startsWith('/login/admin') ||
+    pathname?.startsWith('/login/admin-aliados') ||
+    pathname?.startsWith('/login/admin-vacantes');
 
   return (
     <html lang="es">

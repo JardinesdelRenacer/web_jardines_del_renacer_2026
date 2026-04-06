@@ -1,0 +1,118 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+type VacanciesAdminUser = {
+  cedula: string;
+  role: string;
+  name: string;
+};
+
+export default function DashboardVacantesLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const [checkingAccess, setCheckingAccess] = useState(true);
+  const [user, setUser] = useState<VacanciesAdminUser | null>(null);
+
+  useEffect(() => {
+    const raw = localStorage.getItem('vacanciesAdminUser');
+    if (!raw) {
+      router.replace('/login/admin-vacantes');
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as VacanciesAdminUser;
+      setUser(parsed);
+      setCheckingAccess(false);
+    } catch {
+      localStorage.removeItem('vacanciesAdminUser');
+      router.replace('/login/admin-vacantes');
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('vacanciesAdminUser');
+    router.push('/');
+  };
+
+  if (checkingAccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex min-h-screen bg-background">
+      <aside className="fixed left-0 top-0 h-screen w-72 glass border-r border-border shadow-xl">
+        <div className="p-6 border-b border-border">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center text-white font-bold text-xl shadow-lg">
+              {user?.name?.charAt(0).toUpperCase() || 'V'}
+            </div>
+            <div className="flex-1">
+              <p className="text-xs uppercase tracking-wider text-textLight font-medium mb-1">
+                Administrador
+              </p>
+              <h3 className="text-text font-semibold text-base leading-tight">
+                {user?.name || 'Admin Vacantes'}
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        <nav className="p-6 space-y-8">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-textLight font-semibold mb-4 px-3">
+              Vacantes
+            </p>
+            <div className="space-y-1">
+              <Link
+                href="/dashboard-vacantes"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/10 text-text hover:text-primary transition-all group"
+              >
+                <svg className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span className="font-medium">Panel de Vacantes</span>
+              </Link>
+
+              <Link
+                href="/servicios/trabaja-con-nosotros"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/10 text-text hover:text-primary transition-all group"
+              >
+                <svg className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7h18M3 12h18M3 17h18" />
+                </svg>
+                <span className="font-medium">Vista publica</span>
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-border space-y-3">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="w-full px-4 py-3 rounded-xl border border-primary/25 text-primary font-semibold hover:bg-primary/10 transition-colors"
+          >
+            Cerrar sesion
+          </button>
+          <div className="glass rounded-xl p-4 border border-primary/20">
+            <p className="text-xs text-primary font-medium mb-1">Jardines del Renacer</p>
+            <p className="text-[10px] text-textLight">Panel Vacantes</p>
+          </div>
+        </div>
+      </aside>
+
+      <main className="ml-72 flex-1 p-8">{children}</main>
+    </div>
+  );
+}

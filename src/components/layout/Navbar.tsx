@@ -5,16 +5,23 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
+import { ALLY_CATEGORIES } from '@/config/allies';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [serviciosOpen, setServiciosOpen] = useState(false);
+  const [aliadosOpen, setAliadosOpen] = useState(false);
 
   const serviciosSubmenu = [
     { href: '/servicios/quienes-somos', label: 'Quiénes Somos' },
     { href: '/servicios/resena-historica', label: 'Reseña Histórica' },
     { href: '/servicios/trabaja-con-nosotros', label: 'Trabaja con Nosotros' },
   ];
+
+  const aliadosSubmenu = ALLY_CATEGORIES.map((category) => ({
+    href: `/aliados-comerciales?categoria=${category.slug}`,
+    label: category.label,
+  }));
 
   return (
     <nav className="fixed w-full z-50 top-0 left-0">
@@ -69,6 +76,45 @@ export default function Navbar() {
                 <Link href="/ubicaciones" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
                   Ubicaciones
                 </Link>
+
+                {/* Aliados Dropdown */}
+                <div className="relative group">
+                  <button
+                    onMouseEnter={() => setAliadosOpen(true)}
+                    onMouseLeave={() => setAliadosOpen(false)}
+                    className="text-white hover:text-white/80 transition-colors duration-300 flex items-center gap-1 text-sm uppercase tracking-wide font-medium"
+                  >
+                    Aliados Comerciales
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  <div
+                    onMouseEnter={() => setAliadosOpen(true)}
+                    onMouseLeave={() => setAliadosOpen(false)}
+                    className={cn(
+                      'absolute top-full left-0 mt-2 w-64 max-h-[420px] overflow-y-auto glass rounded-xl shadow-glass-lg transition-all duration-300',
+                      aliadosOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                    )}
+                  >
+                    <Link
+                      href="/aliados-comerciales"
+                      className="block px-4 py-3 text-primary font-semibold border-b border-primary/10 hover:bg-primary/10 transition-colors"
+                    >
+                      Ver todos los aliados
+                    </Link>
+                    {aliadosSubmenu.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="block px-4 py-2.5 text-text hover:bg-primary/10 hover:text-primary transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* Logo CIRCULAR - MÁS GRANDE y CENTRADO */}
@@ -190,6 +236,27 @@ export default function Navbar() {
             >
               Cotizar Plan
             </Link>
+
+            <div className="space-y-2">
+              <p className="font-semibold text-white px-2">Aliados Comerciales</p>
+              <Link
+                href="/aliados-comerciales"
+                className="block pl-6 pr-2 py-2 text-white/90 hover:text-white transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Ver todos
+              </Link>
+              {aliadosSubmenu.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block pl-6 pr-2 py-1.5 text-white/80 hover:text-white transition-colors text-sm"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
             
             <Link
               href="/contacto"

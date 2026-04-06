@@ -2,11 +2,28 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { allies } from '@/config/allies';
+import { useEffect, useMemo, useState } from 'react';
+import { allies as defaultAllies, type CommercialAlly } from '@/config/allies';
+import { readCommercialAllies } from '@/lib/alliesStorage';
 
 export default function AlliesMarquee() {
-  // Duplicamos los aliados para crear efecto infinito
-  const duplicatedAllies = [...allies, ...allies];
+  const [allies, setAllies] = useState<CommercialAlly[]>(defaultAllies);
+
+  useEffect(() => {
+    setAllies(readCommercialAllies());
+
+    const syncFromStorage = () => setAllies(readCommercialAllies());
+    window.addEventListener('storage', syncFromStorage);
+    return () => window.removeEventListener('storage', syncFromStorage);
+  }, []);
+
+  const featuredAllies = useMemo(
+    () => allies.filter((ally) => ally.featured).slice(0, 18),
+    [allies],
+  );
+
+  const sourceAllies = featuredAllies.length > 0 ? featuredAllies : defaultAllies;
+  const duplicatedAllies = [...sourceAllies, ...sourceAllies];
 
   return (
     <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-x-hidden overflow-y-visible py-10 md:py-12">
@@ -56,12 +73,21 @@ export default function AlliesMarquee() {
                   className="relative z-10 h-[82%] w-[104%] md:h-[84%] md:w-[104%]"
                   style={ally.logoStyle}
                 >
-                  <Image
-                    src={ally.logo}
-                    alt={ally.name}
-                    fill
-                    className="object-contain transition-all duration-500 group-hover:scale-105"
-                  />
+                  {ally.logo.startsWith('data:') ? (
+                    // Permitimos data URL para logos subidos desde el panel admin.
+                    <img
+                      src={ally.logo}
+                      alt={ally.name}
+                      className="h-full w-full object-contain transition-all duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <Image
+                      src={ally.logo}
+                      alt={ally.name}
+                      fill
+                      className="object-contain transition-all duration-500 group-hover:scale-105"
+                    />
+                  )}
                 </div>
               </div>
             </a>
