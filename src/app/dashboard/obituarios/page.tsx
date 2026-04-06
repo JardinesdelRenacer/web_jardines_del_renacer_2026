@@ -6,6 +6,8 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import type { Obituary } from '@/types/obituary';
 
+const OBITUARIO_BACKGROUND_IMAGE = '/images/white-tulips-sunlight.jpg';
+
 export default function DashboardObituariosPage() {
   const [obituarios, setObituarios] = useState<Obituary[]>([
     {
@@ -13,7 +15,7 @@ export default function DashboardObituariosPage() {
       nombre: 'María González Pérez',
       fechaNacimiento: '1950-03-15',
       fechaFallecimiento: '2026-02-04',
-      foto: '/images/obituarios/placeholder.jpg',
+      foto: OBITUARIO_BACKGROUND_IMAGE,
       descripcion: 'Amada madre, abuela y amiga',
       sala: 'Sala A - Principal',
       ubicacionSala: 'Sede Principal, Primer Piso',
@@ -28,7 +30,7 @@ export default function DashboardObituariosPage() {
       nombre: 'José Ramírez López',
       fechaNacimiento: '1945-07-22',
       fechaFallecimiento: '2026-02-03',
-      foto: '/images/obituarios/placeholder.jpg',
+      foto: OBITUARIO_BACKGROUND_IMAGE,
       descripcion: 'Querido esposo y padre',
       sala: 'Sala B - VIP',
       ubicacionSala: 'Sede Norte, Segundo Piso',
@@ -85,7 +87,7 @@ export default function DashboardObituariosPage() {
     if (editingId) {
       setObituarios(obituarios.map(obit => 
         obit.id === editingId 
-          ? { ...formData, id: editingId, foto: '/images/obituarios/placeholder.jpg' }
+          ? { ...formData, id: editingId, foto: OBITUARIO_BACKGROUND_IMAGE }
           : obit
       ));
       setEditingId(null);
@@ -93,7 +95,7 @@ export default function DashboardObituariosPage() {
       const newObituario: Obituary = {
         ...formData,
         id: Date.now().toString(),
-        foto: '/images/obituarios/placeholder.jpg',
+        foto: OBITUARIO_BACKGROUND_IMAGE,
         createdAt: new Date(),
       };
       setObituarios([newObituario, ...obituarios]);

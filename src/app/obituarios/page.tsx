@@ -9,6 +9,8 @@ import ObituaryCard from '@/components/cards/ObituaryCard';
 import FadeIn from '@/components/animations/FadeIn';
 import type { Obituary } from '@/types/obituary';
 
+const OBITUARIO_BACKGROUND_IMAGE = '/images/white-tulips-sunlight.jpg';
+
 // Datos de ejemplo - esto conectarás a tu DB
 const mockObituaries: Obituary[] = [
   {
@@ -16,7 +18,7 @@ const mockObituaries: Obituary[] = [
     nombre: 'María González Pérez',
     fechaNacimiento: '1950-03-15',
     fechaFallecimiento: '2026-01-28',
-    foto: '/images/obituarios/maria.jpg',
+    foto: OBITUARIO_BACKGROUND_IMAGE,
     cedula: '1234567890',
     descripcion: 'Con profundo dolor despedimos a nuestra querida madre, abuela y amiga. Su amor y dedicación permanecerán por siempre en nuestros corazones.',
     sala: 'Sala de la Paz',
@@ -41,7 +43,7 @@ const mockObituaries: Obituary[] = [
     nombre: 'THANIA ROCIO REYES NERI',
     fechaNacimiento: '1989-12-30',
     fechaFallecimiento: '2025-06-11',
-    foto: '/images/obituarios/placeholder.jpg',
+    foto: OBITUARIO_BACKGROUND_IMAGE,
     cedula: '9876543210',
     descripcion: 'En memoria de una vida llena de amor y alegría',
     sala: 'Sala Magna 4',

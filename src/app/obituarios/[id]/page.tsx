@@ -8,13 +8,15 @@ import FadeIn from '@/components/animations/FadeIn';
 import type { Obituary } from '@/types/obituary';
 import Image from 'next/image';
 
+const OBITUARIO_BACKGROUND_IMAGE = '/images/white-tulips-sunlight.jpg';
+
 // Mock data - reemplazar con fetch real
 const mockObituario: Obituary = {
   id: '1',
   nombre: 'THANIA ROCIO REYES NERI',
   fechaNacimiento: '1989-12-30',
   fechaFallecimiento: '2025-06-11',
-  foto: '/images/placeholder-obituary.jpg',
+  foto: OBITUARIO_BACKGROUND_IMAGE,
   cedula: '1234567890',
   sala: 'Sala Magna 4',
   ubicacionSala: 'San Pedro Garza García - Agencia Capilla Martínez',
@@ -108,7 +110,7 @@ export default function ObituarioDetallePage() {
           {/* Encabezado con foto */}
           <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden mb-8 shadow-2xl">
             <Image
-              src={obituario.foto}
+              src={OBITUARIO_BACKGROUND_IMAGE}
               alt={obituario.nombre}
               fill
               className="object-cover"

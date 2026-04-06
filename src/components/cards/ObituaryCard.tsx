@@ -11,6 +11,8 @@ interface ObituaryCardProps {
   index?: number;
 }
 
+const OBITUARIO_BACKGROUND_IMAGE = '/images/white-tulips-sunlight.jpg';
+
 export default function ObituaryCard({ obituary, index = 0 }: ObituaryCardProps) {
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString('es-ES', {
@@ -36,7 +38,7 @@ export default function ObituaryCard({ obituary, index = 0 }: ObituaryCardProps)
       <Link href={`/obituarios/${obituary.id}`}>
         <div className="relative h-80 w-full">
           <Image
-            src={obituary.foto || obituary.fotoPrincipal || '/images/obituarios/placeholder.jpg'}
+            src={OBITUARIO_BACKGROUND_IMAGE}
             alt={obituary.nombre}
             fill
             className="object-cover"
