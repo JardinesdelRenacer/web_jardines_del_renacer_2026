@@ -6,10 +6,18 @@ import Input from '@/components/ui/Input';
 import Textarea from '@/components/ui/Textarea';
 import SectionTitle from '@/components/ui/SectionTitle';
 import {
+  APPLICATION_STATUS_OPTIONS,
+  type JobApplication,
+} from '@/config/candidates';
+import {
   VACANCY_DEPARTMENTS,
   createEmptyVacancy,
   type JobVacancy,
 } from '@/config/vacancies';
+import {
+  readCandidateApplications,
+  writeCandidateApplications,
+} from '@/lib/candidateStorage';
 import {
   readJobVacancies,
   removeJobVacancy,
@@ -57,6 +65,7 @@ function createInitialDraft(): VacancyDraft {
 
 export default function VacantesAdminPanel() {
   const [vacancies, setVacancies] = useState<JobVacancy[]>([]);
+  const [applications, setApplications] = useState<JobApplication[]>([]);
   const [draft, setDraft] = useState<VacancyDraft>(createInitialDraft());
   const [editingId, setEditingId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState('');
@@ -64,6 +73,19 @@ export default function VacantesAdminPanel() {
 
   useEffect(() => {
     setVacancies(readJobVacancies());
+    setApplications(readCandidateApplications());
+
+    const syncFromStorage = () => {
+      setVacancies(readJobVacancies());
+      setApplications(readCandidateApplications());
+    };
+
+    window.addEventListener('storage', syncFromStorage);
+    window.addEventListener('candidate-storage-updated', syncFromStorage);
+    return () => {
+      window.removeEventListener('storage', syncFromStorage);
+      window.removeEventListener('candidate-storage-updated', syncFromStorage);
+    };
   }, []);
 
   const filteredVacancies = useMemo(() => {
@@ -158,6 +180,18 @@ export default function VacantesAdminPanel() {
       resetDraft();
     }
     setFeedback('Vacante eliminada correctamente.');
+  };
+
+  const handleUpdateApplicationStatus = (
+    applicationId: string,
+    status: JobApplication['status'],
+  ) => {
+    const next = applications.map((application) =>
+      application.id === applicationId ? { ...application, status } : application,
+    );
+    setApplications(next);
+    writeCandidateApplications(next);
+    setFeedback('Estado de postulacion actualizado.');
   };
 
   return (
@@ -342,9 +376,14 @@ export default function VacantesAdminPanel() {
         <section className="glass rounded-3xl border border-primary/15 p-6 md:p-7">
           <div className="flex items-center justify-between gap-3 mb-4">
             <h3 className="text-xl font-display text-text">Vacantes cargadas</h3>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary">
-              {vacancies.length} registros
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary">
+                {vacancies.length} vacantes
+              </span>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full border border-green-500/25 bg-green-500/10 text-green-700">
+                {applications.length} postulaciones
+              </span>
+            </div>
           </div>
 
           <Input
@@ -398,6 +437,92 @@ export default function VacantesAdminPanel() {
                 </div>
               </article>
             ))}
+          </div>
+
+          <div className="mt-6 pt-5 border-t border-primary/10">
+            <h4 className="text-lg font-display text-text mb-3">Postulaciones recibidas</h4>
+            {applications.length === 0 ? (
+              <p className="text-sm text-textLight">
+                Aun no hay postulaciones registradas.
+              </p>
+            ) : (
+              <div className="space-y-3 max-h-[280px] overflow-y-auto pr-1 custom-scrollbar">
+                {applications.map((application) => (
+                  <article
+                    key={application.id}
+                    className="rounded-2xl border border-primary/15 bg-white/45 p-4"
+                  >
+                    <p className="font-semibold text-text line-clamp-1">
+                      {application.vacancyTitle}
+                    </p>
+                    <p className="text-sm text-textLight mt-1">
+                      {application.candidateName || 'Postulante'} - {application.candidateEmail}
+                    </p>
+                    <p className="text-xs text-textLight mt-1">
+                      Codigo: <span className="font-mono text-text">{application.trackingCode}</span>
+                    </p>
+                    <p className="text-xs text-textLight mt-1">
+                      Documento: {application.candidateDocument || 'No registrado'}
+                    </p>
+                    {application.candidatePhone && (
+                      <p className="text-xs text-textLight mt-1">
+                        Tel: {application.candidatePhone}
+                      </p>
+                    )}
+                    {application.resumeFileName && (
+                      <p className="text-xs text-textLight mt-1">
+                        HV: {application.resumeFileName}
+                      </p>
+                    )}
+                    {application.resumeFileData ? (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <a
+                          href={application.resumeFileData}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-primary/25 text-primary hover:bg-primary/10 transition-colors"
+                        >
+                          Ver CV
+                        </a>
+                        <a
+                          href={application.resumeFileData}
+                          download={application.resumeFileName || `cv-${application.candidateDocument || 'postulante'}`}
+                          className="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-primary/25 text-primary hover:bg-primary/10 transition-colors"
+                        >
+                          Descargar CV
+                        </a>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-amber-700 mt-2">
+                        CV no disponible en este registro.
+                      </p>
+                    )}
+                    <div className="mt-2">
+                      <label className="block text-xs text-textLight mb-1">Estado</label>
+                      <select
+                        value={application.status}
+                        onChange={(event) =>
+                          handleUpdateApplicationStatus(
+                            application.id,
+                            event.target.value as JobApplication['status'],
+                          )
+                        }
+                        className="w-full px-3 py-2 rounded-lg border border-primary/20 bg-white text-sm text-text focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      >
+                        {APPLICATION_STATUS_OPTIONS.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <p className="text-xs text-textLight mt-1">
+                      Fecha: {new Date(application.appliedAt).toLocaleString('es-CO')}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       </div>

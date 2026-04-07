@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Container from '@/components/ui/Container';
 import SectionTitle from '@/components/ui/SectionTitle';
@@ -20,7 +20,7 @@ const ALL_CATEGORIES = 'todos';
 const ALL_SUBCATEGORIES = 'todas';
 const ALL_DEPARTMENTS = 'todos';
 
-export default function AliadosComercialesPage() {
+function AliadosComercialesPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [allies, setAllies] = useState<CommercialAlly[]>([]);
@@ -317,5 +317,23 @@ export default function AliadosComercialesPage() {
         </Container>
       </section>
     </>
+  );
+}
+
+export default function AliadosComercialesPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="py-20">
+          <Container>
+            <div className="glass rounded-3xl border border-primary/15 p-8 text-center">
+              <p className="text-textLight">Cargando aliados comerciales...</p>
+            </div>
+          </Container>
+        </section>
+      }
+    >
+      <AliadosComercialesPageContent />
+    </Suspense>
   );
 }

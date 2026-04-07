@@ -6,7 +6,6 @@ import Container from '@/components/ui/Container';
 import FadeIn from '@/components/animations/FadeIn';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { buildWhatsAppUrl } from '@/config/contact';
 import type { JobVacancy } from '@/config/vacancies';
 import { readJobVacancies } from '@/lib/vacanciesStorage';
 
@@ -20,10 +19,6 @@ function formatPublishedDate(date: string) {
     month: 'short',
     year: 'numeric',
   }).format(new Date(date));
-}
-
-function buildJobApplyMessage(title: string) {
-  return `Hola, quiero postularme a la vacante "${title}" en Jardines del Renacer.`;
 }
 
 export default function TrabajaConNosotrosPage() {
@@ -110,15 +105,9 @@ export default function TrabajaConNosotrosPage() {
                   <a href="#vacantes-disponibles">
                     <Button variant="primary">Ver vacantes disponibles</Button>
                   </a>
-                  <a
-                    href={buildWhatsAppUrl(
-                      'Hola, quiero enviar mi hoja de vida para trabajar en Jardines del Renacer.',
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <Link href="/servicios/trabaja-con-nosotros/postulante">
                     <Button variant="secondary">Enviar hoja de vida</Button>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </FadeIn>
@@ -223,7 +212,7 @@ export default function TrabajaConNosotrosPage() {
               Mostrando <span className="font-semibold text-text">{filteredVacancies.length}</span>{' '}
               vacantes disponibles
             </p>
-            <Link href="/contacto">
+            <Link href="/servicios/trabaja-con-nosotros/postulante">
               <Button variant="ghost">Enviar hoja de vida</Button>
             </Link>
           </div>
@@ -234,7 +223,7 @@ export default function TrabajaConNosotrosPage() {
               <p className="text-textLight mb-6">
                 Ajusta los filtros o envia tu hoja de vida para futuras convocatorias.
               </p>
-              <Link href="/contacto">
+              <Link href="/servicios/trabaja-con-nosotros/postulante">
                 <Button variant="primary">Enviar hoja de vida</Button>
               </Link>
             </div>
@@ -318,18 +307,16 @@ export default function TrabajaConNosotrosPage() {
                       </p>
 
                       <div className="flex gap-2 flex-wrap">
-                        <a
-                          href={buildWhatsAppUrl(buildJobApplyMessage(vacancy.title))}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <Link
+                          href={`/servicios/trabaja-con-nosotros/postulante?vacante=${vacancy.id}`}
                         >
                           <Button variant="primary" size="sm">
-                            Postularme
+                            Aplicar aqui
                           </Button>
-                        </a>
-                        <Link href="/contacto">
+                        </Link>
+                        <Link href="/servicios/trabaja-con-nosotros/postulante">
                           <Button variant="secondary" size="sm">
-                            Enviar formulario
+                            Mi perfil
                           </Button>
                         </Link>
                       </div>
@@ -355,8 +342,8 @@ export default function TrabajaConNosotrosPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Link href="/contacto">
-                    <Button variant="primary">Enviar formulario</Button>
+                  <Link href="/servicios/trabaja-con-nosotros/postulante">
+                    <Button variant="primary">Crear/editar perfil</Button>
                   </Link>
                   <Link href="/login/admin-vacantes">
                     <Button variant="secondary">Admin vacantes</Button>
