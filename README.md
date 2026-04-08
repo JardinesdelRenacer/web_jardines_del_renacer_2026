@@ -161,7 +161,7 @@ npm start
 
 **Juan Monsalve**  
 Plataforma Digital Jardines del Renacer  
-Versión 1.0.0 - 2026
+Versión 4.0.0 - 2026
 
 ## Licencia
 
