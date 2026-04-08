@@ -27,8 +27,12 @@ DATABASE_URL="tu_conexion_a_base_de_datos"
 NEXTAUTH_SECRET="tu_secret_key"
 NEXTAUTH_URL="http://localhost:3000"
 
-# Pasarela de pagos (ejemplo)
-PAYMENT_GATEWAY_KEY="tu_api_key"
+# Pasarela de pagos Wompi (Florería)
+NEXT_PUBLIC_WOMPI_PUBLIC_KEY="pub_test_o_pub_prod"
+WOMPI_PRIVATE_KEY="prv_test_o_prv_prod"
+WOMPI_INTEGRITY_SECRET="tu_integrity_secret"
+# Opcional para forzar endpoint
+# WOMPI_API_BASE_URL="https://sandbox.wompi.co/v1"
 
 # Matterport (Recorrido 360)
 MATTERPORT_SDK_KEY="tu_matterport_key"

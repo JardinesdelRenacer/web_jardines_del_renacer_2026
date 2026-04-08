@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -8,7 +8,13 @@ import SectionTitle from '@/components/ui/SectionTitle';
 import FadeIn from '@/components/animations/FadeIn';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { CONTACT_INFO, buildWhatsAppUrl } from '@/config/contact';
+import { SEDES } from '@/data/sedes';
+import {
+  FLOWER_ORDER_STATUS_STEPS,
+  type FlowerOrderRecord,
+  readFlowerOrders,
+} from '@/lib/flowerOrdersStorage';
+import { savePendingFlowerPayment } from '@/lib/flowerPaymentStorage';
 
 interface ArregloFloral {
   id: string;
@@ -119,6 +125,12 @@ const filterIconPaths: Record<CategoriaFiltro, string> = {
   ...categoryIconPaths,
 };
 
+function createFlowerOrderCode() {
+  const stamp = Date.now().toString(36).toUpperCase();
+  const suffix = Math.floor(Math.random() * 90 + 10);
+  return `FLR-${stamp}${suffix}`;
+}
+
 export default function FloreriaPage() {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<CategoriaFiltro>('todas');
   const [arregloSeleccionado, setArregloSeleccionado] = useState<ArregloFloral | null>(null);
@@ -130,10 +142,100 @@ export default function FloreriaPage() {
     telefono: '',
     email: '',
     destinatario: '',
+    departamento: '',
+    ciudad: '',
+    sedeId: '',
     direccion: '',
     mensaje: '',
     fechaEntrega: '',
   });
+  const [orders, setOrders] = useState<FlowerOrderRecord[]>([]);
+  const [trackingCode, setTrackingCode] = useState('');
+  const [trackingPhone, setTrackingPhone] = useState('');
+  const [trackingResult, setTrackingResult] = useState<FlowerOrderRecord | null>(null);
+  const [trackingFeedback, setTrackingFeedback] = useState('');
+  const [isRedirectingToPayment, setIsRedirectingToPayment] = useState(false);
+
+  useEffect(() => {
+    setOrders(readFlowerOrders());
+  }, []);
+
+  const departamentosDisponibles = useMemo(
+    () =>
+      Array.from(new Set(SEDES.map((sede) => sede.departamento))).sort((a, b) =>
+        a.localeCompare(b, 'es'),
+      ),
+    [],
+  );
+
+  const ciudadesDisponibles = useMemo(() => {
+    if (!formData.departamento) {
+      return [] as string[];
+    }
+    return Array.from(
+      new Set(
+        SEDES.filter((sede) => sede.departamento === formData.departamento).map(
+          (sede) => sede.ciudad,
+        ),
+      ),
+    ).sort((a, b) => a.localeCompare(b, 'es'));
+  }, [formData.departamento]);
+
+  const sedesDisponibles = useMemo(() => {
+    if (!formData.departamento || !formData.ciudad) {
+      return [];
+    }
+    return SEDES.filter(
+      (sede) =>
+        sede.departamento === formData.departamento && sede.ciudad === formData.ciudad,
+    ).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+  }, [formData.departamento, formData.ciudad]);
+
+  const selectedSede = useMemo(
+    () => SEDES.find((sede) => sede.id === formData.sedeId) ?? null,
+    [formData.sedeId],
+  );
+
+  const handleDepartamentoChange = (departamento: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      departamento,
+      ciudad: '',
+      sedeId: '',
+      direccion: '',
+    }));
+  };
+
+  const handleCiudadChange = (ciudad: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      ciudad,
+      sedeId: '',
+      direccion: '',
+    }));
+  };
+
+  const handleSedeChange = (sedeId: string) => {
+    const nextSede = SEDES.find((sede) => sede.id === sedeId) ?? null;
+    setFormData((prev) => ({
+      ...prev,
+      sedeId,
+      direccion: nextSede?.direccion ?? '',
+    }));
+  };
+
+  const buildDeliveryAddress = () => {
+    const sedeName = selectedSede ? `Sede ${selectedSede.nombre}` : '';
+    const sedeDireccion = formData.direccion.trim() || 'Dirección por confirmar';
+    return [
+      sedeName,
+      sedeDireccion,
+      formData.ciudad.trim(),
+      formData.departamento.trim(),
+    ]
+      .filter(Boolean)
+      .join(', ');
+  };
 
   const categorias: Array<{ id: CategoriaFiltro; nombre: string; iconPath: string }> = [
     { id: 'todas', nombre: 'Todos', iconPath: filterIconPaths.todas },
@@ -166,33 +268,221 @@ export default function FloreriaPage() {
     return carrito.reduce((sum, item) => sum + item.precio, 0);
   };
 
+  const buildOrderRecord = (
+    items: Array<{ id: string; nombre: string; precio: number; cantidad: number }>,
+    source: 'single' | 'cart',
+  ): FlowerOrderRecord => {
+    const now = new Date().toISOString();
+    const total = items.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
+    const orderCode = createFlowerOrderCode();
+    return {
+      id: `order-${Date.now().toString(36)}`,
+      orderCode,
+      status: 'Creada',
+      createdAt: now,
+      customerName: formData.nombre.trim(),
+      customerPhone: formData.telefono.trim(),
+      customerEmail: formData.email.trim(),
+      recipientName: formData.destinatario.trim(),
+      deliveryAddress: buildDeliveryAddress(),
+      deliveryDate: formData.fechaEntrega,
+      cardMessage: formData.mensaje.trim(),
+      items,
+      total,
+      source,
+      events: [
+        {
+          status: 'Creada',
+          timestamp: now,
+          note: 'Pedido creado desde la web. Pendiente de pago.',
+        },
+      ],
+      paymentStatus: 'pendiente',
+      paymentProvider: 'wompi',
+      paymentReference: orderCode,
+      paymentTransactionId: '',
+      paymentMethodType: '',
+      paidAt: '',
+    };
+  };
+
+  const createExpirationTimeIso = () => {
+    const expiration = new Date(Date.now() + 1000 * 60 * 45);
+    return expiration.toISOString();
+  };
+
+  const startPaymentCheckout = async (order: FlowerOrderRecord) => {
+    if (!order.customerEmail) {
+      setTrackingFeedback('Debes registrar un correo para continuar al pago.');
+      return;
+    }
+
+    setIsRedirectingToPayment(true);
+    setTrackingFeedback('Preparando pago seguro...');
+
+    try {
+      const response = await fetch('/api/floreria/pagos/crear', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reference: order.orderCode,
+          amountInCents: Math.round(order.total * 100),
+          customerEmail: order.customerEmail,
+          customerName: order.customerName,
+          customerPhone: order.customerPhone,
+          shippingAddressLine1: order.deliveryAddress,
+          shippingAddressCity: formData.ciudad,
+          shippingAddressPhone: order.customerPhone,
+          expirationTime: createExpirationTimeIso(),
+        }),
+      });
+
+      const payload = (await response.json()) as {
+        ok: boolean;
+        checkoutUrl?: string;
+        message?: string;
+      };
+
+      if (!response.ok || !payload.ok || !payload.checkoutUrl) {
+        setIsRedirectingToPayment(false);
+        setTrackingFeedback(
+          payload.message || 'No pudimos iniciar el pago. Intenta nuevamente.',
+        );
+        return;
+      }
+
+      savePendingFlowerPayment({
+        orderCode: order.orderCode,
+        createdAt: new Date().toISOString(),
+        source: order.source,
+        order,
+      });
+
+      setTrackingCode(order.orderCode);
+      setTrackingPhone(order.customerPhone);
+      setTrackingFeedback(`Pedido ${order.orderCode} creado. Te redirigimos al pago seguro...`);
+      setShowModal(false);
+      setShowCarrito(false);
+      window.location.href = payload.checkoutUrl;
+    } catch (error) {
+      console.error('Error iniciando pago de florería:', error);
+      setIsRedirectingToPayment(false);
+      setTrackingFeedback('Ocurrió un error al conectar la pasarela de pago.');
+    }
+  };
+
   const handleComprar = (arreglo: ArregloFloral) => {
     setArregloSeleccionado(arreglo);
     setShowModal(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Crear mensaje para WhatsApp
-    const mensaje = `*PEDIDO DE FLORES*\n\n` +
-      `*Arreglo:* ${arregloSeleccionado?.nombre}\n` +
-      `*Precio:* $${arregloSeleccionado?.precio.toLocaleString('es-CO')}\n\n` +
-      `*DATOS DEL REMITENTE:*\n` +
-      `Nombre: ${formData.nombre}\n` +
-      `Teléfono: ${formData.telefono}\n` +
-      `Email: ${formData.email}\n\n` +
-      `*DATOS DE ENTREGA:*\n` +
-      `Destinatario: ${formData.destinatario}\n` +
-      `Dirección: ${formData.direccion}\n` +
-      `Fecha entrega: ${formData.fechaEntrega}\n\n` +
-      `*Mensaje en tarjeta:*\n${formData.mensaje}`;
 
-    const url = buildWhatsAppUrl(mensaje);
-    
-    window.open(url, '_blank');
-    setShowModal(false);
-    resetForm();
+    if (!arregloSeleccionado) {
+      setTrackingFeedback('Selecciona un arreglo floral antes de enviar el pedido.');
+      return;
+    }
+
+    if (
+      !formData.nombre.trim() ||
+      !formData.telefono.trim() ||
+      !formData.email.trim() ||
+      !formData.destinatario.trim() ||
+      !formData.departamento ||
+      !formData.ciudad ||
+      !formData.sedeId ||
+      !formData.fechaEntrega
+    ) {
+      setTrackingFeedback(
+        'Completa nombre, teléfono, correo, departamento, ciudad, sede y fecha antes de pagar.',
+      );
+      return;
+    }
+
+    const order = buildOrderRecord(
+      [
+        {
+          id: arregloSeleccionado.id,
+          nombre: arregloSeleccionado.nombre,
+          precio: arregloSeleccionado.precio,
+          cantidad: 1,
+        },
+      ],
+      'single',
+    );
+    await startPaymentCheckout(order);
+  };
+
+  const handleCartCheckout = async () => {
+    if (carrito.length === 0) {
+      setTrackingFeedback('El carrito está vacío.');
+      return;
+    }
+
+    if (
+      !formData.nombre.trim() ||
+      !formData.telefono.trim() ||
+      !formData.email.trim() ||
+      !formData.destinatario.trim() ||
+      !formData.departamento ||
+      !formData.ciudad ||
+      !formData.sedeId ||
+      !formData.fechaEntrega
+    ) {
+      setTrackingFeedback(
+        'Completa nombre, teléfono, correo, departamento, ciudad, sede y fecha para pagar el carrito.',
+      );
+      return;
+    }
+
+    const itemsMap = new Map<string, { id: string; nombre: string; precio: number; cantidad: number }>();
+    carrito.forEach((item) => {
+      const current = itemsMap.get(item.id);
+      if (current) {
+        current.cantidad += 1;
+      } else {
+        itemsMap.set(item.id, {
+          id: item.id,
+          nombre: item.nombre,
+          precio: item.precio,
+          cantidad: 1,
+        });
+      }
+    });
+
+    const items = Array.from(itemsMap.values());
+    const order = buildOrderRecord(items, 'cart');
+    await startPaymentCheckout(order);
+  };
+
+  const handleTrackOrder = () => {
+    const normalizedCode = trackingCode.trim().toUpperCase();
+    const normalizedPhone = trackingPhone.replace(/\D/g, '');
+
+    if (!normalizedCode) {
+      setTrackingFeedback('Ingresa el código de pedido para consultar.');
+      setTrackingResult(null);
+      return;
+    }
+
+    const found = orders.find((order) => {
+      const orderPhone = order.customerPhone.replace(/\D/g, '');
+      const sameCode = order.orderCode === normalizedCode;
+      const samePhone = !normalizedPhone || orderPhone === normalizedPhone;
+      return sameCode && samePhone;
+    });
+
+    if (!found) {
+      setTrackingFeedback('No encontramos un pedido con esos datos.');
+      setTrackingResult(null);
+      return;
+    }
+
+    setTrackingResult(found);
+    setTrackingFeedback(`Pedido ${found.orderCode} encontrado.`);
   };
 
   const resetForm = () => {
@@ -201,11 +491,85 @@ export default function FloreriaPage() {
       telefono: '',
       email: '',
       destinatario: '',
+      departamento: '',
+      ciudad: '',
+      sedeId: '',
       direccion: '',
       mensaje: '',
       fechaEntrega: '',
     });
   };
+
+  const renderSedeFields = (required: boolean) => (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <label className="block text-sm font-medium text-text mb-2">
+            Departamento {required ? '*' : ''}
+          </label>
+          <select
+            value={formData.departamento}
+            onChange={(e) => handleDepartamentoChange(e.target.value)}
+            required={required}
+            className="w-full px-4 py-3 rounded-xl glass border border-border text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+          >
+            <option value="">Selecciona un departamento</option>
+            {departamentosDisponibles.map((departamento) => (
+              <option key={departamento} value={departamento}>
+                {departamento}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-text mb-2">
+            Ciudad {required ? '*' : ''}
+          </label>
+          <select
+            value={formData.ciudad}
+            onChange={(e) => handleCiudadChange(e.target.value)}
+            required={required}
+            disabled={!formData.departamento}
+            className="w-full px-4 py-3 rounded-xl glass border border-border text-text disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+          >
+            <option value="">Selecciona una ciudad</option>
+            {ciudadesDisponibles.map((ciudad) => (
+              <option key={ciudad} value={ciudad}>
+                {ciudad}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-text mb-2">
+          Sede {required ? '*' : ''}
+        </label>
+        <select
+          value={formData.sedeId}
+          onChange={(e) => handleSedeChange(e.target.value)}
+          required={required}
+          disabled={!formData.ciudad}
+          className="w-full px-4 py-3 rounded-xl glass border border-border text-text disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+        >
+          <option value="">Selecciona una sede</option>
+          {sedesDisponibles.map((sede) => (
+            <option key={sede.id} value={sede.id}>
+              {sede.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <Input
+        type="text"
+        placeholder="Dirección de sede"
+        value={formData.direccion}
+        readOnly
+      />
+    </>
+  );
 
   return (
     <div className="min-h-screen pt-24 pb-12 bg-gradient-to-br from-background via-primary/5 to-background">
@@ -224,6 +588,12 @@ export default function FloreriaPage() {
               Entregamos directamente en nuestras salas de velación o a domicilio.
             </p>
           </div>
+
+          {trackingFeedback && (
+            <div className="max-w-4xl mx-auto mb-8 rounded-2xl border border-primary/20 bg-primary/10 px-5 py-3 text-sm text-primary">
+              {trackingFeedback}
+            </div>
+          )}
 
           {/* Filtros de Categoría */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -373,6 +743,88 @@ export default function FloreriaPage() {
               </div>
             </FadeIn>
           </div>
+
+          <div className="mt-16 glass rounded-3xl p-6 md:p-8 border border-primary/20">
+            <h3 className="text-2xl font-display text-text mb-2">Consulta tu pedido</h3>
+            <p className="text-textLight mb-5">
+              Ingresa el código de orden (y opcionalmente tu teléfono) para ver estado y trazabilidad.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3">
+              <Input
+                label="Código de pedido"
+                value={trackingCode}
+                onChange={(e) => setTrackingCode(e.target.value.toUpperCase())}
+                placeholder="Ej: FLR-ABC12345"
+              />
+              <Input
+                label="Teléfono (opcional)"
+                value={trackingPhone}
+                onChange={(e) => setTrackingPhone(e.target.value)}
+                placeholder="3001234567"
+              />
+              <Button variant="primary" className="h-fit self-end" onClick={handleTrackOrder}>
+                Consultar
+              </Button>
+            </div>
+
+            {trackingResult && (
+              <div className="mt-6 rounded-2xl border border-primary/15 bg-white/40 p-5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-text font-semibold">
+                    Pedido: <span className="font-mono">{trackingResult.orderCode}</span>
+                  </p>
+                  <span className="text-xs px-2.5 py-1 rounded-full border border-primary/25 bg-primary/10 text-primary font-semibold">
+                    {trackingResult.status}
+                  </span>
+                </div>
+                <p className="text-sm text-textLight mt-2">
+                  Destinatario: {trackingResult.recipientName} | Entrega: {trackingResult.deliveryDate}
+                </p>
+                <p className="text-sm text-textLight mt-1">
+                  Total: ${trackingResult.total.toLocaleString('es-CO')}
+                </p>
+                <p className="text-sm text-textLight mt-1">
+                  Pago:{' '}
+                  {trackingResult.paymentStatus === 'aprobado'
+                    ? 'Aprobado'
+                    : trackingResult.paymentStatus === 'pendiente'
+                      ? 'Pendiente'
+                      : trackingResult.paymentStatus === 'rechazado'
+                        ? 'Rechazado'
+                        : trackingResult.paymentStatus === 'error'
+                          ? 'Con error'
+                          : 'No registrado'}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {FLOWER_ORDER_STATUS_STEPS.map((step) => {
+                    const currentIndex = FLOWER_ORDER_STATUS_STEPS.indexOf(trackingResult.status);
+                    const stepIndex = FLOWER_ORDER_STATUS_STEPS.indexOf(step);
+                    const completed = stepIndex <= currentIndex;
+                    return (
+                      <span
+                        key={step}
+                        className={`text-xs px-2.5 py-1 rounded-full border ${
+                          completed
+                            ? 'border-primary/30 bg-primary/10 text-primary'
+                            : 'border-border text-textLight'
+                        }`}
+                      >
+                        {step}
+                      </span>
+                    );
+                  })}
+                </div>
+                <div className="mt-4 space-y-2">
+                  {trackingResult.events.map((event, index) => (
+                    <div key={`${event.timestamp}-${index}`} className="text-xs text-textLight">
+                      {new Date(event.timestamp).toLocaleString('es-CO')} - {event.status}: {event.note}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </FadeIn>
       </Container>
 
@@ -481,23 +933,62 @@ export default function FloreriaPage() {
                   </div>
                 </div>
 
+                <div className="glass rounded-xl p-4 border border-primary/20 bg-primary/5 mb-6 space-y-3">
+                  <h3 className="font-semibold text-text">Datos para pedido trazable</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <Input
+                      type="text"
+                      placeholder="Tu nombre *"
+                      value={formData.nombre}
+                      onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                    />
+                    <Input
+                      type="tel"
+                      placeholder="Tu teléfono *"
+                      value={formData.telefono}
+                      onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                    />
+                  </div>
+                  <Input
+                    type="email"
+                    placeholder="Tu email *"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Nombre del destinatario *"
+                    value={formData.destinatario}
+                    onChange={(e) => setFormData({ ...formData, destinatario: e.target.value })}
+                  />
+                  {renderSedeFields(true)}
+                  <Input
+                    type="date"
+                    value={formData.fechaEntrega}
+                    onChange={(e) => setFormData({ ...formData, fechaEntrega: e.target.value })}
+                  />
+                  <textarea
+                    placeholder="Mensaje en tarjeta (opcional)"
+                    value={formData.mensaje}
+                    onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
+                    maxLength={200}
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-lg glass border border-border text-text resize-none focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  />
+                </div>
+
                 {/* Botones de acción */}
                 <div className="flex gap-3">
                   <button
-                    onClick={() => {
-                      const mensaje = `*PEDIDO DE FLORES - CARRITO*\n\n` +
-                        carrito.map((item, i) => `${i + 1}. ${item.nombre} - $${item.precio.toLocaleString('es-CO')}`).join('\n') +
-                        `\n\n*TOTAL: $${calcularTotal().toLocaleString('es-CO')}*\n\n` +
-                        `Por favor, necesito información para completar mi pedido.`;
-                      window.open(buildWhatsAppUrl(mensaje), '_blank');
-                    }}
+                    onClick={handleCartCheckout}
+                    disabled={isRedirectingToPayment}
                     className="flex-1 h-14 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white rounded-xl font-semibold transition-all hover:scale-105 flex items-center justify-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                       <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                     </svg>
-                    Comprar Todo por WhatsApp
+                    {isRedirectingToPayment ? 'Redirigiendo a pago...' : 'Pagar y confirmar pedido'}
                   </button>
                   <button
                     onClick={() => setCarrito([])}
@@ -566,10 +1057,11 @@ export default function FloreriaPage() {
                 </div>
                 <Input
                   type="email"
-                  placeholder="Tu email"
+                  placeholder="Tu email *"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="mt-3"
+                  required
                 />
               </div>
 
@@ -583,13 +1075,7 @@ export default function FloreriaPage() {
                     onChange={(e) => setFormData({ ...formData, destinatario: e.target.value })}
                     required
                   />
-                  <Input
-                    type="text"
-                    placeholder="Dirección de entrega o sala de velación *"
-                    value={formData.direccion}
-                    onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
-                    required
-                  />
+                  {renderSedeFields(true)}
                   <Input
                     type="date"
                     placeholder="Fecha de entrega *"
@@ -618,17 +1104,18 @@ export default function FloreriaPage() {
               <Button
                 type="submit"
                 variant="primary"
+                disabled={isRedirectingToPayment}
                 className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600"
               >
                 <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                 </svg>
-                Enviar Pedido por WhatsApp
+                {isRedirectingToPayment ? 'Redirigiendo a pago...' : 'Pagar y confirmar pedido'}
               </Button>
 
               <p className="text-xs text-textLight text-center">
-                Al hacer clic, se abrirá WhatsApp en la línea corporativa {CONTACT_INFO.whatsappDisplay} con tu pedido listo para enviar
+                Al hacer clic, te llevaremos a la pasarela segura. Cuando el pago sea aprobado, podrás enviar la solicitud final por WhatsApp.
               </p>
             </form>
           </motion.div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import Container from '@/components/ui/Container';
@@ -51,7 +51,7 @@ function calculateProfileCompletion(profile: CandidateProfile) {
   return Math.round((done / checks.length) * 100);
 }
 
-export default function PostulantePage() {
+function PostulantePageContent() {
   const searchParams = useSearchParams();
   const requestedVacancyId = searchParams.get('vacante') ?? '';
 
@@ -574,5 +574,23 @@ export default function PostulantePage() {
         </Container>
       </section>
     </>
+  );
+}
+
+export default function PostulantePage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="py-24">
+          <Container maxWidth="2xl">
+            <div className="glass rounded-3xl border border-primary/15 p-8 text-center">
+              <p className="text-textLight">Cargando modulo de postulaciones...</p>
+            </div>
+          </Container>
+        </section>
+      }
+    >
+      <PostulantePageContent />
+    </Suspense>
   );
 }
