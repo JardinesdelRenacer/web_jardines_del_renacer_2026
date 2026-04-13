@@ -90,7 +90,7 @@ export default function HomePage() {
               },
               {
                 title: 'Siempre Contigo',
-                description: 'Transmision en vivo 360 para acompanar la velacion desde cualquier lugar',
+                description: 'Transmisión en vivo 360 para acompanar la velacion desde cualquier lugar',
                 iconPath: 'M12 21s-7-4.35-9.5-8.25C.89 10.22 1.29 6.5 4.11 4.68c2.02-1.3 4.68-.86 6.38 1.03 1.7-1.89 4.36-2.33 6.38-1.03 2.82 1.82 3.22 5.54 1.61 8.07C19 16.65 12 21 12 21z',
                 link: '/siempre-contigo',
               },

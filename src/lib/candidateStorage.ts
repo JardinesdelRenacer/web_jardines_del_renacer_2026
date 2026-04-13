@@ -12,6 +12,8 @@ function normalizeProfile(record: Partial<CandidateProfile>): CandidateProfile {
     documentNumber: record.documentNumber ?? '',
     fullName: record.fullName ?? '',
     email: record.email ?? '',
+    passwordHash: record.passwordHash ?? '',
+    passwordUpdatedAt: record.passwordUpdatedAt ?? '',
     phone: record.phone ?? '',
     department: record.department ?? '',
     city: record.city ?? '',

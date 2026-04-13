@@ -22,6 +22,7 @@ import {
   writeCandidateApplications,
   writeCandidateProfile,
 } from '@/lib/candidateStorage';
+import { withCandidatePassword } from '@/lib/candidateAuth';
 import { readJobVacancies } from '@/lib/vacanciesStorage';
 
 const MAX_RESUME_SIZE = 5 * 1024 * 1024;
@@ -41,6 +42,7 @@ function calculateProfileCompletion(profile: CandidateProfile) {
     profile.documentNumber,
     profile.fullName,
     profile.email,
+    profile.passwordHash,
     profile.phone,
     profile.department,
     profile.city,
@@ -137,6 +139,8 @@ export default function PostulantePage() {
   const [feedback, setFeedback] = useState('');
   const [saving, setSaving] = useState(false);
   const [applying, setApplying] = useState(false);
+  const [accessPassword, setAccessPassword] = useState('');
+  const [confirmAccessPassword, setConfirmAccessPassword] = useState('');
   const [trackingDocument, setTrackingDocument] = useState('');
   const [trackingEmail, setTrackingEmail] = useState('');
 
@@ -222,7 +226,7 @@ export default function PostulantePage() {
     reader.readAsDataURL(file);
   };
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
     setSaving(true);
     setFeedback('');
 
@@ -239,15 +243,52 @@ export default function PostulantePage() {
       return;
     }
 
-    const nextProfile: CandidateProfile = {
+    const wantsPasswordUpdate =
+      accessPassword.trim().length > 0 || confirmAccessPassword.trim().length > 0;
+    const hasConfiguredPassword = profile.passwordHash.trim().length > 0;
+
+    if (!hasConfiguredPassword && !wantsPasswordUpdate) {
+      setFeedback('Debes crear una contrasena para ingresar a tu perfil.');
+      setSaving(false);
+      return;
+    }
+
+    if (wantsPasswordUpdate) {
+      if (accessPassword.trim().length < 8) {
+        setFeedback('Tu contrasena debe tener al menos 8 caracteres.');
+        setSaving(false);
+        return;
+      }
+
+      if (accessPassword !== confirmAccessPassword) {
+        setFeedback('La confirmacion de contrasena no coincide.');
+        setSaving(false);
+        return;
+      }
+    }
+
+    let nextProfile: CandidateProfile = {
       ...profile,
       documentNumber: normalizedDocument,
       updatedAt: new Date().toISOString(),
     };
+
+    if (wantsPasswordUpdate) {
+      nextProfile = await withCandidatePassword(nextProfile, accessPassword);
+    }
+
     setProfile(nextProfile);
     writeCandidateProfile(nextProfile);
+    if (wantsPasswordUpdate) {
+      setAccessPassword('');
+      setConfirmAccessPassword('');
+    }
     setSaving(false);
-    setFeedback('Perfil guardado. Puedes editarlo cuando quieras.');
+    setFeedback(
+      wantsPasswordUpdate
+        ? 'Perfil y contrasena guardados correctamente.'
+        : 'Perfil guardado. Puedes editarlo cuando quieras.',
+    );
   };
 
   const handleApplyToVacancy = () => {
@@ -269,6 +310,12 @@ export default function PostulantePage() {
 
     if (!profile.fullName.trim() || !profile.email.trim() || !profile.phone.trim()) {
       setFeedback('Completa documento, nombre, correo y telefono antes de postularte.');
+      setApplying(false);
+      return;
+    }
+
+    if (!profile.passwordHash.trim()) {
+      setFeedback('Antes de postularte, crea tu contrasena en el perfil.');
       setApplying(false);
       return;
     }
@@ -371,6 +418,26 @@ export default function PostulantePage() {
                       placeholder="correo@ejemplo.com"
                     />
                   </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Input
+                      label={profile.passwordHash ? 'Nueva contrasena (opcional)' : 'Contrasena de acceso'}
+                      type="password"
+                      value={accessPassword}
+                      onChange={(event) => setAccessPassword(event.target.value)}
+                      placeholder="Minimo 8 caracteres"
+                    />
+                    <Input
+                      label={profile.passwordHash ? 'Confirmar nueva contrasena' : 'Confirmar contrasena'}
+                      type="password"
+                      value={confirmAccessPassword}
+                      onChange={(event) => setConfirmAccessPassword(event.target.value)}
+                      placeholder="Repite tu contrasena"
+                    />
+                  </div>
+                  <p className="text-xs text-textLight -mt-2">
+                    Esta contrasena se usa para ingresar por la opcion "Mi perfil" con doble verificacion.
+                  </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input

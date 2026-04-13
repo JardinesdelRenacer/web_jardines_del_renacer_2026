@@ -5,7 +5,7 @@ import SectionTitle from '@/components/ui/SectionTitle';
 import FadeIn from '@/components/animations/FadeIn';
 import Button from '@/components/ui/Button';
 
-const PARQUE_CONMEMORATIVO_URL = 'https://www.parqueconmemorativo.com/';
+const PARQUE_CONMEMORATIVO_URL = 'https://conmemorativo-jr-2025-git-main-pcojmemorativos-projects.vercel.app/';
 
 const highlights = [
   'Espacios naturales para homenaje y recuerdo',

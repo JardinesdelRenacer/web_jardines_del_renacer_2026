@@ -94,7 +94,9 @@ export function buildWompiCheckoutUrl({
   shippingAddressPhone,
   expirationTime,
 }: CheckoutUrlInput) {
+  
   // Usamos query params porque el checkout de Wompi se inicializa por URL.
+  
   const params = new URLSearchParams();
   params.set('public-key', publicKey);
   params.set('currency', currency);

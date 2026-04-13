@@ -376,7 +376,7 @@ export default function TrabajaConNosotrosPage() {
                             Aplicar aqui
                           </Button>
                         </Link>
-                        <Link href="/servicios/trabaja-con-nosotros/postulante">
+                        <Link href="/login/usuario-vacantes">
                           <Button variant="secondary" size="sm">
                             Mi perfil
                           </Button>

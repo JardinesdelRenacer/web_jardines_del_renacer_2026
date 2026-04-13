@@ -2,6 +2,8 @@ export interface CandidateProfile {
   documentNumber: string;
   fullName: string;
   email: string;
+  passwordHash: string;
+  passwordUpdatedAt: string;
   phone: string;
   department: string;
   city: string;
@@ -57,6 +59,8 @@ export function createEmptyCandidateProfile(): CandidateProfile {
     documentNumber: '',
     fullName: '',
     email: '',
+    passwordHash: '',
+    passwordUpdatedAt: '',
     phone: '',
     department: '',
     city: '',
