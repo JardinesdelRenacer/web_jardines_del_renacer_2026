@@ -6,31 +6,51 @@ import Link from 'next/link';
 import AuthLoginLayout from '@/components/login/AuthLoginLayout';
 import LoginTextField from '@/components/login/LoginTextField';
 
+/**
+ * Componente que representa la página de inicio de sesión exclusiva para Clientes.
+ * Permite la validación de credenciales (actualmente hardcodeadas) y maneja el
+ * estado de la solicitud y visualización de errores.
+ */
 export default function ClientLoginPage() {
   const router = useRouter();
+  
+  // Estado para capturar los datos que ingresa el usuario
   const [formData, setFormData] = useState({
     cedula: '',
     password: '',
   });
+  
+  // Estado para manejar los mensajes de error mostrados en pantalla
   const [error, setError] = useState('');
+  
+  // Estado para prevenir múltiples envíos y mostrar indicador de carga
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Valida si el formato de la cédula es correcto (entre 6 y 10 números, sin espacios ni guiones)
+   */
   const validateCedula = (cedula: string): boolean => {
     const cleanCedula = cedula.replace(/[\s-]/g, '');
     return /^\d{6,10}$/.test(cleanCedula);
   };
 
+  /**
+   * Función asíncrona que maneja el envío del formulario.
+   * Realiza validaciones locales y luego intenta autenticar al usuario.
+   */
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError('');
     setLoading(true);
 
+    // Validación de integridad de la cédula
     if (!validateCedula(formData.cedula)) {
       setError('Por favor ingresa una cedula valida (6-10 digitos).');
       setLoading(false);
       return;
     }
 
+    // Validación de longitud mínima de contraseña
     if (formData.password.length < 4) {
       setError('La contrasena debe tener al menos 4 caracteres.');
       setLoading(false);
@@ -38,7 +58,9 @@ export default function ClientLoginPage() {
     }
 
     try {
+      // Simulador de autenticación con credenciales "quemadas" (A reemplazar por backend en producción)
       if (formData.cedula === '9876543210' && formData.password === 'cliente123') {
+        // Guardado de la "sesión" en LocalStorage temporalmente
         localStorage.setItem(
           'user',
           JSON.stringify({
@@ -47,6 +69,7 @@ export default function ClientLoginPage() {
             name: 'Cliente Jardines del Renacer',
           }),
         );
+        // Redirigir al panel protegido tras iniciar sesión exitosamente
         router.push('/cliente/dashboard');
       } else {
         setError('Cedula o contrasena incorrectos.');
@@ -54,15 +77,20 @@ export default function ClientLoginPage() {
     } catch {
       setError('Error al iniciar sesion. Por favor intenta nuevamente.');
     } finally {
+      // Ocultar estado de carga independientemente del resultado
       setLoading(false);
     }
   };
 
+  /**
+   * Controla los cambios de cada input de texto, actualizando el estado `formData` correspondiente
+   */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
+    // Limpiar errores si el usuario comienza a modificar el campo
     setError('');
   };
 

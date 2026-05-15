@@ -79,36 +79,49 @@ export default function HomePage() {
               {
                 title: 'Servicios Funerarios',
                 description: 'Ceremonias dignas y personalizadas para despedir a tus seres queridos',
-                iconPath: 'M12 2C8.134 2 5 5.134 5 9c0 6.5 7 13 7 13s7-6.5 7-13c0-3.866-3.134-7-7-7zm0 9.75A2.75 2.75 0 1112 6.25a2.75 2.75 0 010 5.5z',
+                imagePath: '/images/servicios_funerarios.jpg',
                 link: '/servicios#funerarios',
               },
               {
                 title: 'Planes de Previsión',
                 description: 'Protege a tu familia y planifica con tranquilidad',
-                iconPath: 'M12 2l8 4v6c0 5.25-3.438 9.969-8 11.5C7.438 21.969 4 17.25 4 12V6l8-4zm0 4.2L8 8v3.75c0 3.363 1.977 6.56 4 7.76 2.023-1.2 4-4.397 4-7.76V8l-4-1.8z',
+                imagePath: '/images/planes_funerarios.jpg',
                 link: '/planes',
               },
               {
                 title: 'Siempre Contigo',
                 description: 'Transmisión en vivo 360 para acompanar la velacion desde cualquier lugar',
-                iconPath: 'M12 21s-7-4.35-9.5-8.25C.89 10.22 1.29 6.5 4.11 4.68c2.02-1.3 4.68-.86 6.38 1.03 1.7-1.89 4.36-2.33 6.38-1.03 2.82 1.82 3.22 5.54 1.61 8.07C19 16.65 12 21 12 21z',
+                imagePath: '/images/siempre_contigo.jpg',
                 link: '/siempre-contigo',
               },
             ].map((service, index) => (
               <FadeIn key={service.title} delay={index * 0.1}>
-                <Link href={service.link}>
-                  <div className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-300 h-full">
-                    <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
-                      <svg className="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="currentColor">
-                        <path d={service.iconPath} />
-                      </svg>
+                <Link href={service.link} className="group block h-full">
+                  <div className="glass rounded-3xl hover:scale-105 hover:shadow-xl transition-all duration-300 h-full border border-primary/10 overflow-hidden flex flex-col">
+                    {/* Imagen superior a todo lo ancho */}
+                    <div className="relative w-full h-48 sm:h-56">
+                      <Image 
+                        src={service.imagePath} 
+                        alt={service.title} 
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
                     </div>
-                    <h3 className="text-2xl font-display mb-4 text-text">
-                      {service.title}
-                    </h3>
-                    <p className="text-textLight">
-                      {service.description}
-                    </p>
+                    {/* Contenedor del texto inferior */}
+                    <div className="p-8 flex flex-col flex-1">
+                      <h3 className="text-2xl font-display mb-4 text-text">
+                        {service.title}
+                      </h3>
+                      <p className="text-textLight mb-6">
+                        {service.description}
+                      </p>
+                      <div className="mt-auto inline-flex items-center text-primary font-medium group-hover:translate-x-1 transition-transform duration-300">
+                        Ver más
+                        <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               </FadeIn>

@@ -19,14 +19,18 @@ const services = [
 export default function RepatriacionesPage() {
   return (
     <>
-      <section className="py-20 bg-gradient-to-b from-background to-white/60">
+      <section className="pt-10 pb-10">
         <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Repatriaciones"
-              subtitle="Coordinacion segura y respetuosa para traslados nacionales e internacionales."
-            />
-          </FadeIn>
+          <div className="relative py-20 rounded-3xl overflow-hidden bg-[url('/images/repatriaciones_banner.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="relative z-10">
+              <FadeIn>
+                <SectionTitle
+                  title="Repatriaciones"
+                  subtitle="Coordinacion segura y respetuosa para traslados nacionales e internacionales."
+                />
+              </FadeIn>
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -37,7 +41,7 @@ export default function RepatriacionesPage() {
               <article className="glass rounded-3xl overflow-hidden border border-primary/15">
                 <div className="relative h-72 md:h-80">
                   <Image
-                    src="/images/white-tulips-sunlight.jpg"
+                    src="/images/repatriaciones.jpg"
                     alt="Servicio de repatriaciones Jardines del Renacer"
                     fill
                     className="object-cover"

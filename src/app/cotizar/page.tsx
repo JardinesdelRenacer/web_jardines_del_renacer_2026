@@ -47,7 +47,7 @@ export default function CotizarPage({ searchParams }: CotizarPageProps) {
               </div>
               <div className="rounded-2xl border border-primary/15 bg-white/70 px-4 py-3 text-center">
                 <p className="text-xs uppercase tracking-[0.15em] text-primary mb-1">Canales</p>
-                <p className="text-sm font-medium text-text">WhatsApp, llamada o correo</p>
+            <p className="text-sm font-medium text-text">WhatsApp o llamada</p>
               </div>
             </div>
           </FadeIn>
@@ -66,7 +66,7 @@ export default function CotizarPage({ searchParams }: CotizarPageProps) {
                     </h3>
 
                     <p className="text-textLight leading-relaxed max-w-3xl">
-                      Comparte tus datos por WhatsApp o formulario y uno de nuestros asesores te contactara
+                      Comparte tus datos por WhatsApp y uno de nuestros asesores te contactara
                       para presentarte la mejor alternativa de cobertura.
                     </p>
                   </header>
@@ -118,7 +118,7 @@ export default function CotizarPage({ searchParams }: CotizarPageProps) {
                     }
                   />
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                     <a
                       href={buildWhatsAppUrl(whatsappMessage)}
                       target="_blank"
@@ -129,11 +129,6 @@ export default function CotizarPage({ searchParams }: CotizarPageProps) {
                         Cotizar por WhatsApp
                       </Button>
                     </a>
-                    <Link href="/contacto" className="w-full">
-                      <Button variant="secondary" className="w-full justify-center" size="lg">
-                        Cotizar por formulario
-                      </Button>
-                    </Link>
                     <Link href="/planes" className="w-full">
                       <Button variant="ghost" className="w-full justify-center" size="lg">
                         Ver todos los planes

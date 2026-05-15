@@ -3,7 +3,6 @@ import SectionTitle from '@/components/ui/SectionTitle';
 import FadeIn from '@/components/animations/FadeIn';
 import {
   corporateValues,
-  historyParagraphs,
   principles,
   whoWeAreParagraphs,
 } from '@/content/company';
@@ -11,25 +10,23 @@ import {
 export default function QuienesSomosPage() {
   return (
     <>
-      <section className="relative py-24 overflow-hidden bg-gradient-to-b from-[#f6f4f2] via-white/80 to-[#f6f4f2]">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 1px 1px, #3C60A2 1px, transparent 0)',
-            backgroundSize: '40px 40px',
-          }}
-        />
-
+      <section className="pt-10 pb-10">
         <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Quiénes Somos"
-              subtitle="Más de 25 años acompañando a las familias colombianas con respeto, dignidad y sentido humano."
-            />
-          </FadeIn>
+          <div className="relative py-20 rounded-3xl overflow-hidden bg-[url('/images/quiene_somos.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="relative z-10">
+              <FadeIn>
+                <SectionTitle
+                  title="Quiénes Somos"
+                  subtitle="Más de 26 años acompañando a las familias colombianas con respeto, dignidad y sentido humano."
+                />
+              </FadeIn>
+            </div>
+          </div>
+        </Container>
+      </section>
 
+      <section className="pb-10">
+        <Container>
           <FadeIn delay={0.1}>
             <div className="glass rounded-3xl p-8 md:p-10 max-w-5xl mx-auto">
               <div className="space-y-5 text-textLight leading-relaxed text-lg">
@@ -63,19 +60,6 @@ export default function QuienesSomosPage() {
         <Container>
           <div className="space-y-8">
             <FadeIn>
-              <div className="glass rounded-3xl p-8 md:p-10 border border-primary/15">
-                <h3 className="text-3xl font-display text-text mb-6">
-                  Reseña Histórica
-                </h3>
-                <div className="space-y-5 text-textLight leading-relaxed">
-                  {historyParagraphs.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
-                </div>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={0.1}>
               <div className="glass rounded-3xl p-8 md:p-10 border border-primary/15">
                 <h3 className="text-3xl font-display text-text mb-6">
                   Valores Corporativos

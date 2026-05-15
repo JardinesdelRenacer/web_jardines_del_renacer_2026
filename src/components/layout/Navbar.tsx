@@ -150,7 +150,7 @@ export default function Navbar() {
 
                 {/* Botones CTA */}
                 <PaymentDropdown 
-                  wompiUrl="https://checkout.wompi.co/l/TU_LINK_DE_WOMPI_AQUI" 
+                  wompiUrl="https://checkout.wompi.co/method" 
                   pseUrl="https://checkout.wompi.co/l/TU_LINK_DE_PSE_AQUI"
                   buttonVariant="secondary"
                   buttonSize="sm"

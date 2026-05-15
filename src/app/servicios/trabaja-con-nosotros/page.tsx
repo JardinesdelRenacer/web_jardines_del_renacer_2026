@@ -102,15 +102,13 @@ export default function TrabajaConNosotrosPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden py-24 bg-gradient-to-b from-background via-white/60 to-background">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
-          <div className="absolute top-10 right-0 h-80 w-80 rounded-full bg-[#8bb3f8]/20 blur-3xl" />
-          <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-[#3C60A2]/10 blur-3xl" />
-        </div>
-
-        <Container maxWidth="2xl" className="relative">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
+      <section className="pt-10 pb-10">
+        <Container maxWidth="2xl">
+          <div className="relative py-16 px-6 md:px-12 rounded-3xl overflow-hidden bg-[url('/images/trabaja_con_nosotros.jpg')] bg-cover bg-center bg-no-repeat border border-primary/10 shadow-glass-lg">
+            {/* Capa superpuesta clara para que el texto sea legible y no pierda la esencia de la imagen */}
+            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]"></div>
+            
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
             <FadeIn>
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-primary mb-4">
@@ -137,20 +135,21 @@ export default function TrabajaConNosotrosPage() {
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <div className="glass rounded-3xl border border-primary/20 p-6 md:p-8">
+              {/* Caja de estadísticas de la derecha más sólida para resaltar sobre el fondo */}
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-primary/20 p-6 md:p-8 shadow-xl">
                 <h2 className="text-2xl font-display text-text mb-6">Hoy en la bolsa</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="rounded-2xl border border-primary/15 bg-white/55 p-4">
+                  <div className="rounded-2xl border border-primary/15 bg-white p-4 shadow-sm">
                     <p className="text-xs uppercase tracking-[0.18em] text-textLight mb-1">Vacantes</p>
                     <p className="text-3xl font-display text-primary">{vacancies.length}</p>
                   </div>
-                  <div className="rounded-2xl border border-primary/15 bg-white/55 p-4">
+                  <div className="rounded-2xl border border-primary/15 bg-white p-4 shadow-sm">
                     <p className="text-xs uppercase tracking-[0.18em] text-textLight mb-1">
                       Destacadas
                     </p>
                     <p className="text-3xl font-display text-primary">{featuredCount}</p>
                   </div>
-                  <div className="rounded-2xl border border-primary/15 bg-white/55 p-4">
+                  <div className="rounded-2xl border border-primary/15 bg-white p-4 shadow-sm">
                     <p className="text-xs uppercase tracking-[0.18em] text-textLight mb-1">
                       Departamentos
                     </p>
@@ -166,6 +165,7 @@ export default function TrabajaConNosotrosPage() {
                 </div>
               </div>
             </FadeIn>
+            </div>
           </div>
         </Container>
       </section>

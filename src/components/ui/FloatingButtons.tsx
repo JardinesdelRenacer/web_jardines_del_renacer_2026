@@ -31,12 +31,14 @@ export default function FloatingButtons() {
   };
 
   const reportarFallecimiento = () => {
-    setShowModal(true);
+    // Al hacer clic de nuevo, alterna entre abrir y cerrar
+    setShowModal(!showModal);
   };
 
   return (
     <>
-      <div className="fixed bottom-5 left-4 z-40 flex flex-col gap-3 sm:bottom-6 sm:left-6">
+      {/* Elevamos el z-index a 60 cuando el modal está abierto para que no quede detrás del fondo oscuro */}
+      <div className={cn("fixed bottom-5 left-4 flex flex-col gap-3 sm:bottom-6 sm:left-6", showModal ? "z-[60]" : "z-40")}>
         {/* Botón Scroll to Top */}
         <button
           onClick={scrollToTop}
@@ -69,7 +71,12 @@ export default function FloatingButtons() {
 
         <button
           onClick={reportarFallecimiento}
-          className="group relative flex items-center rounded-full bg-white/85 backdrop-blur-xl border border-white/70 shadow-[0_20px_45px_rgba(23,43,77,0.16)] hover:shadow-[0_24px_55px_rgba(23,43,77,0.22)] transition-all duration-500 ease-out active:scale-[0.98] p-2"
+          className={cn(
+            "group relative flex items-center rounded-full backdrop-blur-xl border transition-all duration-500 ease-out active:scale-[0.98] p-2",
+            showModal
+              ? "bg-white shadow-[0_0_35px_rgba(244,63,94,0.6)] border-rose-200"
+              : "bg-white/85 border-white/70 shadow-[0_20px_45px_rgba(23,43,77,0.16)] hover:shadow-[0_24px_55px_rgba(23,43,77,0.22)]"
+          )}
           aria-label="Reportar Fallecimiento 24/7"
         >
           <span
@@ -166,6 +173,7 @@ export default function FloatingButtons() {
                 <a
                   href={CONTACT_INFO.deathReportLine.href}
                   className="text-3xl font-bold text-text hover:text-primary transition-colors block"
+                  onClick={() => setShowModal(false)}
                 >
                   {CONTACT_INFO.deathReportLine.number}
                 </a>
@@ -175,26 +183,12 @@ export default function FloatingButtons() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {CONTACT_INFO.regionalLines.map((line) => (
-                  <a
-                    key={line.label}
-                    href={line.href}
-                    className="glass rounded-2xl p-4 border border-border hover:border-primary/40 transition-colors"
-                  >
-                    <p className="text-xs uppercase tracking-[0.18em] text-primary mb-1">
-                      {line.label}
-                    </p>
-                    <p className="text-lg font-semibold text-text">{line.number}</p>
-                  </a>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <a
-                  href={buildWhatsAppUrl('Hola, necesito orientacion inmediata sobre los servicios de Jardines del Renacer.')}
+                  href={buildWhatsAppUrl('Hola, Jardines del Renacer me gustaría reportar un fallecimiento.')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-between rounded-2xl bg-green-500 text-white p-4 shadow-lg hover:shadow-xl transition-all group"
+                  onClick={() => setShowModal(false)}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
@@ -213,8 +207,9 @@ export default function FloatingButtons() {
                 </a>
 
                 <Link
-                  href={CONTACT_INFO.locationsHref}
+                  href="/sedes"
                   className="flex items-center justify-between rounded-2xl glass border border-primary/20 text-text p-4 shadow-lg hover:shadow-xl transition-all group"
+                  onClick={() => setShowModal(false)}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">

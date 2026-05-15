@@ -30,14 +30,13 @@ const steps = [
 export default function SiempreContigoPage() {
   return (
     <>
-      <section className="relative overflow-hidden py-24 bg-gradient-to-b from-background via-white/70 to-background">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-primary/12 blur-3xl" />
-          <div className="absolute top-16 right-0 h-96 w-96 rounded-full bg-sky-300/20 blur-3xl" />
-        </div>
-
-        <Container maxWidth="2xl" className="relative">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
+      <section className="pt-10 pb-10">
+        <Container maxWidth="2xl">
+          <div className="relative py-16 px-6 md:px-12 rounded-3xl overflow-hidden bg-[url('/images/siempre_contigo.jpg')] bg-cover bg-center bg-no-repeat border border-primary/10 shadow-glass-lg">
+            {/* Capa superpuesta clara para que el texto sea legible y no pierda la esencia de la imagen */}
+            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]"></div>
+            
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
             <FadeIn>
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-primary mb-4">
@@ -54,7 +53,7 @@ export default function SiempreContigoPage() {
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <div className="glass rounded-3xl border border-primary/20 p-6 md:p-7">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-primary/20 p-6 md:p-7 shadow-xl">
                 <h2 className="text-2xl font-display text-text mb-3">De que trata</h2>
                 <p className="text-textLight leading-relaxed mb-4">
                   Este modulo permite conectar una camara 360 al servicio de velacion para emitir
@@ -76,6 +75,7 @@ export default function SiempreContigoPage() {
                 </ul>
               </div>
             </FadeIn>
+            </div>
           </div>
         </Container>
       </section>

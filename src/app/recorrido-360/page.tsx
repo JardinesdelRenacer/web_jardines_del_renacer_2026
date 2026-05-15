@@ -8,14 +8,18 @@ export default function Recorrido360Page() {
   return (
     <>
       {/* Hero */}
-      <section className="py-20 bg-gradient-to-b from-background to-white/50">
+      <section className="pt-10 pb-10">
         <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Recorrido Virtual 360°"
-              subtitle="Conoce nuestras instalaciones desde la comodidad de tu hogar"
-            />
-          </FadeIn>
+          <div className="relative py-20 rounded-3xl overflow-hidden bg-[url('/images/360.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="relative z-10">
+              <FadeIn>
+                <SectionTitle
+                  title="Recorrido Virtual 360°"
+                  subtitle="Conoce nuestras instalaciones desde la comodidad de tu hogar"
+                />
+              </FadeIn>
+            </div>
+          </div>
         </Container>
       </section>
 

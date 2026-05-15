@@ -7,6 +7,13 @@ import {
   type JobApplication,
 } from '@/config/candidates';
 
+/**
+ * Normaliza los datos de un perfil de candidato para asegurar que tiene
+ * todos los campos requeridos en la interfaz `CandidateProfile`.
+ * 
+ * @param record - Objeto parcial almacenado que puede tener datos faltantes.
+ * @returns El perfil completo y estandarizado con los campos por defecto.
+ */
 function normalizeProfile(record: Partial<CandidateProfile>): CandidateProfile {
   return {
     documentNumber: record.documentNumber ?? '',
@@ -30,8 +37,15 @@ function normalizeProfile(record: Partial<CandidateProfile>): CandidateProfile {
   };
 }
 
+/**
+ * Normaliza los datos de una postulación individual para asegurar consistencia.
+ * También proporciona soporte a datos generados en versiones anteriores de la plataforma.
+ * 
+ * @param record - Objeto parcial con la postulación guardada en el navegador.
+ * @returns Un objeto `JobApplication` válido o `null` si faltan campos obligatorios críticos.
+ */
 function normalizeApplication(record: Partial<JobApplication>): JobApplication | null {
-  // Soporte de compatibilidad para datos de versiones anteriores del formulario.
+  // Soporte de compatibilidad (Legacy) para datos de versiones anteriores del formulario.
   const legacyRecord = record as Partial<JobApplication> & {
     email?: string;
     phone?: string;
@@ -77,6 +91,12 @@ function normalizeApplication(record: Partial<JobApplication>): JobApplication |
   };
 }
 
+/**
+ * Lee y recupera el perfil del candidato guardado en el navegador (Local Storage).
+ * Si no existe o hay error de formato, devuelve un perfil completamente vacío.
+ * 
+ * @returns El objeto de perfil del candidato activo.
+ */
 export function readCandidateProfile() {
   if (typeof window === 'undefined') {
     return createEmptyCandidateProfile();
@@ -92,15 +112,27 @@ export function readCandidateProfile() {
   }
 }
 
+/**
+ * Guarda el perfil del candidato directamente en el Local Storage del navegador
+ * y emite un evento custom ('candidate-storage-updated') para que el resto de
+ * la aplicación (como los paneles en otras pestañas) sepa que debe refrescar los datos.
+ * 
+ * @param profile - El objeto `CandidateProfile` que se desea guardar.
+ */
 export function writeCandidateProfile(profile: CandidateProfile) {
   if (typeof window === 'undefined') {
     return;
   }
   window.localStorage.setItem(CANDIDATE_PROFILE_STORAGE_KEY, JSON.stringify(profile));
-  // Disparamos evento para refrescar paneles que estén abiertos en otras vistas.
   window.dispatchEvent(new Event('candidate-storage-updated'));
 }
 
+/**
+ * Lee el arreglo de postulaciones a vacantes (historial) del candidato activo
+ * y las normaliza para evitar errores en las vistas de listados.
+ * 
+ * @returns Una lista tipada `JobApplication[]`. Si no hay datos devuelve `[]`.
+ */
 export function readCandidateApplications() {
   if (typeof window === 'undefined') {
     return [] as JobApplication[];
@@ -122,11 +154,16 @@ export function readCandidateApplications() {
   }
 }
 
+/**
+ * Guarda todo el historial de postulaciones de un candidato en el Storage
+ * y notifica al resto del frontend que hubo cambios en las aplicaciones.
+ * 
+ * @param applications - Arreglo de objetos `JobApplication` que reemplazará al actual.
+ */
 export function writeCandidateApplications(applications: JobApplication[]) {
   if (typeof window === 'undefined') {
     return;
   }
   window.localStorage.setItem(CANDIDATE_APPLICATIONS_STORAGE_KEY, JSON.stringify(applications));
-  // Mismo evento para mantener sincronizada la consulta del proceso en vivo.
   window.dispatchEvent(new Event('candidate-storage-updated'));
 }

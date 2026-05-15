@@ -180,10 +180,7 @@ export default function PlanFlipCard({
             )}
           </div>
           
-          <div className="mt-6 space-y-3">
-            <p className="text-xl font-semibold text-primary text-center">
-              {price}
-            </p>
+          <div className="mt-6">
             <div className="flex flex-col gap-2">
               <Button
                 variant="secondary"
@@ -194,10 +191,13 @@ export default function PlanFlipCard({
               </Button>
               <Button
                 variant="primary"
-                className="w-full"
+                className="w-full group"
                 onClick={handleQuote}
               >
                 Cotizar ahora
+                <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </Button>
             </div>
           </div>

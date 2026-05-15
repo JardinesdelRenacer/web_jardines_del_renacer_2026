@@ -1,7 +1,14 @@
 import { getAllDepartamentos } from '@/data/sedes';
 
+/**
+ * Tipos de modalidad de trabajo soportados por la plataforma.
+ */
 export type VacancyModality = 'Presencial' | 'Hibrido' | 'Remoto';
 
+/**
+ * Interfaz principal que define la estructura de una vacante de empleo.
+ * Incluye datos básicos, requisitos, beneficios y metadatos de tiempo.
+ */
 export interface JobVacancy {
   id: string;
   title: string;
@@ -22,13 +29,25 @@ export interface JobVacancy {
   updatedAt: string;
 }
 
+/** Clave utilizada para persistir las vacantes en el almacenamiento local (localStorage). */
 export const VACANCIES_STORAGE_KEY = 'jdr.job-vacancies.v1';
 
 const NOW_ISO = new Date().toISOString();
+
+// Obtenemos todos los departamentos de la base de datos de sedes para reutilizarlos en las vacantes
 const ALL_DEPARTMENTS = getAllDepartamentos().map((item) => item.nombre);
+
+/** Lista de departamentos disponibles para las vacantes, extraída dinámicamente de las sedes. */
 export const VACANCY_DEPARTMENTS = ALL_DEPARTMENTS;
+
+/** Departamento por defecto para los formularios de nuevas vacantes. */
 export const DEFAULT_VACANCY_DEPARTMENT = VACANCY_DEPARTMENTS[0] ?? 'Risaralda';
 
+/**
+ * Lista inicial de vacantes por defecto (Mock Data).
+ * Se usa para poblar la base de datos/almacenamiento en caso de que esté vacía
+ * y poder probar la interfaz de usuario en el portal de "Trabaja con nosotros".
+ */
 export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
   {
     id: 'vac-001',
@@ -40,7 +59,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Tiempo completo',
     schedule: 'Lunes a sabado',
     salary: 'Basico + comisiones',
-    experience: '1+ ano en ventas consultivas',
+    experience: '1+ años en ventas consultivas',
     summary:
       'Gestion de clientes, apertura de convenios y asesoria integral en planes de prevision familiar.',
     requirements: [
@@ -64,7 +83,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Tiempo completo',
     schedule: 'Turnos rotativos',
     salary: 'A convenir',
-    experience: '1+ ano en atencion al cliente',
+    experience: '1+ años en atencion al cliente',
     summary:
       'Acompanamiento a familias, gestion de solicitudes y seguimiento de satisfaccion del servicio.',
     requirements: [
@@ -88,7 +107,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Tiempo completo',
     schedule: 'Disponibilidad 24/7 por turnos',
     salary: 'A convenir',
-    experience: '3+ anos liderando equipos operativos',
+    experience: '3+ años liderando equipos operativos',
     summary:
       'Planeacion operativa de servicios, control de protocolos y liderazgo de equipos en campo.',
     requirements: [
@@ -112,7 +131,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Tiempo completo',
     schedule: 'Lunes a viernes',
     salary: 'A convenir',
-    experience: '2+ anos en contenido digital',
+    experience: '2+ años en contenido digital',
     summary:
       'Creacion de piezas visuales y campanas para fortalecer marca, comunicacion institucional y conversion.',
     requirements: [
@@ -136,7 +155,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Tiempo completo',
     schedule: 'Lunes a viernes',
     salary: 'A convenir',
-    experience: '2+ anos en seleccion y desarrollo',
+    experience: '2+ años en seleccion y desarrollo',
     summary:
       'Gestion integral de procesos de reclutamiento, bienestar y acompanamiento al colaborador.',
     requirements: [
@@ -160,7 +179,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Prestacion de servicios',
     schedule: 'Flexible por entregables',
     salary: 'A convenir',
-    experience: '2+ anos con React/Next.js',
+    experience: '2+ años con React/Next.js',
     summary:
       'Implementacion de interfaces web para canales digitales y proyectos internos de servicio.',
     requirements: [
@@ -184,7 +203,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Tiempo completo',
     schedule: 'Lunes a sabado',
     salary: 'A convenir',
-    experience: '1+ ano en procesos administrativos',
+    experience: '1+ años en procesos administrativos',
     summary:
       'Soporte en documentacion, facturacion, control de cartera y apoyo a coordinacion regional.',
     requirements: [
@@ -208,7 +227,7 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
     contractType: 'Tiempo completo',
     schedule: 'Turnos rotativos',
     salary: 'A convenir + variable',
-    experience: '3+ anos en supervision de equipos',
+    experience: '3+ años en supervision de equipos',
     summary:
       'Direccion de personal en sede, cumplimiento de protocolos y mejoramiento continuo de la operacion.',
     requirements: [
@@ -224,6 +243,14 @@ export const DEFAULT_JOB_VACANCIES: JobVacancy[] = [
   },
 ];
 
+/**
+ * Valida y normaliza el nombre de un departamento.
+ * Si el departamento proporcionado no existe en la lista oficial,
+ * retorna el departamento por defecto.
+ * 
+ * @param value Nombre del departamento a validar.
+ * @returns Un nombre de departamento válido.
+ */
 export function normalizeVacancyDepartment(value: string | undefined) {
   const normalized = value?.trim() ?? '';
   if (normalized && VACANCY_DEPARTMENTS.includes(normalized)) {
@@ -232,6 +259,12 @@ export function normalizeVacancyDepartment(value: string | undefined) {
   return DEFAULT_VACANCY_DEPARTMENT;
 }
 
+/**
+ * Crea un objeto de vacante vacío con valores por defecto y fechas inicializadas.
+ * Ideal para usar como estado inicial en formularios de creación de vacantes.
+ * 
+ * @returns Un objeto de tipo JobVacancy con campos reseteados.
+ */
 export function createEmptyVacancy(): JobVacancy {
   return {
     id: '',

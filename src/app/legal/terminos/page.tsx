@@ -3,6 +3,10 @@ import SectionTitle from '@/components/ui/SectionTitle';
 import FadeIn from '@/components/animations/FadeIn';
 import Link from 'next/link';
 
+/**
+ * Arreglo de objetos con el contenido de cada una de las secciones legales
+ * para los "Términos y Condiciones", permitiendo fácil edición en el futuro.
+ */
 const sections = [
   {
     title: '1. Alcance y aceptacion',
@@ -56,6 +60,11 @@ const sections = [
   },
 ];
 
+/**
+ * Componente que renderiza la página estática de "Términos y Condiciones".
+ * Usa animaciones `FadeIn` para mejorar la experiencia de lectura
+ * e itera sobre la constante `sections` para generar los bloques de texto.
+ */
 export default function TerminosPage() {
   return (
     <>
@@ -72,6 +81,7 @@ export default function TerminosPage() {
 
       <section className="pb-20">
         <Container maxWidth="lg">
+          {/* Tarjeta superior para enlaces a otras páginas legales */}
           <FadeIn>
             <article className="glass rounded-2xl p-6 border border-primary/15 mb-5">
               <p className="text-sm text-textLight leading-relaxed">
@@ -89,6 +99,7 @@ export default function TerminosPage() {
           </FadeIn>
 
           <div className="space-y-4">
+            {/* Mapeo de la información legal hacia tarjetas individuales con animación de retraso en cascada */}
             {sections.map((section, index) => (
               <FadeIn key={section.title} delay={index * 0.05}>
                 <article className="glass rounded-2xl p-6 border border-primary/15">

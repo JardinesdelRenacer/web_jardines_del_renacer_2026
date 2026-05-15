@@ -1,38 +1,46 @@
-import Container from '@/components/ui/Container';
-import SectionTitle from '@/components/ui/SectionTitle';
-import FadeIn from '@/components/animations/FadeIn';
-import { corporateValues, historyParagraphs } from '@/content/company';
+import Container from "@/components/ui/Container";
+import SectionTitle from "@/components/ui/SectionTitle";
+import FadeIn from "@/components/animations/FadeIn";
+import { corporateValues, historyParagraphs } from "@/content/company";
 
 const timeline = [
   {
-    year: '2000',
-    milestone: 'Inicio de operaciones en Pereira con enfoque social y cobertura accesible.',
+    year: "2000",
+    milestone:
+      "Inicio de operaciones en Pereira con enfoque social y cobertura accesible.",
   },
   {
-    year: '2010',
-    milestone: 'Consolidacion en el Eje Cafetero y fortalecimiento de convenios funerarios.',
+    year: "2010",
+    milestone:
+      "Consolidacion en el Eje Cafetero y fortalecimiento de convenios funerarios.",
   },
   {
-    year: '2020',
-    milestone: 'Expansion nacional con sedes en ciudades principales y mayor capacidad operativa.',
+    year: "2020",
+    milestone:
+      "Expansion nacional con sedes en ciudades principales y mayor capacidad operativa.",
   },
   {
-    year: 'Hoy',
-    milestone: 'Servicio integral con acompanamiento humano, cobertura nacional y mejora continua.',
+    year: "Hoy",
+    milestone:
+      "Servicio integral con acompanamiento humano, cobertura nacional y mejora continua.",
   },
 ];
 
 export default function ResenaHistoricaPage() {
   return (
     <>
-      <section className="py-20 bg-gradient-to-b from-background to-white/60">
+      <section className="pt-10 pb-10">
         <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Resena Historica"
-              subtitle="Un camino construido con compromiso, respeto y vocacion de servicio."
-            />
-          </FadeIn>
+          <div className="relative py-20 rounded-3xl overflow-hidden bg-[url('/images/banner.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="relative z-10">
+              <FadeIn>
+                <SectionTitle
+                  title="Reseña Historica"
+                  subtitle="Un camino construido con compromiso, respeto y vocacion de servicio."
+                />
+              </FadeIn>
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -41,20 +49,37 @@ export default function ResenaHistoricaPage() {
           <div className="space-y-8">
             <FadeIn>
               <article className="glass rounded-3xl p-8 md:p-10 border border-primary/15">
-                <div className="space-y-5 text-textLight leading-relaxed">
-                  {historyParagraphs.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-5 text-textLight leading-relaxed">
+                    {historyParagraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+
+                  {/* Contenedor de la imagen de la ciudad */}
+                  <div className="relative h-64 lg:h-full min-h-[350px] w-full rounded-2xl overflow-hidden shadow-sm">
+                    {/* Imagen de la ciudad */}
+                    <img
+                      src="/images/pereira_plbo.jpg"
+                      alt="Historia en Pereira - Jardines del Renacer"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
               </article>
             </FadeIn>
 
             <FadeIn delay={0.1}>
               <article className="glass rounded-3xl p-8 md:p-10 border border-primary/15">
-                <h3 className="text-2xl font-display text-text mb-6">Linea de tiempo</h3>
+                <h3 className="text-2xl font-display text-text mb-6">
+                  Linea de tiempo
+                </h3>
                 <div className="space-y-5">
                   {timeline.map((item) => (
-                    <div key={item.year} className="grid grid-cols-[90px_1fr] gap-4 items-start">
+                    <div
+                      key={item.year}
+                      className="grid grid-cols-[90px_1fr] gap-4 items-start"
+                    >
                       <span className="inline-flex justify-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
                         {item.year}
                       </span>
@@ -67,7 +92,9 @@ export default function ResenaHistoricaPage() {
 
             <FadeIn delay={0.2}>
               <article className="glass rounded-3xl p-8 md:p-10 border border-primary/15">
-                <h3 className="text-2xl font-display text-text mb-4">Valores corporativos</h3>
+                <h3 className="text-2xl font-display text-text mb-4">
+                  Valores corporativos
+                </h3>
                 <div className="flex flex-wrap gap-3">
                   {corporateValues.map((value) => (
                     <span

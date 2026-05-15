@@ -36,18 +36,22 @@ export default function ObituariosPage() {
 
   return (
     <>
-      <section className="py-20 bg-gradient-to-b from-background to-white/50">
+      <section className="pt-10 pb-10">
         <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Obituarios"
-              subtitle="Honrando la memoria de nuestros seres queridos"
-            />
-          </FadeIn>
+          <div className="relative py-20 mb-8 rounded-3xl overflow-hidden bg-[url('/images/obituariios.jpg')] bg-cover bg-center bg-no-repeat shadow-sm border border-primary/10">
+            <div className="relative z-10">
+              <FadeIn>
+                <SectionTitle
+                  title="Obituarios"
+                  subtitle="Honrando la memoria de nuestros seres queridos"
+                />
+              </FadeIn>
+            </div>
+          </div>
 
           {/* Buscador */}
           <FadeIn delay={0.2}>
-            <div className="max-w-4xl mx-auto mt-8">
+            <div className="max-w-4xl mx-auto">
               <div className="flex flex-col md:flex-row gap-4">
                 <Input
                   placeholder="Buscar por nombre..."

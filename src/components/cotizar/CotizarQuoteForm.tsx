@@ -22,12 +22,11 @@ type CoverageType = 'individual' | 'familiar' | 'segmentado' | 'especial' | 'cor
 type FormState = {
   fullName: string;
   phone: string;
-  email: string;
   city: string;
   beneficiaries: string;
   coverageType: CoverageType;
   selectedPlanId: PlanId;
-  preferredContact: 'WhatsApp' | 'Llamada' | 'Correo';
+  preferredContact: 'WhatsApp' | 'Llamada';
   preferredContactTime: string;
 };
 
@@ -100,7 +99,6 @@ export default function CotizarQuoteForm({ selectedPlan }: CotizarQuoteFormProps
   const [formData, setFormData] = useState<FormState>({
     fullName: '',
     phone: '',
-    email: '',
     city: '',
     beneficiaries: COVERAGE_DEFAULT_COUNTS[initialCoverage],
     coverageType: initialCoverage,
@@ -157,7 +155,6 @@ export default function CotizarQuoteForm({ selectedPlan }: CotizarQuoteFormProps
       `${countLine}\n` +
       `*Nombre:* ${formData.fullName}\n` +
       `*Telefono:* ${formData.phone}\n` +
-      `*Correo:* ${formData.email || 'No registra'}\n` +
       `*Ciudad:* ${formData.city}\n` +
       `*Canal preferido:* ${formData.preferredContact}\n` +
       `*Hora preferida de contacto:* ${formData.preferredContactTime}`
@@ -209,13 +206,6 @@ export default function CotizarQuoteForm({ selectedPlan }: CotizarQuoteFormProps
               value={formData.phone}
               onChange={(event) => setFormData((prev) => ({ ...prev, phone: event.target.value }))}
               placeholder="3001234567"
-            />
-            <Input
-              label="Correo electronico"
-              type="email"
-              value={formData.email}
-              onChange={(event) => setFormData((prev) => ({ ...prev, email: event.target.value }))}
-              placeholder="correo@ejemplo.com"
             />
             <Input
               label="Ciudad *"
@@ -318,7 +308,6 @@ export default function CotizarQuoteForm({ selectedPlan }: CotizarQuoteFormProps
               >
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Llamada">Llamada</option>
-                <option value="Correo">Correo</option>
               </select>
             </div>
 
