@@ -105,7 +105,7 @@ export default function PQRPage() {
               <FadeIn>
                 <SectionTitle
                   title="Peticiones, Quejas y Reclamos"
-                  subtitle="Tu opinión es fundamental. Déjanos tus inquietudes y te daremos respuesta a la mayor brevedad posible."
+                  subtitle="Tu opinión es fundamental.Déjanos tus inquietudes y te daremos respuesta a la mayor brevedad posible."
                 />
               </FadeIn>
             </div>
