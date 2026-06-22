@@ -1,5 +1,6 @@
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
+import { Montserrat } from 'next/font/google';
 import AppShell from '@/components/layout/AppShell';
 
 export const metadata: Metadata = {
@@ -11,14 +12,21 @@ export const metadata: Metadata = {
   },
 };
 
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'], // Regular, Medium, SemiBold, Bold, ExtraBold
+  variable: '--font-montserrat',
+  display: 'swap',
+});
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <body className="antialiased min-h-screen flex flex-col">
+    <html lang="es" className={`${montserrat.variable}`}>
+      <body className="antialiased min-h-screen flex flex-col font-sans">
         <AppShell>{children}</AppShell>
       </body>
     </html>

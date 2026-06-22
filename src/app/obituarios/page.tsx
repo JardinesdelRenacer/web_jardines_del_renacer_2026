@@ -35,11 +35,13 @@ export default function ObituariosPage() {
   }, [searchQuery, sedeFilter]);
 
   return (
-    <>
-      <section className="pt-10 pb-10">
+    <main className="relative min-h-screen overflow-hidden bg-[url('/images/obituariios.jpg')] bg-cover bg-center bg-fixed bg-no-repeat">
+      <div className="absolute inset-0 bg-background/85 backdrop-blur-[2px]" />
+
+      <section className="relative z-10 pt-10 pb-10">
         <Container>
-          <div className="relative py-20 mb-8 rounded-3xl overflow-hidden bg-[url('/images/obituariios.jpg')] bg-cover bg-center bg-no-repeat shadow-sm border border-primary/10">
-            <div className="relative z-10">
+          <div className="relative py-20 mb-8 rounded-3xl overflow-hidden bg-gradient-to-b from-transparent to-black/90 shadow-sm border border-primary/10 w-full">
+            <div className="relative z-10 [&_h1]:text-white [&_h2]:text-white [&_p]:text-white/90">
               <FadeIn>
                 <SectionTitle
                   title="Obituarios"
@@ -89,7 +91,7 @@ export default function ObituariosPage() {
         </Container>
       </section>
 
-      <section className="py-12 pb-20">
+      <section className="relative z-10 py-12 pb-20">
         <Container>
           {filteredObituaries.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -110,6 +112,6 @@ export default function ObituariosPage() {
           )}
         </Container>
       </section>
-    </>
+    </main>
   );
 }

@@ -9,7 +9,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { buildObituaryMapQuery, getObituaryById } from '@/data/obituaries';
 
-const OBITUARIO_BACKGROUND_IMAGE = '/images/white-tulips-sunlight.jpg';
+const OBITUARIO_BACKGROUND_IMAGE = '/images/fondo_obituarios.png';
+const OBITUARIOS_PAGE_BACKGROUND_CLASS =
+  "bg-[url('/images/obituariios.jpg')] bg-cover bg-center bg-fixed bg-no-repeat";
 
 type SharePlatform = 'facebook' | 'x' | 'whatsapp' | 'telegram' | 'copiar';
 
@@ -138,49 +140,50 @@ export default function ObituarioDetallePage() {
 
   if (!obituario) {
     return (
-      <div className="min-h-screen pt-28 pb-16">
-        <Container>
-          <div className="max-w-2xl mx-auto glass rounded-3xl border border-primary/15 p-8 text-center">
-            <h1 className="text-2xl font-display text-text mb-3">Obituario no encontrado</h1>
-            <p className="text-textLight mb-6">
-              No encontramos el homenaje solicitado. Revisa el enlace o vuelve al listado general.
-            </p>
-            <Link href="/obituarios">
-              <Button variant="primary">Volver a obituarios</Button>
-            </Link>
-          </div>
-        </Container>
-      </div>
+      <main className={`relative min-h-screen overflow-hidden pt-28 pb-16 ${OBITUARIOS_PAGE_BACKGROUND_CLASS}`}>
+        <div className="absolute inset-0 bg-background/85 backdrop-blur-[2px]" />
+        <div className="relative z-10">
+          <Container>
+            <div className="max-w-2xl mx-auto glass rounded-3xl border border-primary/15 p-8 text-center">
+              <h1 className="text-2xl font-display text-text mb-3">Obituario no encontrado</h1>
+              <p className="text-textLight mb-6">
+                No encontramos el homenaje solicitado. Revisa el enlace o vuelve al listado general.
+              </p>
+              <Link href="/obituarios">
+                <Button variant="primary">Volver a obituarios</Button>
+              </Link>
+            </div>
+          </Container>
+        </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12 bg-gradient-to-br from-background via-primary/5 to-background">
-      <Container>
-        <FadeIn>
-          <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden mb-8 shadow-2xl">
-            <Image
-              src={OBITUARIO_BACKGROUND_IMAGE}
-              alt={obituario.nombre}
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+    <main className={`relative min-h-screen overflow-hidden pt-24 pb-12 ${OBITUARIOS_PAGE_BACKGROUND_CLASS}`}>
+      <div className="absolute inset-0 bg-background/85 backdrop-blur-[2px]" />
+      <div className="relative z-10">
+        <Container>
+          <FadeIn>
+          <div className="relative h-[22rem] md:h-[28rem] rounded-3xl overflow-hidden mb-8 bg-gradient-to-b from-transparent to-black/90 w-full">
+            <div className="absolute inset-0 z-30 flex items-center justify-center px-6">
+              <div className="max-w-4xl text-center text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.45)]">
+                <p className="text-lg md:text-xl mb-2">En memoria de</p>
+                <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">
+                  {obituario.nombre}
+                </h1>
+                <p className="text-xl md:text-2xl">
+                  {formatearFecha(obituario.fechaNacimiento)} -{' '}
+                  {formatearFecha(obituario.fechaFallecimiento)}
+                </p>
+                <p className="mt-3 font-semibold text-lg md:text-xl">
+                  {obituario.ubicacionSala}
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-6">
-              <p className="text-textLight text-lg mb-2">En memoria de</p>
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-text mb-4">
-                {obituario.nombre}
-              </h1>
-              <p className="text-xl text-textLight">
-                {formatearFecha(obituario.fechaNacimiento)} -{' '}
-                {formatearFecha(obituario.fechaFallecimiento)}
-              </p>
-              <p className="text-primary mt-2 font-medium">{obituario.ubicacionSala}</p>
-            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="glass rounded-2xl p-6 border border-primary/20">
@@ -289,6 +292,14 @@ export default function ObituarioDetallePage() {
                   Abrir en Google Maps
                 </Button>
               </a>
+              
+              {(obituario as any).cartelDigitalUrl && (
+                <a href={(obituario as any).cartelDigitalUrl} download target="_blank" rel="noopener noreferrer" className="md:col-span-2">
+                  <Button variant="outline" className="w-full h-14 text-lg">
+                    Descargar cartel digital
+                  </Button>
+                </a>
+              )}
             </div>
 
             <div className="glass rounded-2xl p-6 border border-primary/20 mb-8">
@@ -345,6 +356,32 @@ export default function ObituarioDetallePage() {
                     </div>
                   </div>
                 )}
+
+                {(obituario as any).fechaMisa && (
+                  <div className="flex items-center gap-3 pt-4 border-t border-border">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                      <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                      </svg>
+                      <span className="font-semibold text-text">
+                        Misa: {formatearFecha((obituario as any).fechaMisa)} {(obituario as any).horaMisa ? `- ${(obituario as any).horaMisa}` : ''}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {(obituario as any).fechaExequias && (
+                  <div className="flex items-center gap-3 pt-4 border-t border-border">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                      <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                      </svg>
+                      <span className="font-semibold text-text">
+                        Exequias: {formatearFecha((obituario as any).fechaExequias)} {(obituario as any).horaExequias ? `- ${(obituario as any).horaExequias}` : ''}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -383,8 +420,9 @@ export default function ObituarioDetallePage() {
               <p className="text-sm text-textLight mt-3 text-center">{obituario.ubicacionSala}</p>
             </div>
           </div>
-        </FadeIn>
-      </Container>
-    </div>
+          </FadeIn>
+        </Container>
+      </div>
+    </main>
   );
 }

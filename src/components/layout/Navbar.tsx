@@ -10,23 +10,31 @@ import PaymentDropdown from '@/components/ui/PaymentDropdown';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [serviciosOpen, setServiciosOpen] = useState(false);
+  const [conocenosOpen, setConocenosOpen] = useState(false);
   const [aliadosOpen, setAliadosOpen] = useState(false);
-  const [mobileServiciosOpen, setMobileServiciosOpen] = useState(false);
+  const [contactoOpen, setContactoOpen] = useState(false);
+  const [mobileConocenosOpen, setMobileConocenosOpen] = useState(false);
   const [mobileAliadosOpen, setMobileAliadosOpen] = useState(false);
+  const [mobileContactoOpen, setMobileContactoOpen] = useState(false);
 
-  const serviciosSubmenu = [
+  const conocenosSubmenu = [
     { href: '/servicios/quienes-somos', label: 'Quiénes Somos' },
     { href: '/servicios/resena-historica', label: 'Reseña Histórica' },
-    { href: '/servicios/trabaja-con-nosotros', label: 'Trabaja con Nosotros' },
     { href: '/servicios/condolencias-digitales', label: 'Condolencias Digitales' },
-    { href: '/clausulas', label: 'Cláusulas' },
+    { href: '/parque-conmemorativo', label: 'Parque Conmemorativo' },
+    { href: '/repatriaciones', label: 'Repatriaciones' },
+    { href: '/acompanamiento-en-duelo', label: 'Acompañamiento en Duelo' },
   ];
 
   const aliadosSubmenu = ALLY_CATEGORIES.map((category) => ({
     href: `/aliados-comerciales?categoria=${category.slug}`,
     label: category.label,
   }));
+
+  const contactoSubmenu = [
+    { href: '/contacto', label: 'Formulario de Contacto' },
+    { href: '/servicios/trabaja-con-nosotros', label: 'Emplearte' },
+  ];
 
   return (
     <nav className="fixed w-full z-50 top-0 left-0">
@@ -40,14 +48,14 @@ export default function Navbar() {
             <div className="relative flex items-center justify-between h-full">
               {/* Desktop Navigation - Izquierda */}
               <div className="hidden lg:flex items-center space-x-8 flex-1 justify-end pr-32">
-                {/* Servicios Dropdown */}
+                {/* Conócenos Dropdown */}
                 <div className="relative group">
                   <button
-                    onMouseEnter={() => setServiciosOpen(true)}
-                    onMouseLeave={() => setServiciosOpen(false)}
+                    onMouseEnter={() => setConocenosOpen(true)}
+                    onMouseLeave={() => setConocenosOpen(false)}
                     className="text-white hover:text-white/80 transition-colors duration-300 flex items-center gap-1 text-sm uppercase tracking-wide font-medium"
                   >
-                    Servicios
+                    Conócenos
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
@@ -55,14 +63,14 @@ export default function Navbar() {
                   
                   {/* Dropdown Menu */}
                   <div
-                    onMouseEnter={() => setServiciosOpen(true)}
-                    onMouseLeave={() => setServiciosOpen(false)}
+                    onMouseEnter={() => setConocenosOpen(true)}
+                    onMouseLeave={() => setConocenosOpen(false)}
                     className={cn(
                       'absolute top-full left-0 mt-2 w-64 bg-white rounded-xl overflow-hidden shadow-xl transition-all duration-300',
-                      serviciosOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                      conocenosOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
                     )}
                   >
-                    {serviciosSubmenu.map((item) => (
+                    {conocenosSubmenu.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
@@ -74,14 +82,39 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                <Link href="/obituarios" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
-                  Obituarios
+                <Link href="/recorrido-360" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
+                  Recorrido 360
                 </Link>
                 
                 <Link href="/ubicaciones" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
-                  Ubicaciones
+                  Nuestras Sedes
                 </Link>
 
+                <Link href="/obituarios" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
+                  Obituarios
+                </Link>
+              </div>
+
+              {/* Logo CIRCULAR - MÁS GRANDE y CENTRADO */}
+              <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                <div className="w-32 h-32 lg:w-36 lg:h-36 relative bg-[#3C60A2] rounded-full shadow-2xl border-4 border-white flex items-center justify-center hover:scale-105 transition-transform duration-300">
+                  <Image
+                    src="/logo-oficial.webp"
+                    alt="Jardines del Renacer"
+                    width={75}
+                    height={75}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </Link>
+
+              {/* Desktop Navigation - Derecha */}
+              <div className="hidden lg:flex items-center space-x-6 flex-1 pl-32">
+                <Link href="/cotizar" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
+                  Afíliate Ya
+                </Link>
+                
                 {/* Aliados Dropdown */}
                 <div className="relative group">
                   <button
@@ -120,36 +153,39 @@ export default function Navbar() {
                     ))}
                   </div>
                 </div>
-              </div>
-
-              {/* Logo CIRCULAR - MÁS GRANDE y CENTRADO */}
-              <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
-                <div className="w-32 h-32 lg:w-36 lg:h-36 relative bg-[#3C60A2] rounded-full shadow-2xl border-4 border-white flex items-center justify-center hover:scale-105 transition-transform duration-300">
-                  <Image
-                    src="/logo-oficial.webp"
-                    alt="Jardines del Renacer"
-                    width={100}
-                    height={100}
-                    className="object-contain"
-                    priority
-                  />
+                
+                {/* Contacto Dropdown */}
+                <div className="relative group">
+                  <button
+                    onMouseEnter={() => setContactoOpen(true)}
+                    onMouseLeave={() => setContactoOpen(false)}
+                    className="text-white hover:text-white/80 transition-colors duration-300 flex items-center gap-1 text-sm uppercase tracking-wide font-medium"
+                  >
+                    Contacto
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <div
+                    onMouseEnter={() => setContactoOpen(true)}
+                    onMouseLeave={() => setContactoOpen(false)}
+                    className={cn(
+                      'absolute top-full right-0 mt-2 w-64 bg-white rounded-xl overflow-hidden shadow-xl transition-all duration-300',
+                      contactoOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                    )}
+                  >
+                    {contactoSubmenu.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="block px-4 py-3 text-text hover:bg-primary/10 hover:text-primary transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </Link>
-
-              {/* Desktop Navigation - Derecha */}
-              <div className="hidden lg:flex items-center space-x-6 flex-1 pl-32">
-                <Link href="/cotizar" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
-                  Cotizar Plan
-                </Link>
                 
-                <Link href="/contacto" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
-                  Contacto
-                </Link>
-                
-                <Link href="/proximamente" className="text-white hover:text-white/80 transition-colors duration-300 text-sm uppercase tracking-wide font-medium">
-                  Recorrido 360
-                </Link>
-
                 {/* Botones CTA */}
                 <PaymentDropdown 
                   wompiUrl="https://checkout.wompi.co/method" 
@@ -157,11 +193,11 @@ export default function Navbar() {
                   buttonVariant="secondary"
                   buttonSize="sm"
                 />
-                <Link href="/proximamente">
+                {/* <Link href="/proximamente">
                   <Button variant="outline" size="sm">
                     Ingresar
                   </Button>
-                </Link>
+                </Link> */}
               </div>
 
               {/* Mobile Menu Button */}
@@ -204,22 +240,22 @@ export default function Navbar() {
           )}
         >
           <div className="py-4 space-y-3 pb-20">
-              {/* Servicios Mobile */}
+              {/* Conócenos Mobile */}
               <div className="space-y-1">
                 <button
-                  onClick={() => setMobileServiciosOpen(!mobileServiciosOpen)}
+                  onClick={() => setMobileConocenosOpen(!mobileConocenosOpen)}
                   className="flex items-center justify-between w-full px-2 py-2 text-white font-semibold hover:bg-white/10 rounded-lg transition-colors"
                 >
-                  Servicios
+                  Conócenos
                   <svg
-                    className={cn("w-4 h-4 transition-transform duration-300", mobileServiciosOpen ? "rotate-180" : "")}
+                    className={cn("w-4 h-4 transition-transform duration-300", mobileConocenosOpen ? "rotate-180" : "")}
                     fill="none" stroke="currentColor" viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div className={cn("overflow-hidden transition-all duration-300 space-y-1", mobileServiciosOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0")}>
-                  {serviciosSubmenu.map((item) => (
+                <div className={cn("overflow-hidden transition-all duration-300 space-y-1", mobileConocenosOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0")}>
+                  {conocenosSubmenu.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -233,6 +269,22 @@ export default function Navbar() {
               </div>
 
             <Link
+              href="/recorrido-360"
+              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Recorrido 360
+            </Link>
+
+            <Link
+              href="/ubicaciones"
+              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Nuestras Sedes
+            </Link>
+
+            <Link
               href="/obituarios"
               className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
               onClick={() => setIsOpen(false)}
@@ -241,19 +293,11 @@ export default function Navbar() {
             </Link>
             
             <Link
-              href="/ubicaciones"
-              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Ubicaciones
-            </Link>
-            
-            <Link
               href="/cotizar"
               className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Cotizar Plan
+              Afíliate Ya
             </Link>
 
             <div className="space-y-1">
@@ -290,14 +334,33 @@ export default function Navbar() {
               </div>
             </div>
             
-            <Link
-              href="/contacto"
-              className="block px-2 py-2 text-white/90 hover:text-white transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Contacto
-            </Link>
-
+            {/* Contacto Mobile */}
+            <div className="space-y-1">
+              <button
+                onClick={() => setMobileContactoOpen(!mobileContactoOpen)}
+                className="flex items-center justify-between w-full px-2 py-2 text-white font-semibold hover:bg-white/10 rounded-lg transition-colors"
+              >
+                Contacto
+                <svg
+                  className={cn("w-4 h-4 transition-transform duration-300", mobileContactoOpen ? "rotate-180" : "")}
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className={cn("overflow-hidden transition-all duration-300 space-y-1", mobileContactoOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0")}>
+                {contactoSubmenu.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block pl-6 pr-2 py-2 text-white/80 hover:text-white transition-colors text-sm"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
             <div className="pt-5 px-2 flex flex-col items-start gap-3 border-t border-white/10">
               <Link href="/proximamente">
                 <Button variant="primary" size="sm">
@@ -310,11 +373,11 @@ export default function Navbar() {
                 buttonVariant="secondary"
                 buttonSize="sm"
               />
-              <Link href="/proximamente">
+              {/* <Link href="/proximamente">
                 <Button variant="outline" size="sm">
                   Ingresar
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

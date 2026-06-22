@@ -28,19 +28,19 @@ export default function Footer() {
   };
 
   const footerLinks = {
-    servicios: [
+    conocenos: [
       { label: "Quiénes Somos", href: "/servicios/quienes-somos" },
       { label: "Reseña Histórica", href: "/servicios/resena-historica" },
       {
-        label: "Trabaja con Nosotros",
+        label: "Emplearte",
         href: "/servicios/trabaja-con-nosotros",
       },
-      { label: "Cotizar Plan", href: "/cotizar" },
+      { label: "Afíliate Ya", href: "/cotizar" },
     ],
     atencion: [
       { label: "Obituarios", href: "/obituarios" },
       { label: "Agendar Visita", href: "/agendar-visita" },
-      { label: "Pagar Plan", href: "https://checkout.wompi.co/method" },
+      { label: "Medios de Pago", href: "https://checkout.wompi.co/method" },
       { label: "Contacto", href: "/contacto" },
     ],
     recursos: [
@@ -48,6 +48,7 @@ export default function Footer() {
       { label: "Recorrido 360°", href: "/recorrido-360" },
       { label: "Parque Conmemorativo", href: "/parque-conmemorativo" },
       { label: "Repatriaciones", href: "/repatriaciones" },
+      { label: "Acompañamiento Digital", href: "/proximamente" },
       { label: "Florería", href: "/proximamente" },
       { label: "Club de Aliados", href: "/aliados-comerciales" },
     ],
@@ -82,7 +83,7 @@ export default function Footer() {
     },
     {
       name: "LinkedIn",
-      href: "https://linkedin.com/company/jardinesdelrenacer",
+      href: "https://www.linkedin.com/company/jardines-del-renacer/posts/?feedView=all",
       iconPath:
         "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
     },
@@ -265,15 +266,15 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Servicios */}
+            {/* Conócenos */}
             <div className="group">
               <h4 className="font-bold text-white mb-6 text-sm uppercase tracking-wider relative inline-block">
-                Servicios
+                Conócenos
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-transparent group-hover:w-full transition-all duration-500"></span>
               </h4>
               <div className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">
                 <ul className="space-y-3.5">
-                  {footerLinks.servicios.map((link, index) => (
+                  {footerLinks.conocenos.map((link, index) => (
                     <li
                       key={link.href}
                       style={{ animationDelay: `${index * 50}ms` }}

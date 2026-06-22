@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
+        display: ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
+      },
       colors: {
         primary: {
           DEFAULT: "#3C60A2",

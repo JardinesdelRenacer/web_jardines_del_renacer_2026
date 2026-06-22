@@ -11,7 +11,8 @@ interface ObituaryCardProps {
   index?: number;
 }
 
-const OBITUARIO_BACKGROUND_IMAGE = '/images/white-tulips-sunlight.jpg';
+const OBITUARIO_BACKGROUND_IMAGE = '/images/obituarios_opcion_2.jpeg';
+
 
 export default function ObituaryCard({ obituary, index = 0 }: ObituaryCardProps) {
   const formatDate = (date: Date) => {
@@ -33,20 +34,20 @@ export default function ObituaryCard({ obituary, index = 0 }: ObituaryCardProps)
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="glass rounded-2xl overflow-hidden hover:shadow-glass-lg transition-all duration-300"
+      className="glass rounded-2xl overflow-hidden hover:shadow-glass-lg transition-all duration-300 flex flex-col h-full"
     >
-      <Link href={`/obituarios/${obituary.id}`}>
-        <div className="relative h-80 w-full">
+      <Link href={`/obituarios/${obituary.id}`} className="flex flex-col h-full group">
+        <div className="relative h-56 sm:h-64 w-full shrink-0 overflow-hidden">
           <Image
             src={OBITUARIO_BACKGROUND_IMAGE}
             alt={obituary.nombre}
             fill
-            className="object-cover"
+            className="object-cover object-center group-hover:scale-110 transition-transform duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
           
           {/* Info Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-white">
             <h3 className="text-2xl font-display mb-2">{obituary.nombre}</h3>
             <p className="text-lg mb-2">{getLifeYears()}</p>
             
@@ -69,12 +70,12 @@ export default function ObituaryCard({ obituary, index = 0 }: ObituaryCardProps)
           </div>
         </div>
 
-        <div className="p-6">
+        <div className="p-5 sm:p-6 flex flex-col flex-1">
           <p className="text-textLight text-sm line-clamp-3 mb-4">
             {obituary.mensajeFamilia}
           </p>
           
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-auto">
             <span className="text-sm text-textLight">
               {formatDate(new Date(obituary.fechaFallecimiento))}
             </span>

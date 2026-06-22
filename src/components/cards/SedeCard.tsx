@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { useState } from 'react';
 import type { Sede } from '@/data/sedes';
 import { getCiudadImagePath } from '@/config/ciudades';
 
@@ -7,9 +10,11 @@ interface SedeCardProps {
 }
 
 export default function SedeCard({ sede }: SedeCardProps) {
+  const [imageFailed, setImageFailed] = useState(false);
   const phoneDigits = sede.telefono.replace(/\s/g, '');
   const phoneHref = phoneDigits ? `tel:+57${phoneDigits}` : null;
   const cityImage = getCiudadImagePath(sede.departamento, sede.ciudad);
+  const shouldShowImage = cityImage && !imageFailed;
 
   const mapsQuery = encodeURIComponent(
     `${sede.direccion}, ${sede.ciudad}, ${sede.departamento}, Colombia`,
@@ -23,14 +28,27 @@ export default function SedeCard({ sede }: SedeCardProps) {
       {/* ── Zona superior con imagen de ciudad ─────────────── */}
       <div className="relative h-[280px] bg-gradient-to-br from-primary/20 via-primary/10 to-[#e8edf5] overflow-hidden">
         {/* Imagen de fondo de la ciudad */}
-        {cityImage && (
+        {shouldShowImage ? (
           <Image
             src={cityImage}
             alt={`${sede.ciudad}, ${sede.departamento}`}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => setImageFailed(true)}
           />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-primary via-[#2f4d82] to-[#d8b45f]">
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,white_0,transparent_28%),radial-gradient(circle_at_80%_0%,white_0,transparent_24%)]" />
+            <div className="absolute bottom-6 left-5 right-5">
+              <p className="text-white/80 text-xs uppercase tracking-[0.18em]">
+                {sede.departamento}
+              </p>
+              <p className="text-white text-3xl font-display">
+                {sede.ciudad}
+              </p>
+            </div>
+          </div>
         )}
         
         {/* Overlay oscuro para legibilidad */}

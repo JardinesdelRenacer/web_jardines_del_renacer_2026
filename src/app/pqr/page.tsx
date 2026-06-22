@@ -100,8 +100,8 @@ export default function PQRPage() {
         <>
             <section className="pt-10 pb-10">
                 <Container>
-                    <div className="relative py-20 mb-8 rounded-3xl overflow-hidden bg-[url('/images/contactanos.jpg')] bg-cover bg-center bg-no-repeat shadow-sm border border-primary/10">
-                        <div className="relative z-10">
+                    <div className="relative py-20 mb-8 rounded-3xl overflow-hidden bg-gradient-to-b from-transparent to-black/90 shadow-sm border border-primary/10 w-full">
+                        <div className="relative z-10 [&_h1]:text-white [&_h2]:text-white [&_p]:text-white/90">
                             <FadeIn>
                                 <SectionTitle
                                     title="Peticiones, Quejas y Reclamos"

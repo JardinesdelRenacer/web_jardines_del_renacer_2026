@@ -35,13 +35,50 @@ export const historyParagraphs = [
 ];
 
 /**
+ * Hitos históricos de la compañía (Línea del tiempo para Reseña Histórica)
+ * Estructurado como array de objetos para futura integración con Panel Administrativo.
+ */
+export const historyTimeline = [
+  {
+    id: 1,
+    year: '2000',
+    title: 'El nacimiento de un sueño',
+    description: 'En el mes de octubre nació un sueño en la ciudad de Pereira: brindar servicios exequiales dignos y accesibles. Con vocación de servicio y determinación, iniciamos nuestra labor.',
+    image: '/images/quiene_somos.jpg',
+    iconType: 'flag',
+    order: 1,
+    active: true,
+  },
+  {
+    id: 2,
+    year: '2010',
+    title: 'Crecimiento y expansión',
+    description: 'Iniciamos un proceso de expansión, abriendo sedes en el Eje Cafetero y posteriormente en ciudades como Medellín, Cali, Barranquilla y Bogotá, consolidando nuestra presencia a nivel nacional.',
+    image: '/images/quiene_somos.jpg', // Placeholder intercambiable desde el admin
+    iconType: 'trending-up',
+    order: 2,
+    active: true,
+  },
+  {
+    id: 3,
+    year: '2024',
+    title: 'Consolidación y mejora continua',
+    description: 'Hoy nos posicionamos como una empresa sólida, humana y en constante crecimiento, comprometida con acompañar a las familias con dignidad, sensibilidad y confianza.',
+    image: '/images/quiene_somos.jpg', // Placeholder intercambiable desde el admin
+    iconType: 'star',
+    order: 3,
+    active: true,
+  }
+];
+
+/**
  * Lista de valores que forman parte integral de la cultura y la ética 
  * de trabajo en la compañía.
  */
 export const corporateValues = [
   'Honestidad',
   'Respeto',
-  'Calidad',
+  'Calidad Humana',
   'Cumplimiento',
   'Responsabilidad social',
 ];

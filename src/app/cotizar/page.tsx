@@ -28,10 +28,9 @@ export default function CotizarPage({ searchParams }: CotizarPageProps) {
 
   return (
     <>
-      <section className="relative overflow-hidden py-20 md:py-24 bg-gradient-to-b from-background via-white/70 to-primary/10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(13,56,138,0.09),transparent_58%)]" />
+      <section className="relative overflow-hidden py-20 md:py-24 bg-gradient-to-b from-transparent to-black/90 w-full">
         <Container>
-          <FadeIn>
+          <FadeIn className="[&_h1]:text-white [&_h2]:text-white [&_p]:text-white/90">
             <SectionTitle
               title="Cotizar Plan"
               subtitle="Te ayudamos a elegir la opcion ideal para tu familia."

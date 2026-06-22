@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
-import SectionTitle from '@/components/ui/SectionTitle';
 import FadeIn from '@/components/animations/FadeIn';
 import Button from '@/components/ui/Button';
 
 const PARQUE_CONMEMORATIVO_URL = 'https://conmemorativo-jr-2025-git-main-pcojmemorativos-projects.vercel.app/';
+const PARQUE_CONMEMORATIVO_IMAGE = '/images/commemorativo.jpeg';
 
 const highlights = [
   'Espacios naturales para homenaje y recuerdo',
@@ -16,13 +16,25 @@ const highlights = [
 export default function ParqueConmemorativoPage() {
   return (
     <>
-      <section className="py-20 bg-gradient-to-b from-background to-white/60">
-        <Container>
+      <section className="relative overflow-hidden py-24 md:py-32 text-white">
+        <Image
+          src={PARQUE_CONMEMORATIVO_IMAGE}
+          alt="Parque Conmemorativo Jardines del Renacer"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/45" />
+        <Container className="relative z-10">
           <FadeIn>
-            <SectionTitle
-              title="Parque Conmemorativo"
-              subtitle="Un entorno natural de paz para honrar la memoria de quienes amamos."
-            />
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-6xl font-display mb-5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                Parque Conmemorativo
+              </h1>
+              <p className="text-lg md:text-2xl text-white/95 leading-relaxed drop-shadow-[0_3px_6px_rgba(0,0,0,0.75)]">
+                Un entorno natural de paz para honrar la memoria de quienes amamos.
+              </p>
+            </div>
           </FadeIn>
         </Container>
       </section>
@@ -34,7 +46,7 @@ export default function ParqueConmemorativoPage() {
               <article className="glass rounded-3xl overflow-hidden border border-primary/15">
                 <div className="relative h-72 md:h-80">
                   <Image
-                    src="/images/parque-conmemorativo-2026.webp"
+                    src={PARQUE_CONMEMORATIVO_IMAGE}
                     alt="Parque Conmemorativo Jardines del Renacer"
                     fill
                     className="object-cover"

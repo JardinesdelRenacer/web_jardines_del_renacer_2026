@@ -26,9 +26,9 @@ const steps = [
 export default function AgendarVisitaPage() {
   return (
     <>
-      <section className="py-20 bg-gradient-to-b from-background to-white/60">
+      <section className="py-20 bg-gradient-to-b from-transparent to-black/90 w-full">
         <Container>
-          <FadeIn>
+          <FadeIn className="[&_h1]:text-white [&_h2]:text-white [&_p]:text-white/90">
             <SectionTitle
               title="Agendar Visita"
               subtitle="Conoce nuestras instalaciones y recibe asesoria personalizada."

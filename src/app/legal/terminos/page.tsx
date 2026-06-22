@@ -68,9 +68,9 @@ const sections = [
 export default function TerminosPage() {
   return (
     <>
-      <section className="py-20 bg-gradient-to-b from-background to-white/60">
+      <section className="py-20 bg-gradient-to-b from-transparent to-black/90 w-full">
         <Container>
-          <FadeIn>
+          <FadeIn className="[&_h1]:text-white [&_h2]:text-white [&_p]:text-white/90">
             <SectionTitle
               title="Terminos y Condiciones"
               subtitle="Condiciones de uso del sitio y de los servicios de atencion digital."

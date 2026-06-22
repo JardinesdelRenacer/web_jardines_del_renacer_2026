@@ -100,10 +100,22 @@ export default function AliadosAdminPanel() {
   const [consumedValue, setConsumedValue] = useState('');
   const [verificationFeedback, setVerificationFeedback] = useState('');
   const [activeRequest, setActiveRequest] = useState<AllyDiscountRequest | null>(null);
+  const [loadingError, setLoadingError] = useState('');
+  const [expandedClientCedula, setExpandedClientCedula] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
-    const rawSession = localStorage.getItem('allyPortalUser') ?? localStorage.getItem('alliesAdminUser');
+    
+    // Priorizar sesión de admin sobre aliado
+    let rawSession = localStorage.getItem('alliesAdminUser');
+    if (rawSession) {
+      // Si hay sesión de admin, limpiar sesión de aliado
+      localStorage.removeItem('allyPortalUser');
+    } else {
+      // Si no hay admin, intentar con aliado
+      rawSession = localStorage.getItem('allyPortalUser');
+    }
+    
     if (rawSession) {
       try {
         setSession(JSON.parse(rawSession) as AlliesSession);
@@ -112,15 +124,23 @@ export default function AliadosAdminPanel() {
       }
     }
     setRequests(readDiscountRequests());
+    
     ensureExcelAlliesSeeded()
       .then((seededAllies) => {
         if (mounted) {
           setAllies(seededAllies);
+          setLoadingError('');
+          console.log('Aliados cargados:', seededAllies.length);
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error cargando aliados:', error);
         if (mounted) {
-          setAllies(readCommercialAllies());
+          const fallback = readCommercialAllies();
+          setAllies(fallback);
+          if (fallback.length === 0) {
+            setLoadingError('No se pudieron cargar aliados de Excel ni localStorage.');
+          }
         }
       });
 
@@ -150,6 +170,43 @@ export default function AliadosAdminPanel() {
     () => (verifyCedula ? getClientConsumptionSummary(verifyCedula, visibleRequests) : null),
     [verifyCedula, visibleRequests],
   );
+
+  // Agrupar todos los clientes con sus consumos
+  const clientsSummary = useMemo(() => {
+    const grouped = new Map<string, {
+      cedula: string;
+      name: string;
+      totalConsumed: number;
+      totalDiscount: number;
+      requestCount: number;
+      requests: AllyDiscountRequest[];
+    }>();
+
+    visibleRequests.forEach((request) => {
+      const cedula = request.clientCedula;
+      if (!grouped.has(cedula)) {
+        grouped.set(cedula, {
+          cedula,
+          name: request.clientName,
+          totalConsumed: 0,
+          totalDiscount: 0,
+          requestCount: 0,
+          requests: [],
+        });
+      }
+      const client = grouped.get(cedula)!;
+      if (request.status === 'redeemed' && request.consumedValue) {
+        client.totalConsumed += request.consumedValue;
+        client.totalDiscount += request.discountValue ?? 0;
+      }
+      client.requestCount += 1;
+      client.requests.push(request);
+    });
+
+    return Array.from(grouped.values()).sort(
+      (a, b) => b.totalConsumed - a.totalConsumed,
+    );
+  }, [visibleRequests]);
 
   const availableSubcategories = useMemo(
     () => getSubcategoriesByCategory(draft.categorySlug),
@@ -354,6 +411,25 @@ export default function AliadosAdminPanel() {
   const previewAlly = createTemporaryAllyFromDraft(draft);
   const isAllyUser = session?.role === 'ally_user';
 
+  const handleReloadAlliesFromExcel = async () => {
+    setFeedback('Recargando aliados desde Excel...');
+    setLoadingError('');
+    
+    // Limpiar la marca de ya cargado
+    localStorage.removeItem('jdr.commercial-allies.excel-seeded.v1');
+    
+    try {
+      const reloaded = await ensureExcelAlliesSeeded();
+      setAllies(reloaded);
+      setFeedback(`✓ Cargados ${reloaded.length} aliados desde Excel.`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error desconocido';
+      setLoadingError(`Error al recargar: ${message}`);
+      const fallback = readCommercialAllies();
+      setAllies(fallback);
+    }
+  };
+
   return (
     <div className="min-h-screen pt-2 pb-10">
       <SectionTitle
@@ -366,6 +442,30 @@ export default function AliadosAdminPanel() {
         align="center"
         className="mb-8"
       />
+
+      {loadingError && (
+        <div className="mb-6 rounded-2xl border border-red-500/25 bg-red-50 p-4 text-sm text-red-700 flex items-center justify-between">
+          <span>⚠️ {loadingError}</span>
+          <button
+            onClick={handleReloadAlliesFromExcel}
+            className="ml-4 font-semibold px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
+          >
+            Reintentar carga
+          </button>
+        </div>
+      )}
+
+      {allies.length === 0 && !loadingError && (
+        <div className="mb-6 rounded-2xl border border-amber-500/25 bg-amber-50 p-4 text-sm text-amber-700 flex items-center justify-between">
+          <span>ℹ️ No hay aliados cargados aun. Crea el primer aliado o recarga desde Excel.</span>
+          <button
+            onClick={handleReloadAlliesFromExcel}
+            className="ml-4 font-semibold px-4 py-2 rounded-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors"
+          >
+            Cargar desde Excel
+          </button>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         {[
@@ -629,8 +729,103 @@ export default function AliadosAdminPanel() {
         </div>
       </section>
 
-      {isAllyUser ? null : (
+      {/* SECCIÓN DE CLIENTES CON DESGLOSE */}
+      <section className="glass rounded-3xl border border-primary/15 p-6 md:p-8 mb-8">
+        <h3 className="text-2xl font-display text-text mb-2">Consumo por cliente</h3>
+        <p className="text-sm text-textLight mb-6">
+          Revisa el consumo total de cada cliente y dónde aplicó los descuentos.
+        </p>
 
+        {clientsSummary.length === 0 ? (
+          <div className="rounded-2xl border border-primary/10 bg-white/50 p-6 text-center text-sm text-textLight">
+            Aún no hay consumos registrados.
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {clientsSummary.map((client) => (
+              <div key={client.cedula} className="rounded-2xl border border-primary/15 bg-white/50 p-4">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div className="flex-1">
+                    <p className="font-semibold text-text">{client.name}</p>
+                    <p className="text-xs text-textLight">Cédula: {client.cedula}</p>
+                    <div className="mt-2 grid grid-cols-3 gap-3 text-sm">
+                      <div>
+                        <p className="text-textLight">Consumo total</p>
+                        <p className="font-semibold text-text">{formatCurrency(client.totalConsumed)}</p>
+                      </div>
+                      <div>
+                        <p className="text-textLight">Descuento total</p>
+                        <p className="font-semibold text-green-700">{formatCurrency(client.totalDiscount)}</p>
+                      </div>
+                      <div>
+                        <p className="text-textLight">Usos</p>
+                        <p className="font-semibold text-text">{client.requestCount}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setExpandedClientCedula(
+                      expandedClientCedula === client.cedula ? null : client.cedula
+                    )}
+                    className="px-4 py-2 rounded-lg border border-primary/25 text-primary font-semibold hover:bg-primary/10 transition-colors text-sm"
+                  >
+                    {expandedClientCedula === client.cedula ? 'Contraer' : 'Ver más'}
+                  </button>
+                </div>
+
+                {/* DESGLOSE EXPANDIDO */}
+                {expandedClientCedula === client.cedula && (
+                  <div className="mt-4 pt-4 border-t border-primary/10 space-y-3">
+                    <p className="text-xs uppercase tracking-[0.16em] text-primary font-semibold">
+                      Desglose por aliado
+                    </p>
+                    {client.requests
+                      .filter((r) => r.status === 'redeemed')
+                      .map((request) => (
+                        <div key={request.id} className="rounded-xl bg-white/60 p-3 text-sm">
+                          <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+                            <div>
+                              <p className="font-semibold text-text">{request.allyName}</p>
+                              <p className="text-xs text-primary">{request.discountLabel}</p>
+                            </div>
+                            <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-500/10 text-green-700">
+                              Usado
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-3 gap-2 text-xs">
+                            <div>
+                              <p className="text-textLight">Consumo</p>
+                              <p className="font-semibold text-text">
+                                {formatCurrency(request.consumedValue ?? 0)}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-textLight">Descuento ({request.discountPercent}%)</p>
+                              <p className="font-semibold text-green-700">
+                                {formatCurrency(request.discountValue ?? 0)}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-textLight">Total pagado</p>
+                              <p className="font-semibold text-text">
+                                {formatCurrency(request.totalAfterDiscount ?? 0)}
+                              </p>
+                            </div>
+                          </div>
+                          <p className="text-xs text-textLight mt-2">
+                            Fecha: {new Date(request.redeemedAt ?? request.createdAt).toLocaleDateString('es-CO')}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {session?.role === 'admin_aliados' && (
       <div className="grid grid-cols-1 xl:grid-cols-[1.05fr_0.95fr] gap-8">
         <section className="glass rounded-3xl border border-primary/15 p-6 md:p-8">
           <h3 className="text-2xl font-display text-text mb-6">

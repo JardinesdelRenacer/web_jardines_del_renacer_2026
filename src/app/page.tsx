@@ -12,12 +12,17 @@ import FadeIn from '@/components/animations/FadeIn';
 import { PLANS_CONFIG } from '@/config/plans';
 import { CONTACT_INFO, buildWhatsAppUrl } from '@/config/contact';
 
-// Array con las imágenes del carrusel (asegúrate de subir hero_2.jpg y hero_3.jpg a public/images/)
+// NOTA: Preparado para utilizar una única imagen corporativa y limpia (Suministrada por Hugo).
 const heroImages = [
-  '/img_1 (21).webp',
+  '/images/banner_corporativo_nuevo.jpg',
   '/images/carrusel_1.jpg',
   '/images/carrusel_2.jpg',
 ];
+
+// Agrega más imágenes según sea necesario
+// Variable preparada para actualizar el texto de años de experiencia fácilmente, sin buscar en el HTML
+
+const YEARS_OF_EXPERIENCE = "Más de 25 años"; // Cambiar a "26 años" según confirmación definitiva
 
 export default function HomePage() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -60,7 +65,12 @@ export default function HomePage() {
 
         <Container className="relative z-10 text-center text-white pt-16 lg:pt-0">
           <FadeIn>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display mb-6 text-balance drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <p className="text-sm md:text-base font-bold uppercase tracking-widest text-white/90 mb-4 drop-shadow-md">
+              {YEARS_OF_EXPERIENCE} de servicio institucional
+            </p>
+          </FadeIn>
+          <FadeIn>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display mb-6 text-balance drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-2">
               Un lugar para recordar, un espacio para renacer
             </h1>
           </FadeIn>
@@ -87,15 +97,21 @@ export default function HomePage() {
       </section>
 
       {/* Servicios Principales */}
-      <section className="py-20" id="conoce-mas">
+      <section className="pb-20" id="conoce-mas">
+        <FadeIn>
+          <div className="relative w-full mb-12 py-10 md:py-12 overflow-hidden">
+            <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-primary/70 to-transparent z-0"></div>
+            <div className="relative z-10 text-center">
+              <h2 className="text-4xl md:text-5xl font-display text-white drop-shadow-lg">
+                Servicios Funerarios y Planes
+              </h2>
+              <p className="text-white/90 text-lg mt-4 max-w-2xl mx-auto">
+                Acompañamiento integral en los momentos más importantes
+              </p>
+            </div>
+          </div>
+        </FadeIn>
         <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Servicios Funerarios y Planes"
-              subtitle="Acompañamiento integral en los momentos más importantes"
-            />
-          </FadeIn>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
             {[
               {
@@ -154,14 +170,20 @@ export default function HomePage() {
 
       {/* Planes Destacados */}
       <section className="py-20 bg-white/50">
+        <FadeIn>
+          <div className="relative w-full mb-12 py-10 md:py-12 overflow-hidden">
+            <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-primary/70 to-transparent z-0"></div>
+            <div className="relative z-10 text-center">
+              <h2 className="text-4xl md:text-5xl font-display text-white drop-shadow-lg">
+                Nuestros Planes
+              </h2>
+              <p className="text-white/90 text-lg mt-4 max-w-2xl mx-auto">
+                Elige el plan que mejor se adapte a tus necesidades
+              </p>
+            </div>
+          </div>
+        </FadeIn>
         <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Nuestros planes"
-              subtitle="Elige el plan que mejor se adapte a tus necesidades"
-            />
-          </FadeIn>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             {homePlans.map((plan, index) => (
               <FadeIn key={plan.id} delay={index * 0.1}>
@@ -234,7 +256,7 @@ export default function HomePage() {
               <div className="glass rounded-2xl overflow-hidden group hover:shadow-glass-lg transition-all duration-300">
                 <div className="relative h-64 overflow-hidden">
                   <Image
-                    src="/images/parque-conmemorativo-2026.webp"
+                    src="/images/commemorativo.jpeg"
                     alt="Parque Conmemorativo"
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -298,14 +320,17 @@ export default function HomePage() {
 
       {/* Aliados */}
       <section className="py-20">
-        <Container>
-          <FadeIn>
-            <SectionTitle
-              title="Nuestros Aliados"
-              subtitle="Red de confianza al servicio de tu familia"
-            />
-          </FadeIn>
-        </Container>
+        <div className="relative w-full mb-12 py-10 md:py-12 overflow-hidden">
+          <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-primary/70 to-transparent z-0"></div>
+          <div className="relative z-10 text-center">
+            <h2 className="text-4xl md:text-5xl font-display text-white drop-shadow-lg">
+              Nuestros Aliados
+            </h2>
+            <p className="text-white/90 text-lg mt-4 max-w-2xl mx-auto">
+              Red de confianza al servicio de tu familia
+            </p>
+          </div>
+        </div>
 
         <AlliesMarquee />
       </section>
