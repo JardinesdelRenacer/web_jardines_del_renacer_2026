@@ -32,20 +32,9 @@ export default function DepartmentTooltip({ department }: Props) {
           transition={{
             duration: 0.25,
           }}
-          className="
-                        absolute
-                        top-6
-                        left-6
-                        w-80
-                        glass
-                        rounded-3xl
-                        border
-                        border-primary/20
-                        p-6
-                        shadow-2xl
-                        backdrop-blur-xl
-                        pointer-events-none
-                    "
+          className={
+            `absolute w-full max-w-[calc(100vw-2rem)] sm:w-80 glass rounded-3xl border border-primary/20 p-6 shadow-2xl backdrop-blur-xl pointer-events-none z-50 max-h-[calc(100vh-3rem)] overflow-y-auto ${department.x > 60 ? 'right-6 left-auto' : 'left-6'} ${department.y > 60 ? 'bottom-6 top-auto' : 'top-6'}`
+          }
         >
           {/* Encabezado */}
 

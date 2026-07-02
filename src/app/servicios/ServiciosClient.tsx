@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Container from '@/components/ui/Container';
 import PageHero from '@/components/ui/PageHero';
+import TitleBand from '@/components/ui/TitleBand';
 import FadeIn from '@/components/animations/FadeIn';
 import Button from '@/components/ui/Button';
 import CoverageMap from '@/components/coverage/CoverageMap';
@@ -300,18 +301,22 @@ export default function ServiciosClient() {
       <section className="py-28">
         <Container>
           <FadeIn>
-            <div className="text-center max-w-4xl mx-auto mb-16">
-              <span className="inline-flex rounded-full bg-primary/10 text-primary px-4 py-2 text-sm font-medium mb-5">
-                Jardines del Renacer
-              </span>
-              <h2 className="text-5xl font-display text-text mb-6 leading-tight">
-                Más de 25 años acompañando a las familias colombianas
-              </h2>
-              <p className="text-xl text-textLight leading-relaxed">
-                Brindamos servicios exequiales con cobertura nacional,
-                infraestructura propia y atención humana permanente,
-                ofreciendo tranquilidad, confianza y respaldo cuando más se necesita.
-              </p>
+            <div className="relative w-full max-w-4xl mx-auto mb-16 py-10 overflow-hidden rounded-[30px]">
+              <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-primary/85 to-transparent" />
+              <div className="absolute inset-y-0 left-1/2 w-[72%] -translate-x-1/2 bg-primary/35 blur-2xl" />
+              <div className="relative z-10 text-center px-4">
+                <span className="inline-flex rounded-full bg-primary/10 text-primary px-4 py-2 text-sm font-medium mb-5">
+                  Jardines del Renacer
+                </span>
+                <h2 className="text-5xl font-display font-extrabold text-white mb-6 leading-tight">
+                  Más de 25 años acompañando a las familias colombianas
+                </h2>
+                <p className="text-xl text-white/90 leading-relaxed">
+                  Brindamos servicios exequiales con cobertura nacional,
+                  infraestructura propia y atención humana permanente,
+                  ofreciendo tranquilidad, confianza y respaldo cuando más se necesita.
+                </p>
+              </div>
             </div>
           </FadeIn>
 
@@ -397,18 +402,10 @@ export default function ServiciosClient() {
           <FadeIn delay={0.3}>
             <div className="mt-24 grid lg:grid-cols-2 gap-14 items-center">
               <div>
-                <span className="uppercase tracking-[0.25em] text-primary text-sm">
-                  ¿POR QUÉ ELEGIRNOS?
-                </span>
-                <h2 className="text-4xl font-display text-text mt-4 mb-6">
-                  Mucho más que un servicio funerario
-                </h2>
-                <p className="text-lg text-textLight leading-relaxed mb-10">
-                  Nuestro propósito es acompañar a las familias con respeto,
-                  empatía y compromiso, ofreciendo una atención integral
-                  respaldada por infraestructura propia, cobertura nacional
-                  y un equipo humano preparado para brindar apoyo en cada etapa.
-                </p>
+                <TitleBand
+                  title="Mucho más que un servicio funerario"
+                  subtitle="Nuestro propósito es acompañar a las familias con respeto, empatía y compromiso, ofreciendo una atención integral respaldada por infraestructura propia, cobertura nacional y un equipo humano preparado para brindar apoyo en cada etapa."
+                />
                 <Link href="/nosotros">
                   <Button>
                     Conocer nuestra historia
@@ -449,19 +446,10 @@ export default function ServiciosClient() {
       <section className="py-28 bg-gradient-to-b from-background to-primary/5">
         <Container maxWidth="2xl">
           <FadeIn>
-            <div className="text-center max-w-4xl mx-auto mb-20">
-              <span className="uppercase tracking-[0.25em] text-primary text-sm">
-                NUESTRA INFRAESTRUCTURA
-              </span>
-              <h2 className="text-5xl font-display mt-5 mb-6">
-                Infraestructura diseñada para brindar tranquilidad
-              </h2>
-              <p className="text-xl text-textLight leading-relaxed">
-                Jardines del Renacer cuenta con una infraestructura propia
-                que permite ofrecer una atención integral, cercana y oportuna,
-                respaldando cada servicio con calidad, tecnología y experiencia.
-              </p>
-            </div>
+            <TitleBand
+              title="Infraestructura diseñada para brindar tranquilidad"
+              subtitle="Jardines del Renacer cuenta con una infraestructura propia que permite ofrecer una atención integral, cercana y oportuna, respaldando cada servicio con calidad, tecnología y experiencia."
+            />
           </FadeIn>
 
           <div className="grid lg:grid-cols-12 gap-8">
@@ -536,17 +524,21 @@ export default function ServiciosClient() {
       <section className="py-28 bg-primary/5">
         <Container>
           <FadeIn>
-            <div className="text-center max-w-3xl mx-auto mb-20">
-              <span className="uppercase tracking-[0.25em] text-primary text-sm">
-                NUESTRO PROCESO
-              </span>
-              <h2 className="text-5xl font-display mt-4 mb-6">
-                Te acompañamos paso a paso
-              </h2>
-              <p className="text-xl text-textLight">
-                Cada servicio es coordinado por un equipo humano especializado,
-                garantizando tranquilidad y acompañamiento durante todo el proceso.
-              </p>
+            <div className="relative w-full max-w-3xl mx-auto mb-20 py-10 overflow-hidden">
+              <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-primary/85 to-transparent" />
+              <div className="absolute inset-y-0 left-1/2 w-[72%] -translate-x-1/2 bg-primary/35 blur-2xl" />
+              <div className="relative z-10 text-center px-4">
+                <span className="uppercase tracking-[0.25em] text-primary text-sm">
+                  NUESTRO PROCESO
+                </span>
+                <h2 className="text-5xl font-display font-extrabold text-white mt-4 mb-6">
+                  Te acompañamos paso a paso
+                </h2>
+                <p className="text-xl text-white/90">
+                  Cada servicio es coordinado por un equipo humano especializado,
+                  garantizando tranquilidad y acompañamiento durante todo el proceso.
+                </p>
+              </div>
             </div>
           </FadeIn>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -570,18 +562,10 @@ export default function ServiciosClient() {
       <section className="py-28">
         <Container>
           <FadeIn>
-            <div className="text-center max-w-3xl mx-auto mb-20">
-              <span className="uppercase tracking-[0.25em] text-primary text-sm">
-                PREGUNTAS FRECUENTES
-              </span>
-              <h2 className="text-5xl font-display mt-5 mb-6">
-                Estamos para resolver tus dudas
-              </h2>
-              <p className="text-xl text-textLight">
-                Nuestro compromiso es brindar información clara,
-                acompañamiento y tranquilidad en todo momento.
-              </p>
-            </div>
+            <TitleBand
+              title="Estamos para resolver tus dudas"
+              subtitle="Nuestro compromiso es brindar información clara, acompañamiento y tranquilidad en todo momento."
+            />
           </FadeIn>
           <div className="grid gap-6">
             {faqs.map((faq, index) => (
@@ -607,16 +591,10 @@ export default function ServiciosClient() {
               </div>
               <div className="relative z-10 px-14 py-20">
                 <div className="max-w-3xl">
-                  <span className="uppercase tracking-[0.25em] text-white/80">
-                    ATENCIÓN INMEDIATA
-                  </span>
-                  <h2 className="text-6xl font-display text-white mt-5 mb-8">
-                    Estamos disponibles para acompañarte cuando más lo necesites
-                  </h2>
-                  <p className="text-white/90 text-xl leading-relaxed">
-                    Nuestro equipo humano está preparado para brindarte orientación,
-                    acompañamiento y atención inmediata durante las 24 horas del día.
-                  </p>
+                  <TitleBand
+                    title="Estamos disponibles para acompañarte cuando más lo necesites"
+                    subtitle="Nuestro equipo humano está preparado para brindarte orientación, acompañamiento y atención inmediata durante las 24 horas del día."
+                  />
                   <div className="mt-12 flex flex-wrap gap-5">
                     <Link href="/contacto">
                       <Button>Hablar con un asesor ahora</Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import {
     MapPin,
     Building2,
@@ -8,16 +9,28 @@ import {
     Clock3,
     ShieldCheck,
     ArrowRight,
+    ChevronsDown,
+    ChevronsUp,
 } from "lucide-react";
 import Link from "next/link";
+import { getDepartamentoSlug, getSedesByDepartamento } from '@/data/sedes';
 import Button from "@/components/ui/Button";
 import { Department } from "./coverageData";
 
 interface DepartmentCardProps {
     department: Department | null;
+    selectedSedeId?: string | null;
 }
 
-export default function DepartmentCard({ department }: DepartmentCardProps) {
+export default function DepartmentCard({ department, selectedSedeId }: DepartmentCardProps) {
+    const [expanded, setExpanded] = useState(false);
+
+    useEffect(() => {
+        if (department) {
+            setExpanded(true);
+        }
+    }, [department]);
+
     return (
         <AnimatePresence mode="wait">
             {!department && (
@@ -195,22 +208,49 @@ export default function DepartmentCard({ department }: DepartmentCardProps) {
                     </div>
 
                     {/* Garantía */}
-
                     <div
-                        className="
-              flex
-              items-center
-              gap-3
-              text-sm
-              text-textLight
-              mb-8
-            "
+                        className="flex items-center gap-3 text-sm text-textLight mb-8"
                     >
                         <ShieldCheck className="text-primary h-5 w-5" />
                         Infraestructura propia • Personal especializado
                     </div>
 
-                    {/* Botones */}
+                    <div className="mb-6">
+                        <h4 className="font-semibold mb-3">Sedes</h4>
+
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="text-4xl font-display">{department.sedes}</div>
+                            <div className="text-sm text-textLight">Sedes en {department.name}</div>
+                        </div>
+
+                        <div className="rounded-3xl border border-primary/10 bg-white/5 overflow-hidden">
+                            <button
+                                type="button"
+                                onClick={() => setExpanded((value) => !value)}
+                                className="w-full flex items-center justify-between px-4 py-4 text-left text-sm font-medium text-primary"
+                            >
+                                <span>{expanded ? 'Ocultar sedes' : 'Mostrar sedes del departamento'}</span>
+                                {expanded ? <ChevronsUp className="h-5 w-5" /> : <ChevronsDown className="h-5 w-5" />}
+                            </button>
+
+                            {expanded && (
+                                <div className="divide-y divide-primary/10 bg-slate-950/5">
+                                    {getSedesByDepartamento(getDepartamentoSlug(department.name)).map((sede) => (
+                                        <Link
+                                            key={sede.id}
+                                            href={`/sedes/${getDepartamentoSlug(department.name)}`}
+                                            className={`flex items-center justify-between px-4 py-3 text-sm ${selectedSedeId === sede.id ? 'bg-primary/10' : 'bg-transparent'} hover:bg-primary/5`}
+                                        >
+                                            <span>{sede.nombre}</span>
+                                            <ArrowRight className="h-4 w-4 text-primary" />
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Botones generales */}
 
                     <div className="space-y-3">
                         <Link href="/sedes">
